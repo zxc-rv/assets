@@ -2,9 +2,13 @@
     "version": 2,
     "rules": [
         {
+            "process_name": [
+                    "Discord.exe",
+                    "TL.exe"
+            ],
             "domain_suffix": [
                  "openai.com"
-            ]
+            ],
         }
         ]
   }
