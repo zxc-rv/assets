@@ -3,8 +3,7 @@
     "rules": [
         {
             "domain_suffix": [
-                 "openai.com",
-                 "2ip.ru"
+                 "openai.com"
             ]
         }
         ]
