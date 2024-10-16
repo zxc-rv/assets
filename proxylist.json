@@ -12,6 +12,11 @@
                  "openai.com",
                  "twimg.com"
             ]
+        },
+        {
+            "domain_keyword": [
+                  "discord"
+            ]
         }
     ]
 }
