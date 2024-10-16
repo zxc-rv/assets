@@ -9,7 +9,8 @@
         },
         {
             "domain_suffix": [
-                 "openai.com"
+                 "openai.com",
+                 "twimg.com"
             ]
         }
     ]
