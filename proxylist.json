@@ -10,7 +10,9 @@
         {
             "domain_suffix": [
                  "openai.com",
-                 "twimg.com"
+                 "twimg.com",
+                 "ytimg.com,
+                 "ggpht.com"
             ]
         },
         {
