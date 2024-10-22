@@ -3,22 +3,18 @@
     "rules": [
         {
             "process_name": [
-                    "Discord.exe",
+                    "Discord.exe", 
+                    "Update.exe",
                     "TL.exe"
             ]
         },
         {
             "domain_suffix": [
-                 "openai.com",
-                 "intel.com",
-                 "twimg.com",
-                 "4pda.to",
                  "quora.com"
             ]
         },
         {
             "domain_keyword": [
-                  "discord"
             ]
         }
     ]
