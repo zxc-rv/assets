@@ -10,7 +10,8 @@
         },
         {
             "domain_suffix": [
-                 "quora.com"
+                 "quora.com",
+                 "software-static.download.prss.microsoft.com"
             ]
         }
     ]
