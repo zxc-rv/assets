@@ -5,13 +5,17 @@
             "process_name": [
                     "Discord.exe", 
                     "Update.exe",
-                    "TL.exe"
+                    "TL.exe",
+                    "NVIDIA GeForce Experience.exe",
+                    "NVIDIA Web Helper.exe"
             ]
         },
         {
             "domain_suffix": [
                  "quora.com",
-                 "software-static.download.prss.microsoft.com"
+                 "software-static.download.prss.microsoft.com",
+                 "geforce.com",
+                 "nvidia.com"
             ]
         }
     ]
