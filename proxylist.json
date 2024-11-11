@@ -15,8 +15,12 @@
                  "software-static.download.prss.microsoft.com",
                  "cdn.betterttv.net",
                  "discordapp.net",
-                 "streamable.com"
+                 "streamable.com",
+                 "fbcdn.net"
             ]
+        },
+        {
+            "domain_keyword": ["instagram"]
         }
     ]
 }
