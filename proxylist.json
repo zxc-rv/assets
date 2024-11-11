@@ -14,13 +14,12 @@
                  "quora.com",
                  "software-static.download.prss.microsoft.com",
                  "cdn.betterttv.net",
-                 "discordapp.net",
                  "streamable.com",
                  "fbcdn.net"
             ]
         },
         {
-            "domain_keyword": ["instagram"]
+            "domain_keyword": ["instagram", "discord", "youtube"]
         }
     ]
 }
