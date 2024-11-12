@@ -12,9 +12,6 @@
         {
             "domain_suffix": [
                  "quora.com",
-                 "software-static.download.prss.microsoft.com",
-                 "cdn.betterttv.net",
-                 "streamable.com",
                  "fbcdn.net",
                  "1e100.net",
                  "googleapis.com",
@@ -25,18 +22,13 @@
                  "l.google.com",
                  "play.google.com",
                  "youtu.be",
-                 "yt-video-upload.l.google.com",
                  "yt.be",
                  "ytimg.com",
-                 "ggpht.com",
-                 "10tv.app",
-                 "7tv.app",
-                 "7tv.gg",
-                 "7tv.io"
+                 "ggpht.com"
             ]
         },
         {
-            "domain_keyword": ["instagram", "discord", "youtube"]
+            "domain_keyword": ["youtube", "discord", "instagram", "facebook"]
         }
     ]
 }
