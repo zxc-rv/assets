@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "rules": [
+        {
+            "domain_suffix": [
+                "habr.com",
+                "intel.com",
+                "ipinfo.io",
+                "openai.com",
+                "orbit-games.com",
+                "phncdn.com",
+                "redtube.com",
+                "spotify.com",
+                "youporn.com",
+                "ypncdn.com"
+            ]
+        }
+    ]
+}
