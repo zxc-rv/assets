@@ -144,7 +144,7 @@ def print_results():
     print(f"\n{Colors.CYAN}=============== Результаты запросов DNS ===============\n{Colors.RESET}")
 
     # Вывод локальных доменов
-    print(f"{Colors.GREEN}Категория: [Local]{Colors.RESET}")
+    print(f"{Colors.GREEN}Категория: Local{Colors.RESET}")
     print("------------------------")
     for domain in local_domains:
         result = results.get(domain, "Нет данных")
@@ -152,7 +152,7 @@ def print_results():
         print(f"{domain}{padding} : {result}")
 
     # Вывод удаленных доменов
-    print(f"\n{Colors.YELLOW}Категория: [Remote]{Colors.RESET}")
+    print(f"\n{Colors.YELLOW}Категория: Remote{Colors.RESET}")
     print("------------------------")
     for domain in remote_domains:
         result = results.get(domain, "Нет данных")
