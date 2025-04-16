@@ -60,7 +60,6 @@ remote_domains = [
     "orbit-games.com",
     "whoer.net",
     "anthropic.com",
-    "codeium.com",
     "groq.com",
     "x.ai",
     "broadcom.com",
