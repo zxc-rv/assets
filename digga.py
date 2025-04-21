@@ -39,7 +39,8 @@ local_domains = [
     "pinterest.com",
     "deviantart.com",
     "tumblr.com",
-    "wordpress.com"
+    "wordpress.com",
+    "reg.ru"
 ]
 
 remote_domains = [
@@ -50,6 +51,7 @@ remote_domains = [
     "grok.com",
     "chatgpt.com",
     "t3.chat",
+    "2ip.io",
     "ip.me",
     "trae.ai",
     "codeium.com",
@@ -65,7 +67,8 @@ remote_domains = [
     "broadcom.com",
     "habr.com",
     "www.instagram.com",
-    "instagram.com"
+    "instagram.com",
+    "discord.com"
 ]
 
 domains = local_domains + remote_domains
