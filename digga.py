@@ -63,7 +63,9 @@ remote_domains = [
     "groq.com",
     "x.ai",
     "broadcom.com",
-    "habr.com"
+    "habr.com",
+    "www.instagram.com",
+    "instagram.com"
 ]
 
 domains = local_domains + remote_domains
