@@ -34,11 +34,8 @@ local_domains = [
     "www.apple.com",
     "www.amazon.com",
     "www.tiktok.com",
-    "ru.linkedin.com",
     "ru.pinterest.com",
     "www.deviantart.com",
-    "www.tumblr.com",
-    "wordpress.com",
     "www.reg.ru",
     "shikimori.one"
 ]
