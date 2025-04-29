@@ -1,0 +1,33 @@
+{
+    "Name": "unconnected",
+    "GlobalProxy": "false",
+    "UseChunkFiles": "true",
+    "RemoteDNSType": "DoH",
+    "RemoteDNSDomain": "https://cloudflare-dns.com/dns-query",
+    "RemoteDNSIP": "1.1.1.1",
+    "DomesticDNSType": "DoH",
+    "DomesticDNSDomain": "https://cloudflare-dns.com/dns-query",
+    "DomesticDNSIP": "1.1.1.1",
+    "Geoipurl": "https://github.com/jameszeroX/zkeen-ip/releases/latest/download/zkeenip.dat",
+    "Geositeurl": "https://github.com/jameszeroX/zkeen-domains/releases/latest/download/zkeen.dat",
+    "LastUpdated": "",
+    "DnsHosts": {},
+    "DirectSites": [
+        "domain:ru"
+    ],
+    "DirectIp": [
+        "geoip:ru"
+    ],
+    "ProxySites": [
+        "geosite:domains",
+        "geosite:youtube",
+        "geosite:other"
+    ],
+    "ProxyIp": [
+        "geoip:discord"
+    ],
+    "BlockSites": [],
+    "BlockIp": [],
+    "DomainStrategy": "IPIfNonMatch",
+    "FakeDNS": "false"
+}
