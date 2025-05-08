@@ -39,7 +39,11 @@
       { 
         "rule_set": "ru-blocked", 
         "server": "vps-dns" 
-      } 
+      },
+      {
+        "domain_keyword": "browserleaks",
+        "server": "vps-dns"
+      }
     ], 
     "fakeip": { 
       "enabled": true, 
