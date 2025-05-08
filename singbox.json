@@ -57,7 +57,13 @@
       "strict_route": false, 
       "sniff": true 
     } 
-  ],  
+  ],
+  "outbounds": [ 
+    { 
+      "type": "direct", 
+      "tag": "direct" 
+    } 
+  ],
   "route": { 
     "rules": [ 
       { 
