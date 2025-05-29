@@ -890,7 +890,7 @@ xray_fd() {
         xray_pid=$(pidof "${name_client}")
         if [ -n "$xray_pid" ] && [ -d "/proc/$xray_pid/fd" ]; then
             limit=$(grep 'Max open files' "/proc/${xray_pid}/limits" | awk '{print $4}')
-            current=$(ls -1 /proc/$(pidof xray || pidof mihomo)/fd 2>/dev/null | wc -l)
+            current=$(ls -1 /proc/$(pidof ${name_client})/fd 2>/dev/null | wc -l)
             if [ "$limit" -gt 0 ] && [ "$current" -gt $((limit * 90 / 100)) ]; then
                 log_warning_router "Процесс ${name_client} открыл ${current} файловых дескрипторов из ${limit} доступных, инициирую перезапуск"
                 fd_out=true
