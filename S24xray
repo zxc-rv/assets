@@ -288,7 +288,7 @@ get_port_redirect() {
 # Получить порт для TProxy
 get_port_tproxy() {
   if [ "${name_client}" == "mihomo" ]; then
-    for file in $(find "${directory_user_settings}" -name '*.yaml' -o -name '*.yml'); do
+    for file in $(find "${directory_user_settings}" -name '*.yaml'); do
       port=$(grep -A 3 'type: tproxy' "${file}" | awk '/port:/ {print $2}' | head -n 1)
       if [ -n "${port}" ]; then
         echo "${port}"
