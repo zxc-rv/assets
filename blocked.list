@@ -38,6 +38,7 @@ DOMAIN-SUFFIX,browserleaks.net
 DOMAIN-SUFFIX,browserleaks.org
 DOMAIN-SUFFIX,buyoculus.com
 DOMAIN-SUFFIX,byspotify.com
+DOMAIN-SUFFIX,cdn.jetbrains.com
 DOMAIN-SUFFIX,chat.com
 DOMAIN-SUFFIX,chatgpt.com
 DOMAIN-SUFFIX,chatgpt.livekit.cloud
@@ -49,6 +50,7 @@ DOMAIN-SUFFIX,copilot-proxy.githubusercontent.com
 DOMAIN-SUFFIX,copilot.githubusercontent.com
 DOMAIN-SUFFIX,copilot.microsoft.com
 DOMAIN-SUFFIX,crunchyroll.com
+DOMAIN-SUFFIX,datalore.io
 DOMAIN-SUFFIX,deepmind.com
 DOMAIN-SUFFIX,deepmind.google
 DOMAIN-SUFFIX,dis.gd
@@ -67,6 +69,8 @@ DOMAIN-SUFFIX,ggpht.com
 DOMAIN-SUFFIX,githubcopilot.com
 DOMAIN-SUFFIX,googleusercontent.com
 DOMAIN-SUFFIX,googlevideo.com
+DOMAIN-SUFFIX,grazie.ai
+DOMAIN-SUFFIX,grazie.aws.intellij.net
 DOMAIN-SUFFIX,grok.com
 DOMAIN-SUFFIX,groq.com
 DOMAIN-SUFFIX,gvt1.com
@@ -83,9 +87,19 @@ DOMAIN-SUFFIX,intel.de
 DOMAIN-SUFFIX,intel.nl
 DOMAIN-SUFFIX,intel.ru
 DOMAIN-SUFFIX,intel.se
+DOMAIN-SUFFIX,intellij.com
+DOMAIN-SUFFIX,intellij.net
+DOMAIN-SUFFIX,intellij.org
 DOMAIN-SUFFIX,ip.me
+DOMAIN-SUFFIX,jb.gg
+DOMAIN-SUFFIX,jetbrains.ai
+DOMAIN-SUFFIX,jetbrains.com
+DOMAIN-SUFFIX,jetbrains.net
+DOMAIN-SUFFIX,jetbrains.space
+DOMAIN-SUFFIX,jetbrains.team
 DOMAIN-SUFFIX,jnn-pa.googleapis.com
 DOMAIN-SUFFIX,jut.su
+DOMAIN-SUFFIX,kotlinlang.org
 DOMAIN-SUFFIX,lagofast.com
 DOMAIN-SUFFIX,lidarr.audio
 DOMAIN-SUFFIX,lostfilm.info
@@ -107,6 +121,8 @@ DOMAIN-SUFFIX,netflix.com
 DOMAIN-SUFFIX,nflxvideo.net
 DOMAIN-SUFFIX,nnmclub.to
 DOMAIN-SUFFIX,nnmstatic.win
+DOMAIN-SUFFIX,notebooklm.google
+DOMAIN-SUFFIX,notebooklm.google.com
 DOMAIN-SUFFIX,notepad-plus-plus.org
 DOMAIN-SUFFIX,notion-static.com
 DOMAIN-SUFFIX,notion.com
@@ -192,6 +208,7 @@ DOMAIN-SUFFIX,x.ai
 DOMAIN-SUFFIX,x.com
 DOMAIN-SUFFIX,yandexwebcache.org
 DOMAIN-SUFFIX,youporn.com
+DOMAIN-SUFFIX,youtrack.cloud
 DOMAIN-SUFFIX,youtu.be
 DOMAIN-SUFFIX,youtubekids.com
 DOMAIN-SUFFIX,ypncdn.com
