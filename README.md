@@ -6,5 +6,5 @@ curl -sSL https://raw.githubusercontent.com/zxc-rv/proxylist/refs/heads/main/dig
 Optimizations :
 
 ```
-bash <(curl -Ls https://raw.githubusercontent.com/zxc-rv/proxylist/refs/heads/main/opti.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/zxc-rv/proxylist/refs/heads/main/optimization.sh)
 ```
