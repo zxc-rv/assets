@@ -1,2 +1,2 @@
-#!/bin/sh
+#!/opt/bin/sh
 echo hello world
