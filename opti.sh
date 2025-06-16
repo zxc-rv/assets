@@ -10,6 +10,7 @@ if ! sysctl net.ipv4.tcp_available_congestion_control | grep -q 'bbr'; then
     
     exit 0
 fi
+
 sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
 sed -i '/net.core.rmem_max/d' /etc/sysctl.conf
@@ -66,6 +67,7 @@ echo "net.ipv4.ip_local_port_range = 1024 45000" >> /etc/sysctl.conf
 
 sysctl -p
 
+clear
 echo
 echo "  Оптимизация сервера \\033[32mвыполнена\\033[0m"
 echo "  Перезагрузите сервер командой «\\033[33mreboot\\033[0m»"
