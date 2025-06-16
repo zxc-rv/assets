@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if ! sysctl net.ipv4.tcp_available_congestion_control | grep -q 'bbr'; then
     echo "tcp_bbr" > /etc/modules-load.d/modules.conf 2>/dev/null
