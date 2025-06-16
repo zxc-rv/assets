@@ -10,7 +10,8 @@ if ! sysctl net.ipv4.tcp_available_congestion_control | grep -q 'bbr'; then
     
     exit 0
 fi
-
+sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
 sed -i '/net.core.rmem_max/d' /etc/sysctl.conf
 sed -i '/net.core.wmem_max/d' /etc/sysctl.conf
 sed -i '/net.core.wmem_default/d' /etc/sysctl.conf
@@ -36,7 +37,7 @@ sed -i '/net.ipv4.tcp_slow_start_after_idle/d' /etc/sysctl.conf
 sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf
 sed -i '/net.ipv4.ip_local_port_range/d' /etc/sysctl.conf
 
-echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+echo "net.core.default_qdisc=fq_codel" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
 echo "net.core.rmem_max = 67108864" >> /etc/sysctl.conf
 echo "net.core.wmem_max = 67108864" >> /etc/sysctl.conf
