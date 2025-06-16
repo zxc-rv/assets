@@ -1,9 +1,9 @@
-Digga command:
+Digga:
 
 ```
 curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/digga.py | python
 ```
-Optimizations :
+Optimization:
 
 ```
 bash <(curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/optimization.sh)
