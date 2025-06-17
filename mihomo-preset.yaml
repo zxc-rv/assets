@@ -180,6 +180,7 @@ rules:
   - GEOSITE,steam,Steam
   - GEOSITE,spotify,Spotify
   - GEOSITE,meta,Meta
+  - GEOSITE,reddit,Reddit
   - GEOSITE,youtube,YouTube
   - GEOSITE,twitch,Twitch
   - GEOSITE,discord,Discord
