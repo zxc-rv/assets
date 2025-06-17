@@ -75,6 +75,7 @@ proxy-groups:
     include-all: true
     exclude-filter: 🇷🇺
     proxies:
+      - DIRECT
       - Blocked
 
   - name: Telegram
