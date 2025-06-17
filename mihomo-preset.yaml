@@ -3,14 +3,11 @@ allow-lan: true
 tproxy-port: 5000
 ipv6: true
 mode: rule
-tcp-concurrent: true
-keep-alive-idle: 30
-keep-alive-interval: 30
-profile:
-  store-selected: true
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
 external-ui-url: "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+profile:
+  store-selected: true
 
 sniffer:
   enable: true
