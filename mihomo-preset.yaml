@@ -1,0 +1,200 @@
+log-level: silent
+allow-lan: true
+tproxy-port: 5000
+ipv6: true
+mode: rule
+tcp-concurrent: true
+keep-alive-idle: 30
+keep-alive-interval: 30
+profile:
+  store-selected: true
+external-controller: 0.0.0.0:9090
+external-ui: zashboard
+external-ui-url: "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+
+sniffer:
+  enable: true
+  parse-pure-ip: true
+  force-dns-mapping: true
+  sniff:
+    HTTP:
+    TLS:
+    QUIC:
+
+proxy-groups:
+  - name: Blocked
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png
+    proxies:
+      - DIRECT
+    include-all: true
+    exclude-filter: 🇷🇺
+
+  - name: YouTube
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
+    include-all: true
+    proxies:
+      - DIRECT
+      - Blocked
+
+  - name: Discord
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Discord.png
+    include-all: true
+    proxies:
+      - DIRECT
+      - Blocked
+
+  - name: Twitch
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitch.png
+    include-all: true
+    proxies:
+      - DIRECT
+      - Blocked
+
+  - name: Reddit
+    type: select
+    icon: https://www.redditstatic.com/shreddit/assets/favicon/192x192.png
+    include-all: true
+    proxies:
+      - DIRECT
+      - Blocked
+
+  - name: Meta
+    type: select
+    icon: https://pngimg.com/uploads/meta/meta_PNG5.png
+    include-all: true
+    exclude-filter: hysteria
+    proxies:
+      - DIRECT
+      - Blocked
+
+  - name: Spotify
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png
+    include-all: true
+    exclude-filter: 🇷🇺|hysteria
+    proxies:
+      - Blocked
+
+  - name: Telegram
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
+    include-all: true
+    proxies:
+      - DIRECT
+      - Blocked
+
+  - name: Steam
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png
+    include-all: true
+    proxies:
+      - DIRECT
+      - Blocked
+
+  - name: Cloudflare
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png
+    include-all: true
+    proxies:
+      - PASS
+      - Blocked
+
+  - name: AI
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bot.png
+    include-all: true
+    exclude-filter: 🇷🇺
+    proxies:
+      - Blocked
+
+  - name: Twitter
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png
+    include-all: true
+    proxies:
+      - DIRECT
+      - Blocked
+
+  - name: QUIC
+    type: select
+    icon: https://avatars.githubusercontent.com/u/22631371?s=280&v=4
+    proxies:
+      - PASS
+      - REJECT
+
+  - name: GLOBAL
+    exclude-filter: DIRECT|REJECT|Blocked
+    type: select
+    include-all: true
+
+proxy-providers:
+  proxy_sub:
+    type: http
+    url: 
+    path: ./proxy-providers/proxy_sub.yml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://cp.cloudflare.com/
+      interval: 300
+      timeout: 5000
+      lazy: false
+      expected-status: 204
+    override:
+      udp: true
+      tfo: true
+      mptcp: true
+
+rule-providers:
+  refilter-domains:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
+    path: ./rule-provider/refilter-domains.mrs
+    
+  discord-voice-ips:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/other/discord-voice-ip-list.mrs
+    path: ./rule-providers/discord-voice-ips.mrs
+    interval: 86400
+
+  cloudflare-ips:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/cloudflare.mrs
+    path: ./rule-providers/cloudflare-ips.mrs
+    interval: 86400
+
+  telegram-ips:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/telegram.mrs
+    path: ./rule-providers/telegram-ips.mrs
+    interval: 86400
+
+rules:
+  - AND,((RULE-SET,refilter-domains),(NETWORK,UDP),(DST-PORT,443)),QUIC
+  - RULE-SET,telegram-ips,Telegram,no-resolve
+  - GEOSITE,telegram,Telegram
+  - GEOSITE,steam,Steam
+  - GEOSITE,spotify,Spotify
+  - GEOSITE,meta,Meta
+  - GEOSITE,youtube,YouTube
+  - GEOSITE,twitch,Twitch
+  - GEOSITE,discord,Discord
+  - RULE-SET,discord-voice-ips,Discord,no-resolve
+  - GEOSITE,twitter,Twitter
+  - GEOSITE,cloudflare,Cloudflare
+  - RULE-SET,cloudflare-ips,Cloudflare
+  - RULE-SET,refilter-domains,Blocked
+  - MATCH,DIRECT
+
