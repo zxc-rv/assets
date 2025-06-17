@@ -126,11 +126,6 @@ proxy-groups:
       - PASS
       - REJECT
 
-  - name: GLOBAL
-    exclude-filter: DIRECT|REJECT|Blocked
-    type: select
-    include-all: true
-
 proxy-providers:
   proxy_sub:
     type: http
@@ -184,6 +179,7 @@ rule-providers:
 rules:
   - AND,((RULE-SET,refilter-domains),(NETWORK,UDP),(DST-PORT,443)),QUIC
   - RULE-SET,telegram-ips,Telegram,no-resolve
+  - GEOSITE,category-ai-!cn,AI
   - GEOSITE,telegram,Telegram
   - GEOSITE,steam,Steam
   - GEOSITE,spotify,Spotify
