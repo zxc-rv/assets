@@ -28,7 +28,6 @@ proxy-groups:
     proxies:
       - DIRECT
     include-all: true
-    exclude-filter: 🇷🇺
 
   - name: YouTube
     type: select
