@@ -60,7 +60,7 @@ proxy-groups:
 
   - name: Meta
     type: select
-    icon: https://pngimg.com/uploads/meta/meta_PNG5.png
+    icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/meta.png
     include-all: true
     proxies:
       - DIRECT
@@ -117,7 +117,7 @@ proxy-groups:
 
   - name: QUIC
     type: select
-    icon: https://avatars.githubusercontent.com/u/22631371?s=280&v=4
+    icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/quic.png
     proxies:
       - PASS
       - REJECT
