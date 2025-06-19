@@ -174,20 +174,17 @@ rule-providers:
 
 rules:
   - AND,((RULE-SET,refilter-domains),(NETWORK,UDP),(DST-PORT,443)),QUIC
-  - RULE-SET,telegram-ips,Telegram,no-resolve
   - GEOSITE,category-ai-!cn,AI
-  - GEOSITE,telegram,Telegram
   - GEOSITE,steam,Steam
   - GEOSITE,spotify,Spotify
   - GEOSITE,meta,Meta
   - GEOSITE,reddit,Reddit
   - GEOSITE,youtube,YouTube
   - GEOSITE,twitch,Twitch
-  - GEOSITE,discord,Discord
-  - RULE-SET,discord-voice-ips,Discord,no-resolve
   - GEOSITE,twitter,Twitter
-  - GEOSITE,cloudflare,Cloudflare
-  - RULE-SET,cloudflare-ips,Cloudflare
+  - OR,((GEOSITE,discord),(RULE-SET,discord-voice-ips,no-resolve)),Discord
+  - OR,((GEOSITE,telegram),(RULE-SET,telegram-ips,no-resolve)),Telegram
+  - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
   - RULE-SET,refilter-domains,Blocked
   - MATCH,DIRECT
 
