@@ -38,7 +38,7 @@ sed -i '/net.ipv4.tcp_slow_start_after_idle/d' /etc/sysctl.conf
 sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf
 sed -i '/net.ipv4.ip_local_port_range/d' /etc/sysctl.conf
 
-echo "net.core.default_qdisc=fq_codel" >> /etc/sysctl.conf
+echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
 echo "net.core.rmem_max = 67108864" >> /etc/sysctl.conf
 echo "net.core.wmem_max = 67108864" >> /etc/sysctl.conf
@@ -70,5 +70,6 @@ sysctl -p
 clear
 echo
 echo -e "  Оптимизация сервера \e[32mвыполнена\e[0m"
-echo -e "  Перезагрузите сервер командой «\e[33mreboot\e[0m»"
+echo -e "  Выполняется «\e[33mперегазрузка\e[0m»"
 echo
+reboot
