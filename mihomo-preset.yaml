@@ -148,14 +148,16 @@ rule-providers:
     url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
     path: ./rule-providers/refilter-domains.mrs
     
-  discord-voice-ips:
+  discord:
     type: inline
-    behavior: ipcidr
+    behavior: classical
     format: text
     payload:
-      - 34.0.192.0/18
-      - 35.192.0.0/11
-      - 66.22.192.0/18
+      - DOMAIN-KEYWORD,discord
+      - DOMAIN-SUFFIX,dis.gd
+      - IP-CIDR,34.0.192.0/18,no-resolve
+      - IP-CIDR,35.192.0.0/11,no-resolve
+      - IP-CIDR,66.22.192.0/18,no-resolve
 
   cloudflare-ips:
     type: http
@@ -183,7 +185,7 @@ rules:
   - GEOSITE,youtube,YouTube
   - GEOSITE,twitch,Twitch
   - GEOSITE,twitter,Twitter
-  - OR,((GEOSITE,discord),(RULE-SET,discord-voice-ips,no-resolve)),Discord
+  - RULE-SET,discord,Discord
   - OR,((GEOSITE,telegram),(RULE-SET,telegram-ips,no-resolve)),Telegram
   - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
   - RULE-SET,refilter-domains,Blocked
