@@ -219,4 +219,6 @@ DOMAIN-SUFFIX,ytstatic.l.google.com
 DOMAIN-SUFFIX,gql.twitch.tv
 DOMAIN-SUFFIX,usher.ttvnw.net
 DOMAIN-SUFFIX,deepl.com
-
+AND,((IP-CIDR,34.0.192.0/18,no-resolve),(DST-PORT,50000-50100))
+AND,((IP-CIDR,35.192.0.0/11,no-resolve),(DST-PORT,50000-50100))
+AND,((IP-CIDR,66.22.192.0/18,no-resolve),(DST-PORT,50000-50100))
