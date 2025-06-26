@@ -149,12 +149,13 @@ rule-providers:
     path: ./rule-providers/refilter-domains.mrs
     
   discord-voice-ips:
-    type: http
+    type: inline
     behavior: ipcidr
-    format: mrs
-    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/other/discord-voice-ip-list.mrs
-    path: ./rule-providers/discord-voice-ips.mrs
-    interval: 86400
+    format: text
+    payload:
+      - 34.0.192.0/18
+      - 35.192.0.0/11
+      - 66.22.192.0/18
 
   cloudflare-ips:
     type: http
