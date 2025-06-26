@@ -146,7 +146,7 @@ rule-providers:
     behavior: domain
     format: mrs
     url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
-    path: ./rule-provider/refilter-domains.mrs
+    path: ./rule-providers/refilter-domains.mrs
     
   discord-voice-ips:
     type: http
