@@ -1,3 +1,9 @@
+# Описание:
+# Веб-интерфейс доступен по адресу http://192.168.1.1:9090/ui (вместо 192.168.1.1 может быть любой IP, где запущен данный конфиг). После добавления сервера и запуска mihomo необходимо зайти в веб-интерфейс и выбрать нужное подключение для прокси-групп (по умолчанию используется DIRECT)
+# Группа Blocked содержит список доменов большинства заблокированных ресурсов (как снаружи, так и внутри)
+# Остальные группы YouTube/Discord и тд имеют приоритет над группой Blocked. Eсли переопределение не нужно, можно выбрать Blocked в качестве подключения и управлять всеми группами разом в группе Blocked
+# При использовании с XKeen рекомендуется выполнить команду "xkeen -ap 80,443,50000:50030" в SSH терминале роутера
+
 log-level: silent
 allow-lan: true
 tproxy-port: 5000
@@ -5,7 +11,7 @@ ipv6: true
 mode: rule
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
-external-ui-url: "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 profile:
   store-selected: true
 
@@ -122,23 +128,40 @@ proxy-groups:
       - PASS
       - REJECT
 
+# Пример подключения с использованием подписки
 proxy-providers:
   proxy_sub:
     type: http
-    url: 
+    url: *subscription.link*
     path: ./proxy-providers/proxy_sub.yml
     interval: 3600
     health-check:
       enable: true
       url: http://cp.cloudflare.com/
       interval: 300
-      timeout: 5000
+      timeout: 2000
       lazy: false
       expected-status: 204
     override:
       udp: true
       tfo: true
-      mptcp: true
+
+# Пример vless подключения без использования подписки
+proxies:
+  - name: vless-reality
+    type: vless
+    server: *your-server*
+    port: 443
+    network: tcp
+    udp: true
+    tls: true
+    servername: *your-sni*
+    client-fingerprint: chrome
+    uuid: *your-uuid*
+    flow: xtls-rprx-vision
+    reality-opts:
+      public-key: *your-pbk*
+      short-id: *your-shortid*
 
 rule-providers:
   refilter-domains:
@@ -175,6 +198,7 @@ rule-providers:
     interval: 86400
 
 rules:
+  - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Blocked # Разблокировка 1080p/1440p качества на Twitch.tv
   - AND,((RULE-SET,refilter-domains),(NETWORK,UDP),(DST-PORT,443)),QUIC
   - GEOSITE,category-ai-!cn,AI
   - GEOSITE,steam,Steam
@@ -189,4 +213,3 @@ rules:
   - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
   - RULE-SET,refilter-domains,Blocked
   - MATCH,DIRECT
-
