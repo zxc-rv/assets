@@ -28,7 +28,6 @@ sed -i '/net.ipv4.tcp_max_syn_backlog/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_max_tw_buckets/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_fastopen/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_timestamps/d' /etc/sysctl.conf
-sed -i '/net.ipv4.tcp_low_latency/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_mem/d' /etc/sysctl.conf
 sed -i '/net.ipv4.udp_mem/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_rmem/d' /etc/sysctl.conf
@@ -55,7 +54,6 @@ echo "net.ipv4.tcp_max_syn_backlog = 10240" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_max_tw_buckets = 5000" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_timestamps = 1" >> /etc/sysctl.conf
-echo "net.ipv4.tcp_low_latency = 1" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_mem = 25600 51200 102400" >> /etc/sysctl.conf
 echo "net.ipv4.udp_mem = 25600 51200 102400" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_rmem = 16384 262144 8388608" >> /etc/sysctl.conf
