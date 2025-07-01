@@ -1,3 +1,4 @@
 IP-CIDR,66.22.192.0/18,no-resolve
 IP-CIDR,34.0.192.0/18,no-resolve
 IP-CIDR,35.192.0.0/11,no-resolve
+IP-CIDR,104.29.154.0/24,no-resolve
