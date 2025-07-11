@@ -1,5 +1,4 @@
-PROCESS-NAME,Discord.exe
-PROCESS-NAME,Discord
+OR,((PROCESS-NAME,Discord.exe),(PROCESS-NAME,Discord),(PROCESS-NAME,discord))
 AND,((DOMAIN-KEYWORD,discord),(NOT,((DOMAIN-SUFFIX,ru))))
 AND,((IP-CIDR,34.0.192.0/18,no-resolve),(DST-PORT,50000-50100))
 AND,((IP-CIDR,35.192.0.0/11,no-resolve),(DST-PORT,50000-50100))
