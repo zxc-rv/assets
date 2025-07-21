@@ -1,7 +1,7 @@
 OR,((DOMAIN,ipwhois.app),(DOMAIN,ipwho.is),(DOMAIN,api.ip.sb),(DOMAIN,ipapi.co),(DOMAIN,ipinfo.io))
 OR,((PROCESS-NAME,Discord.exe),(PROCESS-NAME,Discord),(PROCESS-NAME,discord))
+PROCESS-PATH-REGEX,(?i).*Rockstar Games\\Launcher\\Launcher\.exe
 PROCESS-NAME,SocialClubHelper.exe
-PROCESS-PATH,C:\Program Files\Rockstar Games\Launcher\Launcher.exe
 DOMAIN,ai.google.dev
 DOMAIN,alkalicore-pa.clients6.google.com
 DOMAIN,alkalimakersuite-pa.clients6.google.com
