@@ -20,10 +20,10 @@ if [ ! -f "$VIMRC" ]; then
 fi
 
 if ! grep -q "osc52.vim" "$VIMRC"; then
-    echo "Добавляю маппинг для 'y' в .vimrc..."
+    echo "Добавляю маппинг для yank..."
     cat <<EOL >> "$VIMRC"
 source ~/.vim/plugin/osc52.vim
-vmap y y:call SendViaOSC52(getreg('"'))<cr>
+vmap <C-C> y:call SendViaOSC52(getreg('"'))<cr>
 EOL
 else
     echo "osc52.vim уже в .vimrc, пропускаю..."
