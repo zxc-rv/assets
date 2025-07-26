@@ -22,8 +22,6 @@ fi
 if ! grep -q "osc52.vim" "$VIMRC"; then
     echo "Добавляю маппинг для 'y' в .vimrc..."
     cat <<EOL >> "$VIMRC"
-
-" osc52.vim для копирования через y
 source ~/.vim/plugin/osc52.vim
 vmap y y:call SendViaOSC52(getreg('"'))<cr>
 EOL
