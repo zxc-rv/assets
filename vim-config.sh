@@ -8,7 +8,7 @@ fi
 mkdir -p ~/.vim/plugin
 
 echo "Качаю osc52.vim..."
-wget -O ~/.vim/plugin/osc52.vim https://raw.githubusercontent.com/fcpg/vim-osc52/master/plugin/osc52.vim || {
+curl -sSL https://raw.githubusercontent.com/fcpg/vim-osc52/master/plugin/osc52.vim -o ~/.vim/plugin/osc52.vim || {
     echo "Ой, не скачалось! Проверяй инет, бро."
     exit 1
 }
