@@ -18,10 +18,6 @@ NVIM_PLUGIN_DIR="$NVIM_CONFIG_DIR/plugin"
 INIT_VIM_PATH="$NVIM_CONFIG_DIR/init.vim"
 OSC52_PLUGIN_PATH="$NVIM_PLUGIN_DIR/osc52.vim"
 
-echo -e "  ${YELLOW}*${NC} Рабочая директория пользователя: ${GREEN}$USER_HOME${NC}"
-echo -e "  ${YELLOW}*${NC} Путь к конфигам NeoVim: ${GREEN}$NVIM_CONFIG_DIR${NC}"
-
-echo -e "${YELLOW}--- Проверка установки NeoVim ---${NC}"
 if ! command -v nvim &> /dev/null
 then
     echo -e "  ${RED}NeoVim не найден. Начинаю установку...${NC}"
@@ -40,15 +36,13 @@ else
     echo -e "  ${GREEN}NeoVim уже установлен. Пропускаю установку.${NC}"
 fi
 
-echo -e "${YELLOW}--- Создание необходимых директорий ---${NC}"
 mkdir -p "$NVIM_PLUGIN_DIR"
 if [ $? -ne 0 ]; then
     echo -e "  ${RED}Не удалось создать директорию $NVIM_PLUGIN_DIR. Проверь права.${NC}"
     exit 1
 fi
-echo -e "  ${GREEN}Директории созданы или уже существуют.${NC}"
+echo -e "  ${GREEN}Директории созданы.${NC}"
 
-echo -e "${YELLOW}--- Скачивание плагина osc52.vim ---${NC}"
 curl -s -o "$OSC52_PLUGIN_PATH" https://raw.githubusercontent.com/fcpg/vim-osc52/refs/heads/master/plugin/osc52.vim
 if [ $? -ne 0 ]; then
     echo -e "  ${RED}Ошибка при скачивании osc52.vim. Проверь подключение к интернету или URL.${NC}"
@@ -56,7 +50,6 @@ if [ $? -ne 0 ]; then
 fi
 echo -e "  ${GREEN}Плагин osc52.vim успешно скачан в ${OSC52_PLUGIN_PATH}${NC}"
 
-echo -e "${YELLOW}--- Правка файла osc52.vim ---${NC}"
 
 read -r -d '' ORIG_TEXT << EOM
 function! s:rawecho(str)
@@ -92,7 +85,6 @@ fi
 echo -e "  ${GREEN}Файл osc52.vim успешно пропатчен!${NC}"
 
 
-echo -e "${YELLOW}--- Добавление маппинга в init.vim ---${NC}"
 if [ ! -f "$INIT_VIM_PATH" ]; then
     mkdir -p "$(dirname "$INIT_VIM_PATH")"
     touch "$INIT_VIM_PATH"
