@@ -24,6 +24,7 @@ if ! grep -q "osc52.vim" "$VIMRC"; then
     cat <<EOL >> "$VIMRC"
 source ~/.vim/plugin/osc52.vim
 vmap <C-C> y:call SendViaOSC52(getreg('"'))<cr>
+syntax on
 EOL
 else
     echo "osc52.vim уже в .vimrc, пропускаю..."
