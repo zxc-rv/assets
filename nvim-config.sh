@@ -5,7 +5,7 @@ YELLOW='\033[0;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo -e "${YELLOW}--- Запускаю установщик и настройщик NeoVim ---${NC}"
+
 
 
 USER_HOME=$(eval echo "~$(logname)")
@@ -50,39 +50,73 @@ if [ $? -ne 0 ]; then
 fi
 echo -e "  ${GREEN}Плагин osc52.vim успешно скачан в ${OSC52_PLUGIN_PATH}${NC}"
 
-
-read -r -d '' ORIG_TEXT << EOM
+read -r -d '' ORIGINAL_TEXT_START_MARKER << 'EOF_ORIG_START'
 function! s:rawecho(str)
-  let redraw = get(g:, 'osc52_redraw', 2)
-  let print  = get(g:, 'osc52_print', 'echo')
-  if print == 'echo'
-    exe "silent! !echo" shellescape(a:str)
-  elseif print == 'printf'
-    exe "silent! !printf \%s" shellescape(a:str)
-  else
-    exe print shellescape(a:str)
-  endif
-  if redraw == 2
-    redraw!
-  elseif redraw == 1
-    redraw
-  endif
-endfun
-EOM
+EOF_ORIG_START
 
-read -r -d '' NEW_TEXT << EOM
+read -r -d '' ORIGINAL_TEXT_END_MARKER << 'EOF_ORIG_END'
+endfun
+EOF_ORIG_END
+
+read -r -d '' NEW_TEXT_BLOCK << 'EOF_NEW_BLOCK'
 function! s:rawecho(str)
   call writefile([a:str], '/dev/tty', 'b')
 endfun
-EOM
+EOF_NEW_BLOCK
 
-perl -0777 -pi -e "s{\Q$ORIG_TEXT\E}{$NEW_TEXT}s" "$OSC52_PLUGIN_PATH" 2>/dev/null
-
-if [ $? -ne 0 ]; then
-    echo -e "  ${RED}Ошибка при правке osc52.vim. Возможно, исходный текст не найден или проблема с perl.${NC}"
+if [ ! -f "$OSC52_PLUGIN_PATH" ]; then
+    echo -e "  ${RED}Ошибка: Файл плагина ${OSC52_PLUGIN_PATH} не найден. Не могу выполнить правку.${NC}"
     exit 1
 fi
-echo -e "  ${GREEN}Файл osc52.vim успешно пропатчен!${NC}"
+
+awk -v start_marker="$ORIGINAL_TEXT_START_MARKER" -v end_marker="$ORIGINAL_TEXT_END_MARKER" -v new_block="$NEW_TEXT_BLOCK" '
+BEGIN {
+    in_target_block = 0;
+    substituted = 0;
+}
+
+# Если находим начало целевого блока и еще не заменяли его
+$0 == start_marker && !substituted {
+    print new_block; # Печатаем новый блок целиком
+    in_target_block = 1; # Устанавливаем флаг, что мы внутри блока
+    substituted = 1; # Отмечаем, что замена произошла, чтобы не повторять
+    next; # Пропускаем текущую строку и переходим к следующей
+}
+
+# Если мы внутри целевого блока и находим его конец
+$0 == end_marker && in_target_block {
+    in_target_block = 0; # Выходим из блока
+    next; # Пропускаем текущую строку ("endfun" старого блока), т.к. она уже в новом
+}
+
+# Если мы не в целевом блоке, просто печатаем текущую строку
+!in_target_block {
+    print $0;
+}
+' "$OSC52_PLUGIN_PATH" > "${OSC52_PLUGIN_PATH}.tmp"
+
+
+if [ ! -s "${OSC52_PLUGIN_PATH}.tmp" ]; then
+    echo -e "  ${RED}Ошибка: Временный файл после обработки AWK пуст или не создан. Это странно. Проверь логику AWK или исходный файл.${NC}"
+    rm -f "${OSC52_PLUGIN_PATH}.tmp"
+    exit 1
+fi
+
+if grep -q "$NEW_TEXT_BLOCK" "${OSC52_PLUGIN_PATH}.tmp"; then
+    echo -e "  ${GREEN}Файл osc52.vim успешно пропатчен!${NC}"
+    mv "${OSC52_PLUGIN_PATH}.tmp" "$OSC52_PLUGIN_PATH"
+    if [ $? -ne 0 ]; then
+        echo -e "  ${RED}Ошибка при перемещении временного файла. Проверь права или место назначения.${NC}"
+        rm -f "${OSC52_PLUGIN_PATH}.tmp"
+        exit 1
+    fi
+else
+    echo -e "  ${RED}Ошибка: Новый блок кода НЕ найден во временном файле после обработки AWK. Замена не удалась.${NC}"
+    echo -e "  ${YELLOW}Содержимое временного файла (${OSC52_PLUGIN_PATH}.tmp):${NC}"
+    cat "${OSC52_PLUGIN_PATH}.tmp"
+    rm -f "${OSC52_PLUGIN_PATH}.tmp"
+    exit 1
+fi
 
 
 if [ ! -f "$INIT_VIM_PATH" ]; then
@@ -98,4 +132,5 @@ else
     echo -e "  ${YELLOW}Маппинг уже существует в init.vim. Пропускаю.${NC}"
 fi
 
-echo -e "\n${GREEN}--- НАСТРОЙКА NeoVim ЗАВЕРШЕНА! ---${NC}"
+echo -e "\n${GREEN} НАСТРОЙКА NeoVim ЗАВЕРШЕНА!${NC}"
+
