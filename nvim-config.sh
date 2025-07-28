@@ -75,7 +75,6 @@ BEGIN {
     substituted = 0;
 }
 
-# Если находим начало целевого блока и еще не заменяли его
 $0 == start_marker && !substituted {
     print new_block; # Печатаем новый блок целиком
     in_target_block = 1; # Устанавливаем флаг, что мы внутри блока
@@ -83,13 +82,11 @@ $0 == start_marker && !substituted {
     next; # Пропускаем текущую строку и переходим к следующей
 }
 
-# Если мы внутри целевого блока и находим его конец
 $0 == end_marker && in_target_block {
     in_target_block = 0; # Выходим из блока
     next; # Пропускаем текущую строку ("endfun" старого блока), т.к. она уже в новом
 }
 
-# Если мы не в целевом блоке, просто печатаем текущую строку
 !in_target_block {
     print $0;
 }
@@ -127,6 +124,7 @@ fi
 
 if ! grep -q "vnoremap <C-C> y:call SendViaOSC52(getreg('\"'))<CR>" "$INIT_VIM_PATH" 2>/dev/null; then
     echo "vnoremap <C-C> y:call SendViaOSC52(getreg('\"'))<CR>" >> "$INIT_VIM_PATH"
+    echo "vim.o.swapfile = false" >> "$INIT_VIM_PATH"
     echo -e "  ${GREEN}Маппинг успешно добавлен в init.vim.${NC}"
 else
     echo -e "  ${YELLOW}Маппинг уже существует в init.vim. Пропускаю.${NC}"
