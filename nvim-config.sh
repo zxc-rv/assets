@@ -124,7 +124,7 @@ fi
 
 if ! grep -q "vnoremap <C-C> y:call SendViaOSC52(getreg('\"'))<CR>" "$INIT_VIM_PATH" 2>/dev/null; then
     echo "vnoremap <C-C> y:call SendViaOSC52(getreg('\"'))<CR>" >> "$INIT_VIM_PATH"
-    echo "vim.o.swapfile = false" >> "$INIT_VIM_PATH"
+    echo "set noswapfile" >> "$INIT_VIM_PATH"
     echo -e "  ${GREEN}Маппинг успешно добавлен в init.vim.${NC}"
 else
     echo -e "  ${YELLOW}Маппинг уже существует в init.vim. Пропускаю.${NC}"
