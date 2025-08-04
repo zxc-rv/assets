@@ -66,5 +66,10 @@ if [ $? -ne 0 ]; then
     echo -e "${RED}Не смог добавить alias в .bashrc, проверь права!${NC}" >&2
     exit 1
 fi
-source ~/.bashrc
+
+(source ~/.bashrc) & spinner $! "Обновляю .bashrc..."
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Не смог обновить .bashrc!${NC}" >&2
+    exit 1
+fi
 echo -e "\n${GREEN}eza успешно установлен и настроен! 🔥${NC}\n"
