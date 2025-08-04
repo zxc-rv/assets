@@ -60,11 +60,20 @@ vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NonText", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
-vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
 vim.pack.add{
   { src = 'https://github.com/echasnovski/mini.pick' },
+  { src = 'https://github.com/folke/tokyonight.nvim' },
 }
 require "mini.pick".setup()
+vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
+require('tokyonight').setup({
+  transparent = true,
+  styles = {
+    sidebars = 'transparent',
+    floats = 'transparent',
+  },
+})
+vim.cmd("colorscheme tokyonight-moon")
 EOF
 ) & spinner $! "Настройка init.lua..."
 if [ $? -ne 0 ]; then
