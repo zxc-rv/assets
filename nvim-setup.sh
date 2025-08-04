@@ -12,7 +12,6 @@ fi
 
 NVIM_CONFIG_DIR="$USER_HOME/.config/nvim"
 NVIM_PLUGIN_DIR="$NVIM_CONFIG_DIR/plugin"
-INIT_VIM_PATH="$NVIM_CONFIG_DIR/init.vim"
 INIT_LUA_PATH="$NVIM_CONFIG_DIR/init.lua"
 OSC52_PLUGIN_PATH="$NVIM_PLUGIN_DIR/osc52.vim"
 NVIM_APPIMAGE_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.appimage"
@@ -135,28 +134,23 @@ else
     exit 1
 fi
 
-# Создаем и настраиваем init.vim
-if [ ! -f "$INIT_VIM_PATH" ]; then
-    mkdir -p "$(dirname "$INIT_VIM_PATH")"
-    touch "$INIT_VIM_PATH"
-    echo -e "  ${YELLOW}Файл init.vim не найден. Создаю: ${GREEN}$INIT_VIM_PATH${NC}"
-fi
-
-if ! grep -q "vnoremap <C-C> y:call SendViaOSC52(getreg('\"'))<CR>" "$INIT_VIM_PATH" 2>/dev/null; then
-    echo "vnoremap <C-C> y:call SendViaOSC52(getreg('\"'))<CR>" >> "$INIT_VIM_PATH"
-    echo "set noswapfile" >> "$INIT_VIM_PATH"
-    echo -e "  ${GREEN}Маппинг успешно добавлен в init.vim.${NC}"
-else
-    echo -e "  ${YELLOW}Маппинг уже существует в init.vim. Пропускаю.${NC}"
-fi
-
-# Создаем и настраиваем init.lua с прозрачным фоном
+# Создаем и настраиваем init.lua
 if [ ! -f "$INIT_LUA_PATH" ]; then
     mkdir -p "$(dirname "$INIT_LUA_PATH")"
     touch "$INIT_LUA_PATH"
     echo -e "  ${YELLOW}Файл init.lua не найден. Создаю: ${GREEN}$INIT_LUA_PATH${NC}"
 fi
 
+# Добавляем маппинг для OSC52
+if ! grep -q "vim.keymap.set('v', '<C-C>', 'y:call SendViaOSC52(getreg('\"'))<CR>')" "$INIT_LUA_PATH" 2>/dev/null; then
+    echo "vim.keymap.set('v', '<C-C>', 'y:call SendViaOSC52(getreg(\'\"\''))<CR>')" >> "$INIT_LUA_PATH"
+    echo "vim.opt.swapfile = false" >> "$INIT_LUA_PATH"
+    echo -e "  ${GREEN}Маппинг успешно добавлен в init.lua.${NC}"
+else
+    echo -e "  ${YELLOW}Маппинг уже существует в init.lua. Пропускаю.${NC}"
+fi
+
+# Добавляем настройки прозрачности
 if ! grep -q "vim.api.nvim_set_hl(0, \"Normal\", { bg = \"none\" })" "$INIT_LUA_PATH" 2>/dev/null; then
     echo "vim.api.nvim_set_hl(0, \"Normal\", { bg = \"none\" })" >> "$INIT_LUA_PATH"
     echo "vim.api.nvim_set_hl(0, \"NonText\", { bg = \"none\" })" >> "$INIT_LUA_PATH"
