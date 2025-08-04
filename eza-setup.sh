@@ -18,14 +18,12 @@ spinner() {
     printf "\r${GREEN}✔ ${NC} %s\n" "$msg"
 }
 
-
 if [ "$(id -u)" -ne 0 ]; then
     echo -e "${RED}Бери sudo!${NC}" >&2
     exit 1
 fi
 
 echo ""
-
 
 (apt update -qq >/dev/null 2>&1 && apt install -y gpg -qq >/dev/null 2>&1) & spinner $! "Установка gpg..."
 if [ $? -ne 0 ]; then
