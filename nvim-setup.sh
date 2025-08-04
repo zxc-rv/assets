@@ -1,35 +1,40 @@
 #!/bin/bash
 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 if [ "$(id -u)" -ne 0 ]; then
-  echo "Бери sudo!" >&2
+  echo -e "${RED}Бери sudo, братан!${NC}" >&2
   exit 1
 fi
 
-echo "Ставим fuse3..."
-apt update && apt install -y fuse3 || {
-  echo "Не смог поставить fuse3, чекни логи!" >&2
+echo -e "${GREEN}Ставим fuse3...${NC}"
+apt update -qq && apt install -y fuse3 -qq > /dev/null 2>&1 || {
+  echo -e "${RED}Не смог поставить fuse3, чекни логи!${NC}" >&2
   exit 1
 }
 
-echo "Качаем Neovim AppImage..."
-wget -O nvim-linux-x86_64.appimage https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage || {
-  echo "Не смог скачать Neovim, проверь инет или ссылку!" >&2
+echo -e "${GREEN}Качаем Neovim AppImage...${NC}"
+wget -q -O nvim-linux-x86_64.appimage https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage || {
+  echo -e "${RED}Не смог скачать Neovim, проверь инет!${NC}" >&2
   exit 1
 }
 
-echo "Делаем AppImage исполняемым..."
+echo -e "${GREEN}Делаем AppImage исполняемым...${NC}"
 chmod u+x nvim-linux-x86_64.appimage || {
-  echo "Не смог дать права, что-то пошло не так!" >&2
+  echo -e "${RED}Не смог дать права, что-то не так!${NC}" >&2
   exit 1
 }
 
-echo "Кидаем Neovim в /usr/local/bin..."
+echo -e "${GREEN}Кидаем Neovim в /usr/local/bin...${NC}"
 mv nvim-linux-x86_64.appimage /usr/local/bin/nvim || {
-  echo "Не смог переместить, проверь права или место!" >&2
+  echo -e "${RED}Не смог переместить, проверь права!${NC}" >&2
   exit 1
 }
 
-echo "Настраиваем init.lua..."
+
+echo -e "${GREEN}Настраиваем init.lua...${NC}"
 mkdir -p ~/.config/nvim
 
 cat << 'EOF' > ~/.config/nvim/init.lua
@@ -50,4 +55,4 @@ vim.api.nvim_set_hl(0, "NonText", { bg = "none" })
 vim.o.swapfile = false
 EOF
 
-echo "Всё готово! Neovim установлен, init.lua настроен."
+echo -e "${GREEN}Neovim успешно установлен.${NC}"
