@@ -5,9 +5,6 @@ YELLOW='\033[0;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-
-
-
 USER_HOME=$(eval echo "~$(logname)")
 if [ "$USER_HOME" == "/root" ] && [ -n "$SUDO_USER" ]; then
     USER_HOME=$(eval echo "~$SUDO_USER")
@@ -16,22 +13,46 @@ fi
 NVIM_CONFIG_DIR="$USER_HOME/.config/nvim"
 NVIM_PLUGIN_DIR="$NVIM_CONFIG_DIR/plugin"
 INIT_VIM_PATH="$NVIM_CONFIG_DIR/init.vim"
+INIT_LUA_PATH="$NVIM_CONFIG_DIR/init.lua"
 OSC52_PLUGIN_PATH="$NVIM_PLUGIN_DIR/osc52.vim"
+NVIM_APPIMAGE_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.appimage"
+NVIM_INSTALL_PATH="/usr/local/bin/nvim"
 
 if ! command -v nvim &> /dev/null
 then
     echo -e "  ${RED}NeoVim не найден. Начинаю установку...${NC}"
+    
+    # Устанавливаем fuse3 для AppImage
+    echo -e "  ${YELLOW}Устанавливаю зависимость fuse3...${NC}"
     apt update -y > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         echo -e "  ${RED}Ошибка при обновлении пакетов. Проверь подключение или репозитории.${NC}"
         exit 1
     fi
-    apt install -y neovim > /dev/null 2>&1
+    apt install -y fuse3 > /dev/null 2>&1
     if [ $? -ne 0 ]; then
-        echo -e "  ${RED}Ошибка при установке NeoVim. Выхожу.${NC}"
+        echo -e "  ${RED}Ошибка при установке fuse3. Выхожу.${NC}"
         exit 1
     fi
-    echo -e "  ${GREEN}NeoVim успешно установлен!${NC}"
+    echo -e "  ${GREEN}fuse3 успешно установлен!${NC}"
+    
+    # Качаем NeoVim AppImage
+    echo -e "  ${YELLOW}Качаю NeoVim AppImage с GitHub...${NC}"
+    curl -L -o nvim-linux64.appimage "$NVIM_APPIMAGE_URL"
+    if [ $? -ne 0 ]; then
+        echo -e "  ${RED}Ошибка при скачивании NeoVim AppImage. Проверь подключение к интернету.${NC}"
+        exit 1
+    fi
+    
+    # Делаем исполняемым и перемещаем
+    chmod u+x nvim-linux64.appimage
+    mv nvim-linux64.appimage "$NVIM_INSTALL_PATH"
+    if [ $? -ne 0 ]; then
+        echo -e "  ${RED}Ошибка при перемещении NeoVim в $NVIM_INSTALL_PATH. Проверь права.${NC}"
+        exit 1
+    fi
+    
+    echo -e "  ${GREEN}NeoVim AppImage успешно установлен!${NC}"
 else
     echo -e "  ${GREEN}NeoVim уже установлен. Пропускаю установку.${NC}"
 fi
@@ -92,7 +113,6 @@ $0 == end_marker && in_target_block {
 }
 ' "$OSC52_PLUGIN_PATH" > "${OSC52_PLUGIN_PATH}.tmp"
 
-
 if [ ! -s "${OSC52_PLUGIN_PATH}.tmp" ]; then
     echo -e "  ${RED}Ошибка: Временный файл после обработки AWK пуст или не создан. Это странно. Проверь логику AWK или исходный файл.${NC}"
     rm -f "${OSC52_PLUGIN_PATH}.tmp"
@@ -115,7 +135,7 @@ else
     exit 1
 fi
 
-
+# Создаем и настраиваем init.vim
 if [ ! -f "$INIT_VIM_PATH" ]; then
     mkdir -p "$(dirname "$INIT_VIM_PATH")"
     touch "$INIT_VIM_PATH"
@@ -130,5 +150,20 @@ else
     echo -e "  ${YELLOW}Маппинг уже существует в init.vim. Пропускаю.${NC}"
 fi
 
-echo -e "\n${GREEN} НАСТРОЙКА NeoVim ЗАВЕРШЕНА!${NC}"
+# Создаем и настраиваем init.lua с прозрачным фоном
+if [ ! -f "$INIT_LUA_PATH" ]; then
+    mkdir -p "$(dirname "$INIT_LUA_PATH")"
+    touch "$INIT_LUA_PATH"
+    echo -e "  ${YELLOW}Файл init.lua не найден. Создаю: ${GREEN}$INIT_LUA_PATH${NC}"
+fi
 
+if ! grep -q "vim.api.nvim_set_hl(0, \"Normal\", { bg = \"none\" })" "$INIT_LUA_PATH" 2>/dev/null; then
+    echo "vim.api.nvim_set_hl(0, \"Normal\", { bg = \"none\" })" >> "$INIT_LUA_PATH"
+    echo "vim.api.nvim_set_hl(0, \"NonText\", { bg = \"none\" })" >> "$INIT_LUA_PATH"
+    echo -e "  ${GREEN}Настройки прозрачности добавлены в init.lua.${NC}"
+else
+    echo -e "  ${YELLOW}Настройки прозрачности уже есть в init.lua. Пропускаю.${NC}"
+fi
+
+echo -e "\n${GREEN} НАСТРОЙКА NeoVim ЗАВЕРШЕНА!${NC}"
+echo -e "  ${YELLOW}Теперь у тебя прозрачный nvim прямо с гитхаба! 🔥${NC}"
