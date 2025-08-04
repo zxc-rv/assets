@@ -14,7 +14,7 @@ NVIM_CONFIG_DIR="$USER_HOME/.config/nvim"
 NVIM_PLUGIN_DIR="$NVIM_CONFIG_DIR/plugin"
 INIT_LUA_PATH="$NVIM_CONFIG_DIR/init.lua"
 OSC52_PLUGIN_PATH="$NVIM_PLUGIN_DIR/osc52.vim"
-NVIM_APPIMAGE_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.appimage"
+NVIM_APPIMAGE_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
 NVIM_INSTALL_PATH="/usr/local/bin/nvim"
 
 if ! command -v nvim &> /dev/null
@@ -37,15 +37,15 @@ then
     
     # Качаем NeoVim AppImage
     echo -e "  ${YELLOW}Качаю NeoVim AppImage с GitHub...${NC}"
-    curl -L -o nvim-linux64.appimage "$NVIM_APPIMAGE_URL"
+    curl -L -o nvim-linux-x86_64.appimage "$NVIM_APPIMAGE_URL"
     if [ $? -ne 0 ]; then
         echo -e "  ${RED}Ошибка при скачивании NeoVim AppImage. Проверь подключение к интернету.${NC}"
         exit 1
     fi
     
     # Делаем исполняемым и перемещаем
-    chmod u+x nvim-linux64.appimage
-    mv nvim-linux64.appimage "$NVIM_INSTALL_PATH"
+    chmod u+x nvim-linux-x86_64.appimage
+    mv nvim-linux-x86_64.appimage "$NVIM_INSTALL_PATH"
     if [ $? -ne 0 ]; then
         echo -e "  ${RED}Ошибка при перемещении NeoVim в $NVIM_INSTALL_PATH. Проверь права.${NC}"
         exit 1
