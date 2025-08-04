@@ -38,17 +38,7 @@ echo -e "${GREEN}Настраиваем init.lua...${NC}"
 mkdir -p ~/.config/nvim
 
 cat << 'EOF' > ~/.config/nvim/init.lua
-vim.g.clipboard = {
-  name = 'OSC52',
-  copy = {
-    ['+'] = function(lines) require('vim.ui.clipboard.osc52').copy('+')(lines) end,
-    ['*'] = function(lines) require('vim.ui.clipboard.osc52').copy('*')(lines) end,
-  },
-  paste = {
-    ['+'] = function() return vim.fn.split(vim.fn.getreg('+'), '\n') end,
-    ['*'] = function() return vim.fn.split(vim.fn.getreg('*'), '\n') end,
-  },
-}
+vim.g.clipboard = 'osc52'
 vim.keymap.set('v', '<C-C>', '"+y', { noremap = true })
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NonText", { bg = "none" })
