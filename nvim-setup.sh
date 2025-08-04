@@ -10,7 +10,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 echo -e "\n${GREEN}Установка fuse3...${NC}"
-apt update -qq && apt install -y fuse3 -qq > /dev/null 2>&1 || {
+apt update -qq >/dev/null 2>&1 && apt install -y fuse3 -qq >/dev/null 2>&1 || {
   echo -e "${RED}Не смог поставить fuse3, чекни логи!${NC}" >&2
   exit 1
 }
@@ -54,4 +54,4 @@ require "mini.pick".setup()
 
 EOF
 
-echo -e "\n${GREEN}Neovim успешно установлен.${NC}"
+echo -e "\n${GREEN}Neovim успешно установлен.${NC}\n"
