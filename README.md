@@ -14,3 +14,9 @@ NVIM Setup:
 ```
 bash <(curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/nvim-setup.sh)
 ```
+
+Eza Setup:
+
+```
+bash <(curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/eza-setup.sh)
+```
