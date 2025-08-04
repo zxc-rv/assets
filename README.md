@@ -9,8 +9,8 @@ Optimization:
 bash <(curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/optimization.sh)
 ```
 
-VIM Config:
+NVIM Setup:
 
 ```
-bash <(curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/vim-config.sh)
+bash <(curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/nvim-setup.sh)
 ```
