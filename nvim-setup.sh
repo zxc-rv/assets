@@ -24,6 +24,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 echo ""
+
 (apt update -qq >/dev/null 2>&1 && apt install -y fuse3 fd-find ripgrep -qq >/dev/null 2>&1) & spinner $! "Установка зависимостей..."
 if [ $? -ne 0 ]; then
     echo -e "${RED}Не смог поставить fuse3, чекни логи!${NC}" >&2
