@@ -82,4 +82,15 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+if ! grep -q "alias vim=" "$BASHRC_FILE" 2>/dev/null; then
+    (echo "" >> "$BASHRC_FILE" && echo "# Neovim alias" >> "$BASHRC_FILE" && echo "$ALIAS_LINE" >> "$BASHRC_FILE") & spinner $! "Добавление алиаса vim -> nvim..."
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Не смог добавить алиас в .bashrc!${NC}" >&2
+        exit 1
+    fi
+    echo -e "${GREEN}✔${NC} Алиас vim -> nvim добавлен в ~/.bashrc"
+else
+    echo -e "${YELLOW}⚠${NC} Алиас vim уже существует в ~/.bashrc"
+fi
+
 echo -e "\n${GREEN}Neovim успешно установлен! 🔥${NC}\n"
