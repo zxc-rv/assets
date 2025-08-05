@@ -15,7 +15,7 @@ spinner() {
         i=$(( (i+1) % ${#spinstr} ))
         sleep 0.1
     done
-    printf "\r${GREEN}✔ ${NC}%s\n" "$msg"
+    printf "\r${GREEN}✔ ${NC} %s\n" "$msg"
 }
 
 if [ "$(id -u)" -ne 0 ]; then
