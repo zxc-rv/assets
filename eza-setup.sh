@@ -69,4 +69,5 @@ if [ $? -ne 0 ]; then
 fi
 
 echo ""
-echo -e "\n${PURPLE}☑️ eza успешно установлена.${NC}\n"
+echo -e "${PURPLE}☑️ Eza успешно установлена.${NC}"
+echo ""
