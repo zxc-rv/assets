@@ -15,7 +15,7 @@ spinner() {
         i=$(( (i+1) % ${#spinstr} ))
         sleep 0.1
     done
-    printf "\r${GREEN}✔${NC} %s\n" "$msg"
+    printf "\r${GREEN}✔ ${NC}%s\n" "$msg"
 }
 
 if [ "$(id -u)" -ne 0 ]; then
@@ -31,25 +31,28 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-(wget -qO- --no-cache https://gitlab.com/afrd.gpg | gpg --dearmor --yes -o /usr/share/keyrings/xanmod-archive-keyring.gpg) & spinner $! "Скачивание ключа XanMod..."
+(wget -qO- --no-cache https://gitlab.com/afrd.gpg | gpg --dearmor --yes -o /usr/share/keyrings/xanmod-archive-keyring.gpg) & spinner $! "Установка ключа Xanmod..."
 if [ $? -ne 0 ]; then
     echo -e "${RED}Ошибка скачивания ключа${NC}" >&2
     exit 1
 fi
 
-(echo "deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main" | tee /etc/apt/sources.list.d/xanmod-release.list >/dev/null) & spinner $! "Добавление репозитория XanMod..."
+(echo "deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main" | tee /etc/apt/sources.list.d/xanmod-release.list >/dev/null) & spinner $! "Добавление репозитория Xanmod..."
 if [ $? -ne 0 ]; then
     echo -e "${RED}Ошибка добавления репозитория${NC}" >&2
     exit 1
 fi
 
-(wget -qO- https://dl.xanmod.org/check_x86-64_psabi.sh | bash > /tmp/psabi_output.txt) & spinner $! "Проверка CPU PSABI..."
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Ошибка проверки CPU PSABI${NC}" >&2
+psabi_output=$(wget -qO- https://dl.xanmod.org/check_x86-64_psabi.sh | awk -f - 2>/dev/null)
+psabi_status=$?
+psabi=$(echo "$psabi_output" | grep -o 'x86-64-v[1-4]' || true)
+if [ $psabi_status -lt 2 ] || [ -z "$psabi" ]; then
+    echo -e "${RED}Ошибка определения уровня PSABI${NC}" >&2
     exit 1
 fi
 
-psabi=$(grep "CPU supports" /tmp/psabi_output.txt | awk '{print $NF}')
+echo -e "${BLUE}ℹ️ Обнаружен уровень PSABI: $psabi${NC}"
+
 case "$psabi" in
     x86-64-v1)
         kernel_pkg="linux-xanmod-x64v1"
@@ -72,22 +75,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-(grep -Fx "net.core.default_qdisc=fq" /etc/sysctl.conf >/dev/null || echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf) & spinner $! "Настройка sysctl: default_qdisc..."
+(sleep 0.5 && grep -Fx "net.core.default_qdisc=fq" /etc/sysctl.conf >/dev/null || echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf; grep -Fx "net.ipv4.tcp_congestion_control=bbr" /etc/sysctl.conf >/dev/null || echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf; sysctl -p >/dev/null 2>&1) & spinner $! "Применение настроек sysctl..."
 if [ $? -ne 0 ]; then
-    echo -e "${RED}Ошибка настройки sysctl.conf для default_qdisc${NC}" >&2
+    echo -e "${RED}Ошибка настройки и применения sysctl${NC}" >&2
     exit 1
 fi
 
-(grep -Fx "net.ipv4.tcp_congestion_control=bbr" /etc/sysctl.conf >/dev/null || echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf) & spinner $! "Настройка sysctl: tcp_congestion_control..."
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Ошибка настройки sysctl.conf для tcp_congestion_control${NC}" >&2
-    exit 1
-fi
-
-(sleep 0.5 && sysctl -p >/dev/null 2>&1) & spinner $! "Применение настроек sysctl..."
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Ошибка применения настроек sysctl${NC}" >&2
-    exit 1
-fi
-
-echo -e "\n${GREEN}XanMod успешно установлен и настроен! 🔥${NC}\n"
+echo -e "\n${GREEN}Xanmod успешно установлен и настроен! 🔥${NC}"
+echo -e "${RED}❗ Перезагрузка системы через 5 секунд...${NC}"
+sleep 5
+reboot
