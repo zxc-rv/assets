@@ -61,6 +61,7 @@ vim.o.number = true
 vim.o.swapfile = false
 vim.o.winborder = "rounded"
 vim.keymap.set('v', '<C-C>', '"+y', { noremap = true })
+vim.keymap.set('n', '<C-f>', '/', { noremap = true })
 vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
 vim.pack.add{
   { src = 'https://github.com/folke/tokyonight.nvim' },
