@@ -29,10 +29,10 @@ if [ ! -d /opt/remnawave ]; then
     exit 1
 fi
 
-curl -L -o /tmp/Xray-linux-64.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip &
+curl -s -L -o /tmp/Xray-linux-64.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip &
 spinner $! "Скачивание релиза Xray"
 
-unzip /tmp/Xray-linux-64.zip xray -d /tmp &
+unzip -q /tmp/Xray-linux-64.zip xray -d /tmp &
 spinner $! "Извлечение xray"
 
 mv /tmp/xray /opt/remnawave/xray &
@@ -44,4 +44,4 @@ spinner $! "Удаление временных файлов"
 chmod +x /opt/remnawave/xray &
 spinner $! "Назначение прав на запуск xray"
 
-echo -e "\n${PURPLE}☑️ Xray успешно обновлен.${NC}\n"
+echo -e "${GREEN}Xray успешно обновлен.${NC}"
