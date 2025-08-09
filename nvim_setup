@@ -63,12 +63,12 @@ vim.o.winborder = "rounded"
 vim.o.langmap = "ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz"
 vim.keymap.set('v', '<C-C>', '"+y', { noremap = true })
 vim.keymap.set('n', '<C-f>', '/', { noremap = true })
-vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
+vim.keymap.set('n', '<M-,>', ':tabprevious<CR>')
+vim.keymap.set('n', '<M-.>', ':tabnext<CR>')
 vim.pack.add{
-  { src = 'https://github.com/folke/tokyonight.nvim' },
   { src = 'https://github.com/echasnovski/mini.pick' },
+  { src = 'https://github.com/folke/tokyonight.nvim' },
 }
-require "mini.pick".setup()
 vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
 require('tokyonight').setup({
   transparent = true,
@@ -78,6 +78,24 @@ require('tokyonight').setup({
   },
 })
 vim.cmd("colorscheme tokyonight-moon")
+vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
+vim.api.nvim_create_user_command('Pick', function(opts)
+  if opts.args == 'files' then
+    require('mini.pick').start({
+      source = {
+        items = vim.fn.systemlist('rg --files --hidden'),
+        name = 'Files (all)',
+        choose = function(item)
+          vim.schedule(function()
+            vim.cmd('tabnew ' .. item)
+          end)
+        end
+      }
+    })
+  else
+    require('mini.pick').builtin[opts.args]()
+  end
+end, { nargs = 1 })
 EOF
 ) & spinner $! "Настройка init.lua..."
 if [ $? -ne 0 ]; then
