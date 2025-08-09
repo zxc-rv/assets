@@ -147,7 +147,6 @@ fi
 echo ""
 echo -e "${PURPLE}☑️ Xanmod успешно установлен.${NC}"
 echo ""
-echo -e "${RED}❗ Перезагрузка системы через 5 секунд...${NC}"
+echo -e "${RED}❗ Перезагрузите систему для загрузки Xanmod.${NC}"
 echo ""
-sleep 5
-reboot
+
