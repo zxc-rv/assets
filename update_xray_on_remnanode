@@ -1,13 +1,10 @@
 #!/bin/bash
 
-NVIM='\033[38;2;88;147;61m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 BLUE='\033[1;34m'
 PURPLE='\033[38;2;120;93;200m'
-
-clear
 
 spinner() {
     local pid=$1
@@ -22,7 +19,10 @@ spinner() {
     printf "\r${GREEN}✔ ${NC} %s\n" "$msg"
 }
 
-echo -e "${NVIM}Запуск...${NC}"
+echo ""
+echo -e "${PURPLE}Запуск обновления Xray...${NC}"
+echo ""
+sleep 0.5
 
 if [ ! -d /opt/remnawave ]; then
     echo -e "${RED}Ошибка: директория /opt/remnawave не существует${NC}"
@@ -30,18 +30,18 @@ if [ ! -d /opt/remnawave ]; then
 fi
 
 curl -s -L -o /tmp/Xray-linux-64.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip &
-spinner $! "Скачивание релиза Xray"
+spinner $! "Скачивание релиза Xray..."
 
 unzip -q /tmp/Xray-linux-64.zip xray -d /tmp &
-spinner $! "Извлечение xray"
+spinner $! "Извлечение Xray..."
 
 mv /tmp/xray /opt/remnawave/xray &
-spinner $! "Перемещение xray в /opt/remnawave"
+spinner $! "Перемещение Xray в /opt/remnawave..."
 
 rm -rf /tmp/Xray-linux-64.zip &
-spinner $! "Удаление временных файлов"
+spinner $! "Удаление временных файлов..."
 
 chmod +x /opt/remnawave/xray &
-spinner $! "Назначение прав на запуск xray"
+spinner $! "Назначение прав на запуск Xray..."
 
-echo -e "${GREEN}Xray успешно обновлен.${NC}"
+echo -e "\n${PURPLE}☑️ Обновление Xray завершено.${NC}\n"
