@@ -59,11 +59,11 @@ psabi_output=$(wget -qO- https://dl.xanmod.org/check_x86-64_psabi.sh | awk -f - 
 psabi_status=$?
 psabi=$(echo "$psabi_output" | grep -o 'x86-64-v[1-4]' || true)
 if [ $psabi_status -lt 2 ] || [ -z "$psabi" ]; then
-    echo -e "${RED}Ошибка определения уровня PSABI${NC}" >&2
+    echo -e "${RED}Ошибка определения CPU${NC}" >&2
     exit 1
 fi
 
-echo -e "${BLUE}ℹ️ Обнаружен уровень PSABI: $psabi${NC}"
+echo -e "${BLUE}ℹ️ Обнаружен CPU: $psabi${NC}"
 
 case "$psabi" in
     x86-64-v1)
@@ -76,7 +76,7 @@ case "$psabi" in
         kernel_pkg="linux-xanmod-x64v3"
         ;;
     *)
-        echo -e "${RED}Неизвестный уровень PSABI: $psabi${NC}" >&2
+        echo -e "${RED}Неизвестный CPU $psabi${NC}" >&2
         exit 1
         ;;
 esac
