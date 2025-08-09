@@ -26,3 +26,9 @@ Xanmod Setup:
 ```
 bash <(curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/xanmod-setup.sh)
 ```
+
+Update Xray on Remnanode:
+
+```
+bash <(curl -sSL https://github.com/zxc-rv/assets/raw/refs/heads/main/update_xray_on_remnanode)
+```
