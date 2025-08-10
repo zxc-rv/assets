@@ -61,7 +61,7 @@ vim.o.number = true
 vim.o.swapfile = false
 vim.o.winborder = "rounded"
 vim.o.langmap = "ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz"
-vim.keymap.set('v', '<C-C>', '"+y', { noremap = true })
+vim.keymap.set('v', '<C-c>', '"+y', { noremap = true })
 vim.keymap.set('n', '<C-f>', '/', { noremap = true })
 vim.keymap.set('n', '<M-,>', ':tabprevious<CR>')
 vim.keymap.set('n', '<M-.>', ':tabnext<CR>')
