@@ -68,6 +68,8 @@ vim.keymap.set('n', '<M-.>', ':tabnext<CR>')
 vim.pack.add{
   { src = 'https://github.com/echasnovski/mini.pick' },
   { src = 'https://github.com/folke/tokyonight.nvim' },
+  { src = 'https://github.com/folke/noice.nvim' },
+  { src = 'https://github.com/MunifTanjim/nui.nvim' },
 }
 vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
 require('tokyonight').setup({
@@ -77,8 +79,20 @@ require('tokyonight').setup({
     floats = 'transparent',
   },
 })
+require("noice").setup({
+  config = {
+    cmdline = {
+      enabled = true,
+      view = "cmdline_popup",
+    },
+    presets = {
+      command_palette = false,
+      bottom_search = false,
+    },
+  }
+})
 vim.cmd("colorscheme tokyonight-moon")
-vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
+vim.keymap.set('n', '<leader>e', ":Pick files<CR>")
 vim.api.nvim_create_user_command('Pick', function(opts)
   if opts.args == 'files' then
     require('mini.pick').start({
