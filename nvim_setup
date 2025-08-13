@@ -60,23 +60,34 @@ if [ $? -ne 0 ]; then
 fi
 (
   mkdir -p ~/.config/nvim && cat <<'EOF' >~/.config/nvim/init.lua
-vim.g.clipboard = 'osc52'
+Evim.g.clipboard = 'osc52'
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.swapfile = false
 vim.o.winborder = "rounded"
 vim.o.langmap = "ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz"
+vim.o.undofile = true
+vim.o.undodir = vim.fn.stdpath("state") .. "/undo"
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true })
 vim.keymap.set('n', '<C-f>', '/', { noremap = true })
-vim.keymap.set('n', '<M-,>', ':tabprevious<CR>')
-vim.keymap.set('n', '<M-.>', ':tabnext<CR>')
+vim.keymap.set('n', '<M-,>', 'gt')
+vim.keymap.set('n', '<M-.>', 'gT')
+vim.keymap.set('n', '<M-/>', ':bd<CR>')
+vim.keymap.set('n', '<C-a>', 'ggVG', { noremap = true })
+vim.keymap.set({'n', 'v'}, '<S-v>', '^vg_', { noremap = true })
 vim.pack.add{
   { src = 'https://github.com/folke/tokyonight.nvim' },
   { src = 'https://github.com/folke/noice.nvim' },
+  { src = 'https://github.com/folke/snacks.nvim' },
   { src = 'https://github.com/MunifTanjim/nui.nvim' },
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
   { src = 'https://github.com/nvim-telescope/telescope.nvim' },
   { src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim' },
+  { src = 'https://github.com/lukas-reineke/indent-blankline.nvim' },
+  { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
+  { src = 'https://github.com/nvim-lualine/lualine.nvim' },
+  { src = 'https://github.com/sphamba/smear-cursor.nvim' },
+  { src = 'https://github.com/akinsho/bufferline.nvim' },
 }
 vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
 require('tokyonight').setup({
@@ -86,6 +97,38 @@ require('tokyonight').setup({
     floats = 'transparent',
   },
 })
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    local ft = vim.bo.filetype
+    if ft == "gitcommit" or ft == "gitrebase" then return end
+    
+    local line = vim.fn.line("'\"")
+    if line > 1 and line <= vim.fn.line("$") then
+      vim.cmd('normal! g`"')
+	    end
+  end,
+})
+require("bufferline").setup{
+  options = {
+    always_show_bufferline = false
+  }
+}
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  callback = function(args)
+    local bufnr = args.buf
+    vim.schedule(function()
+      if not vim.api.nvim_buf_is_valid(bufnr) then return end
+      if vim.bo[bufnr].buftype ~= "" then return end
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if vim.api.nvim_win_get_buf(win) == bufnr then return end
+      end
+      vim.cmd("bdelete " .. bufnr)
+    end)
+  end
+})
+require("smear_cursor").setup()
+require("lualine").setup()
 require("noice").setup({
   config = {
     cmdline = {
@@ -99,24 +142,6 @@ require("noice").setup({
   }
 })
 vim.cmd("colorscheme tokyonight-moon")
-vim.keymap.set('n', '<leader>e', ":Pick files<CR>")
-vim.api.nvim_create_user_command('Pick', function(opts)
-  if opts.args == 'files' then
-    require('mini.pick').start({
-      source = {
-        items = vim.fn.systemlist('rg --files --hidden'),
-        name = 'Files (all)',
-        choose = function(item)
-          vim.schedule(function()
-            vim.cmd('tabnew ' .. item)
-          end)
-        end
-      }
-    })
-  else
-    require('mini.pick').builtin[opts.args]()
-  end
-end, { nargs = 1 })
 vim.keymap.set("n", "<leader>f", function()
   require('telescope.builtin').find_files({
     hidden = true,
@@ -148,6 +173,28 @@ vim.api.nvim_create_autocmd("VimEnter", {
       end, 10)
     end
   end,
+})
+require("ibl").setup({
+  indent = {
+    char = "│"
+  },
+  scope = {
+    enabled = false
+  }
+})
+require("snacks").setup({
+  indent = { 
+    enabled = true,
+    indent = {
+      enabled = false
+    },
+    scope = {
+      enabled = true,
+      char = "│"
+    }
+  },
+  scroll = { enabled = true },
+  animate = { enabled = true }
 })
 EOF
 ) &
