@@ -69,16 +69,19 @@ vim.o.langmap = "ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJ
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath("state") .. "/undo"
 vim.o.scrolloff = 20
+vim.bo.shiftwidth = 2
+vim.bo.tabstop = 2
+vim.bo.expandtab = false
+vim.o.signcolumn = "yes"
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true })
 vim.keymap.set('n', '<C-f>', '/', { noremap = true })
 vim.keymap.set('n', '<M-,>', 'gt')
 vim.keymap.set('n', '<M-.>', 'gT')
 vim.keymap.set('n', '<C-a>', '<Cmd>normal! ggVG<CR>', { noremap = true })
 vim.keymap.set({'n', 'v'}, '<S-v>', '^vg_', { noremap = true })
-
-vim.keymap.set("n", "<leader>e", function() 
-  require("snacks").explorer() 
-end, { desc = "Explorer" })
+vim.keymap.set('n', '<leader>m', '<cmd>Mason<CR>')
+vim.keymap.set('n', 'vv', 'V')
+vim.keymap.set("n", "<leader>e", function() require("snacks").explorer() end, { desc = "Explorer" })
 vim.pack.add{
   { src = 'https://github.com/MunifTanjim/nui.nvim' },
   { src = 'https://github.com/akinsho/bufferline.nvim' },
@@ -92,6 +95,8 @@ vim.pack.add{
   { src = 'https://github.com/nvim-telescope/telescope.nvim' },
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
   { src = 'https://github.com/sphamba/smear-cursor.nvim' },
+  { src = 'https://github.com/mason-org/mason.nvim' },
+  { src = 'https://github.com/neovim/nvim-lspconfig' },
 }
 vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
 require('tokyonight').setup({
@@ -131,6 +136,7 @@ vim.api.nvim_create_autocmd("BufWinLeave", {
     end)
   end
 })
+require("mason").setup()
 require('smear_cursor').setup({ hide_target_hack = true })
 require("lualine").setup()
 require("noice").setup({
@@ -165,7 +171,7 @@ local function find_files()
 end
 vim.keymap.set("n", "<leader>f", find_files, { noremap = true })
 vim.keymap.set("n", "<leader>а", find_files, { noremap = true })
-
+vim.keymap.set('n', '<leader>cf', '<cmd>lua vim.lsp.buf.format()<CR>')
 
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
@@ -205,6 +211,14 @@ require("snacks").setup({
   scroll = { enabled = true },
   animate = { enabled = true },
   explorer = { enabled = true }
+})
+require('lspconfig').jsonls.setup({
+  on_attach = function(client, bufnr)
+    client.server_capabilities.documentFormattingProvider = true
+    vim.bo[bufnr].shiftwidth = 2
+    vim.bo[bufnr].tabstop = 2
+    vim.bo[bufnr].expandtab = true
+  end
 })
 EOF
 ) &
