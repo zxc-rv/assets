@@ -60,7 +60,7 @@ if [ $? -ne 0 ]; then
 fi
 (
   mkdir -p ~/.config/nvim && cat <<'EOF' >~/.config/nvim/init.lua
-Evim.g.clipboard = 'osc52'
+vim.g.clipboard = 'osc52'
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.swapfile = false
@@ -68,26 +68,30 @@ vim.o.winborder = "rounded"
 vim.o.langmap = "ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz"
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath("state") .. "/undo"
+vim.o.scrolloff = 20
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true })
 vim.keymap.set('n', '<C-f>', '/', { noremap = true })
 vim.keymap.set('n', '<M-,>', 'gt')
 vim.keymap.set('n', '<M-.>', 'gT')
-vim.keymap.set('n', '<M-/>', ':bd<CR>')
-vim.keymap.set('n', '<C-a>', 'ggVG', { noremap = true })
+vim.keymap.set('n', '<C-a>', '<Cmd>normal! ggVG<CR>', { noremap = true })
 vim.keymap.set({'n', 'v'}, '<S-v>', '^vg_', { noremap = true })
+
+vim.keymap.set("n", "<leader>e", function() 
+  require("snacks").explorer() 
+end, { desc = "Explorer" })
 vim.pack.add{
-  { src = 'https://github.com/folke/tokyonight.nvim' },
+  { src = 'https://github.com/MunifTanjim/nui.nvim' },
+  { src = 'https://github.com/akinsho/bufferline.nvim' },
   { src = 'https://github.com/folke/noice.nvim' },
   { src = 'https://github.com/folke/snacks.nvim' },
-  { src = 'https://github.com/MunifTanjim/nui.nvim' },
-  { src = 'https://github.com/nvim-lua/plenary.nvim' },
-  { src = 'https://github.com/nvim-telescope/telescope.nvim' },
-  { src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim' },
+  { src = 'https://github.com/folke/tokyonight.nvim' },
   { src = 'https://github.com/lukas-reineke/indent-blankline.nvim' },
-  { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
+  { src = 'https://github.com/nvim-lua/plenary.nvim' },
   { src = 'https://github.com/nvim-lualine/lualine.nvim' },
+  { src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim' },
+  { src = 'https://github.com/nvim-telescope/telescope.nvim' },
+  { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
   { src = 'https://github.com/sphamba/smear-cursor.nvim' },
-  { src = 'https://github.com/akinsho/bufferline.nvim' },
 }
 vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
 require('tokyonight').setup({
@@ -127,7 +131,7 @@ vim.api.nvim_create_autocmd("BufWinLeave", {
     end)
   end
 })
-require("smear_cursor").setup()
+require('smear_cursor').setup({ hide_target_hack = true })
 require("lualine").setup()
 require("noice").setup({
   config = {
@@ -141,8 +145,9 @@ require("noice").setup({
     },
   }
 })
+
 vim.cmd("colorscheme tokyonight-moon")
-vim.keymap.set("n", "<leader>f", function()
+local function find_files()
   require('telescope.builtin').find_files({
     hidden = true,
     previewer = false,
@@ -157,7 +162,11 @@ vim.keymap.set("n", "<leader>f", function()
       return true
     end
   })
-end)
+end
+vim.keymap.set("n", "<leader>f", find_files, { noremap = true })
+vim.keymap.set("n", "<leader>а", find_files, { noremap = true })
+
+
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     if vim.fn.argv(0) == "" then
@@ -194,7 +203,8 @@ require("snacks").setup({
     }
   },
   scroll = { enabled = true },
-  animate = { enabled = true }
+  animate = { enabled = true },
+  explorer = { enabled = true }
 })
 EOF
 ) &
