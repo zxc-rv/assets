@@ -38,7 +38,6 @@ proxy-groups:
       - Заблок. сервисы
       - DIRECT
 
-
   - name: Discord
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Discord.png
@@ -127,7 +126,7 @@ proxy-groups:
       - REJECT
       - PASS
 
-# Пример подключения с использованием подписки
+# Пример подключения с использованием подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
 proxy-providers:
   proxy-sub:
     type: http
@@ -145,7 +144,7 @@ proxy-providers:
       udp: true
       tfo: true
 
-# Пример vless подключения без использования подписки
+# Пример vless подключения без использования подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
 proxies:
   - name: vless-reality
     type: vless
