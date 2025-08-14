@@ -196,18 +196,26 @@ rule-providers:
     path: ./rule-providers/telegram-ips.mrs
     interval: 86400
 
+  meta-ips:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/zxc-rv/assets/raw/refs/heads/main/rules/meta-ips.mrs
+    path: ./rule-providers/meta-ips.mrs
+    interval: 86400
+
 rules:
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
   - AND,((RULE-SET,refilter-domains),(NETWORK,UDP),(DST-PORT,443)),QUIC
   - GEOSITE,category-ai-!cn,AI
   - GEOSITE,steam,Steam
-  - GEOSITE,spotify,Spotify
-  - GEOSITE,meta,Meta
+  - GEOSITE,spotify,Spotify 
   - GEOSITE,reddit,Reddit
   - GEOSITE,youtube,YouTube
   - GEOSITE,twitch,Twitch
   - GEOSITE,twitter,Twitter
   - RULE-SET,discord,Discord
+  - OR,((GEOSITE,meta),(RULE-SET,meta-ips,no-resolve)),Meta
   - OR,((GEOSITE,telegram),(RULE-SET,telegram-ips,no-resolve)),Telegram
   - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
   - RULE-SET,refilter-domains,Заблок. сервисы
