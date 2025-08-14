@@ -210,7 +210,7 @@ rules:
   - GEOSITE,steam,Steam
   - GEOSITE,spotify,Spotify 
   - GEOSITE,reddit,Reddit
-  - GEOSITE,youtube,YouTube
+  - OR,((GEOSITE,youtube),(DOMAIN-SUFFIX,googleusercontent.com)),YouTube
   - GEOSITE,twitch,Twitch
   - GEOSITE,twitter,Twitter
   - RULE-SET,discord,Discord
