@@ -38,7 +38,6 @@ proxy-groups:
       - Заблок. сервисы
       - DIRECT
 
-
   - name: Discord
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Discord.png
