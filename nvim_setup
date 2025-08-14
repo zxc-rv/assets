@@ -60,7 +60,6 @@ if [ $? -ne 0 ]; then
 fi
 (
   mkdir -p ~/.config/nvim && cat <<'EOF' >~/.config/nvim/init.lua
-vim.g.clipboard = "osc52"
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.swapfile = false
@@ -73,11 +72,11 @@ vim.o.scrolloff = 20
 vim.bo.shiftwidth = 2
 vim.bo.tabstop = 2
 vim.bo.expandtab = false
-vim.o.signcolumn = "yes"
 vim.keymap.set("v", "<C-c>", '"+y', { noremap = true })
 vim.keymap.set("n", "<C-f>", "/", { noremap = true })
-vim.keymap.set("n", "<M-,>", "gt")
-vim.keymap.set("n", "<M-.>", "gT")
+vim.keymap.set("n", "<M-,>", "<cmd>bprev<CR>")
+vim.keymap.set("n", "<M-.>", "<cmd>bnext<CR>")
+vim.keymap.set("n", "<M-/>", "<cmd>bd<CR>")
 vim.keymap.set("n", "<C-a>", "<Cmd>normal! ggVG<CR>", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<S-v>", "^vg_", { noremap = true })
 vim.keymap.set("n", "<leader>m", "<cmd>Mason<CR>")
@@ -101,6 +100,9 @@ vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
+	{ src = "https://github.com/Saghen/blink.cmp" },
 })
 vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
 require("tokyonight").setup({
@@ -129,29 +131,46 @@ require("bufferline").setup({
 		always_show_bufferline = false,
 	},
 })
-vim.api.nvim_create_autocmd("BufWinLeave", {
-	callback = function(args)
-		local bufnr = args.buf
-		vim.schedule(function()
-			if not vim.api.nvim_buf_is_valid(bufnr) then
-				return
-			end
-			if vim.bo[bufnr].buftype ~= "" then
-				return
-			end
-			for _, win in ipairs(vim.api.nvim_list_wins()) do
-				if vim.api.nvim_win_get_buf(win) == bufnr then
-					return
-				end
-			end
-			vim.cmd("bdelete " .. bufnr)
-		end)
-	end,
-})
+-- vim.api.nvim_create_autocmd("BufWinLeave", {
+-- 	callback = function(args)
+-- 		local bufnr = args.buf
+-- 		vim.schedule(function()
+-- 			if not vim.api.nvim_buf_is_valid(bufnr) then
+-- 				return
+-- 			end
+-- 			if vim.bo[bufnr].buftype ~= "" then
+-- 				return
+-- 			end
+-- 			for _, win in ipairs(vim.api.nvim_list_wins()) do
+-- 				if vim.api.nvim_win_get_buf(win) == bufnr then
+-- 					return
+-- 				end
+-- 			end
+-- 			vim.cmd("bdelete " .. bufnr)
+-- 		end)
+-- 	end,
+-- })
 require("mason").setup()
+require("nvim-treesitter.configs").setup({
+	highlight = { enable = true },
+	indent = { enable = true },
+	incremental_selection = { enable = true },
+})
 require("mason-lspconfig").setup()
 require("smear_cursor").setup({ hide_target_hack = true })
 require("lualine").setup()
+require("gitsigns").setup()
+require('blink.cmp').setup({
+  fuzzy = {
+    implementation = 'lua'
+  },
+  keymap = {
+    preset = 'default',
+    ['<CR>'] = { 'accept', 'fallback' },
+    ['<Tab>'] = { 'select_next', 'fallback' },
+    ['<S-Tab>'] = { 'select_prev', 'fallback' },
+  }
+})
 require("noice").setup({
 	config = {
 		cmdline = {
@@ -250,6 +269,21 @@ require("snacks").setup({
 	scroll = { enabled = true },
 	animate = { enabled = true },
 	explorer = { enabled = true },
+	statuscolumn = {
+		enabled = true,
+		left = { "mark", "sign" },
+		right = { "fold", "git" },
+		git = {
+			patterns = { "GitSigns.*" }, -- вместо дефолтных
+		},
+	},
+})
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
 EOF
 ) &
