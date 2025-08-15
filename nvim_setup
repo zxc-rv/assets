@@ -285,6 +285,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 				telescope.find_files({
 					hidden = true,
 					previewer = false,
+					cwd = "/",
 					layout_config = {
 						width = 0.7,
 						height = 0.7,
@@ -300,7 +301,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 						return true
 					end,
 					find_command = { "fd", "--type", "f", "--max-depth", "4", "--hidden", "--exclude", ".git" },
-					search_dirs = { vim.fn.getcwd() },
 					follow = true,
 					disable_devicons = false,
 				})
