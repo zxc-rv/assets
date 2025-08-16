@@ -68,6 +68,7 @@ fi
 
 {
   set -e
+  apt update >/dev/null 2>&1 && apt install build-essential -y >/dev/null 2>&1
   git clone https://github.com/zxc-rv/LazyVim ~/.config/nvim
 } &
 spinner $! "Настройка lazyvim..."
