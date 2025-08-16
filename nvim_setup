@@ -32,321 +32,54 @@ if [ "$(id -u)" -ne 0 ]; then
   echo -e "${RED}Бери sudo!${NC}" >&2
   exit 1
 fi
+
 echo ""
 (apt update -qq >/dev/null 2>&1 && apt install -y fuse3 fd-find ripgrep git -qq >/dev/null 2>&1) &
 spinner $! "Установка зависимостей..."
+wait $!
 if [ $? -ne 0 ]; then
   echo -e "${RED}Не смог поставить fuse3, чекни логи!${NC}" >&2
   exit 1
 fi
+
 (wget -q -O nvim-linux-x86_64.appimage https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage) &
 spinner $! "Установка Neovim..."
+wait $!
 if [ $? -ne 0 ]; then
   echo -e "${RED}Не смог скачать Neovim, проверь инет!${NC}" >&2
   exit 1
 fi
+
 (chmod u+x nvim-linux-x86_64.appimage) &
 spinner $! "Настройка права Neovim..."
+wait $!
 if [ $? -ne 0 ]; then
   echo -e "${RED}Не смог дать права, что-то не так!${NC}" >&2
   exit 1
 fi
-(mv nvim-linux-x86_64.appimage /usr/local/bin/nvim) &
+
+mv nvim-linux-x86_64.appimage /usr/local/bin/nvim &
 spinner $! "Перемещение Neovim..."
+wait $!
 if [ $? -ne 0 ]; then
   echo -e "${RED}Не смог переместить, проверь права!${NC}" >&2
   exit 1
 fi
-(
-  mkdir -p ~/.config/nvim && cat <<'EOF' >~/.config/nvim/init.lua
-vim.g.mapleader = " "
-vim.o.number = true
-vim.o.swapfile = false
-vim.o.winborder = "rounded"
-vim.o.langmap =
-	"ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz"
-vim.o.undofile = true
-vim.o.undodir = vim.fn.stdpath("state") .. "/undo"
-vim.o.scrolloff = 20
-vim.o.shiftwidth = 2
-vim.o.tabstop = 2
-vim.o.expandtab = false
-vim.o.signcolumn = "yes"
-vim.keymap.set("v", "<C-c>", '"+y', { noremap = true })
-vim.keymap.set("n", "<C-f>", "/", { noremap = true })
-vim.keymap.set("n", "<M-,>", "<cmd>bprev<CR>")
-vim.keymap.set("n", "<M-.>", "<cmd>bnext<CR>")
-vim.keymap.set("n", "<M-/>", "<cmd>bd<CR>")
-vim.keymap.set("n", "<C-a>", "<cmd>normal! ggVG<CR>", { noremap = true })
-vim.keymap.set({ "n", "v" }, "V", "^vg_", { noremap = true })
-vim.keymap.set({ "n", "v" }, "М", "^vg_", { noremap = true })
-vim.keymap.set("n", "<leader>m", "<cmd>Mason<CR>")
-vim.keymap.set("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<CR>")
-vim.keymap.set("n", "vv", "V")
-vim.keymap.set("n", "<leader>e", function()
-	require("snacks").explorer()
-end, { desc = "Explorer" })
-vim.pack.add({
-	{ src = "https://github.com/MunifTanjim/nui.nvim" },
-	{ src = "https://github.com/akinsho/bufferline.nvim" },
-	{ src = "https://github.com/folke/noice.nvim" },
-	{ src = "https://github.com/folke/snacks.nvim" },
-	{ src = "https://github.com/folke/tokyonight.nvim" },
-	{ src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
-	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
-	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
-	{ src = "https://github.com/sphamba/smear-cursor.nvim" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
-	{ src = "https://github.com/Saghen/blink.cmp" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
-	{ src = "https://github.com/Wansmer/langmapper.nvim" },
-})
 
-require('langmapper').setup()
-require('langmapper').automapping({ global = true, buffer = true })
-
-vim.lsp.config("lua_ls", {
-	settings = {
-		Lua = {
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-		},
-	},
-})
-
-vim.cmd(":hi statusline guibg=NONE guifg=#ffffff")
-require("tokyonight").setup({
-	transparent = true,
-	styles = {
-		sidebars = "transparent",
-		floats = "transparent",
-	},
-})
-vim.api.nvim_create_autocmd("BufReadPost", {
-	pattern = "*",
-	callback = function()
-		local ft = vim.bo.filetype
-		if ft == "gitcommit" or ft == "gitrebase" then
-			return
-		end
-
-		local line = vim.fn.line("'\"")
-		if line > 1 and line <= vim.fn.line("$") then
-			vim.cmd('normal! g`"')
-		end
-	end,
-})
-require("bufferline").setup({
-	options = {
-		always_show_bufferline = false,
-	},
-})
-require("mason").setup()
-require("nvim-treesitter.configs").setup({
-	highlight = { enable = true },
-	indent = { enable = true },
-	incremental_selection = { enable = true },
-})
-require("mason-lspconfig").setup()
-require("smear_cursor").setup({ hide_target_hack = true })
-require("lualine").setup({
-	sections = {
-		lualine_b = {
-			"branch",
-			"diff",
-			"diagnostics",
-			{
-				function()
-					local handle = io.popen("git status -sb 2>/dev/null")
-					if not handle then
-						return ""
-					end
-					local result = handle:read("*l")
-					handle:close()
-
-					if not result then
-						return ""
-					end
-
-					local ahead = result:match("%[ahead (%d+)")
-					local behind = result:match("%[behind (%d+)")
-
-					local status = ""
-					if ahead then
-						status = status .. "↑" .. ahead
-					end
-					if behind then
-						status = status .. "↓" .. behind
-					end
-					return status
-				end,
-				color = { fg = "#ff9e64" },
-			},
-		},
-	},
-})
-require("gitsigns").setup()
-require("blink.cmp").setup({
-	fuzzy = {
-		implementation = "lua",
-	},
-	keymap = {
-		preset = "default",
-		["<CR>"] = { "accept", "fallback" },
-		["<Tab>"] = { "select_next", "fallback" },
-		["<S-Tab>"] = { "select_prev", "fallback" },
-	},
-})
-require("noice").setup({
-	config = {
-		cmdline = {
-			enabled = true,
-			view = "cmdline_popup",
-		},
-		presets = {
-			command_palette = false,
-			bottom_search = false,
-		},
-	},
-})
-vim.cmd("colorscheme tokyonight-moon")
-
-vim.keymap.set('n', '<leader>f', function()
-   require('telescope.builtin').find_files({
-   	hidden = true,
-   	previewer = false,
-   	layout_config = {
-   		width = 0.7,
-   		height = 0.7,
-   	},
-   	attach_mappings = function(_, map)
-   		map('i', '<CR>', function(prompt_bufnr)
-   			local selection = require('telescope.actions.state').get_selected_entry()
-   			require('telescope.actions').close(prompt_bufnr)
-   			vim.cmd('tabnew ' .. selection.path)
-   		end)
-   		return true
-   	end,
-   })
-end)
-
-vim.keymap.set('n', '<leader>rg', function()
-   require('telescope.builtin').live_grep({
-	  previewer = false,
-   	layout_config = {
-   		width = 0.7,
-   		height = 0.7,
-   	}
-	})
-end)
-
-vim.keymap.set("n", "<leader>cf", function()
-	local filename = vim.fn.expand("%")
-	if filename == "" then
-		print("Save file first")
-		return
-	end
-
-	local content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
-	local cmd
-	local filetype = vim.bo.filetype
-
-	if filetype == "lua" then
-		cmd = "stylua -"
-	elseif filetype == "json" or filetype == "yaml" or filetype == "javascript" or filetype == "typescript" then
-		cmd = "prettierd --stdin-filepath " .. filename
-	else
-		print("No formatter for " .. filetype)
-		return
-	end
-
-	local result = vim.fn.system(cmd, content)
-
-	if vim.v.shell_error == 0 then
-		vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(result, "\n"))
-	else
-		print("Format failed: " .. result:sub(1, 100))
-	end
-end)
-vim.api.nvim_create_autocmd("VimEnter", {
-	callback = function()
-		if vim.fn.argv(0) == "" then
-			vim.schedule(function()
-				local telescope = require("telescope.builtin")
-				local actions = require("telescope.actions")
-
-				telescope.find_files({
-					hidden = true,
-					previewer = false,
-					cwd = "/",
-					layout_config = {
-						width = 0.7,
-						height = 0.7,
-					},
-					attach_mappings = function(prompt_bufnr, _)
-						actions.select_default:replace(function()
-							actions.close(prompt_bufnr)
-							local selection = require("telescope.actions.state").get_selected_entry()
-							if selection then
-								vim.cmd("edit " .. selection.path)
-							end
-						end)
-						return true
-					end,
-					find_command = { "fd", "--type", "f", "--max-depth", "4", "--hidden", "--exclude", ".git" },
-					follow = true,
-					disable_devicons = false,
-				})
-			end)
-		end
-	end,
-})
-require("ibl").setup({
-	indent = {
-		char = "│",
-	},
-	scope = {
-		enabled = false,
-	},
-})
-require("snacks").setup({
-	indent = {
-		enabled = true,
-		indent = {
-			enabled = false,
-		},
-		scope = {
-			enabled = true,
-			char = "│",
-		},
-	},
-	scroll = { enabled = true },
-	animate = { enabled = true },
-	explorer = { enabled = true },
-})
-vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-})
-EOF
-) &
-spinner $! "Настройка init.lua..."
+{
+  set -e
+  git clone https://github.com/zxc-rv/LazyVim ~/.config/nvim
+} &
+spinner $! "Настройка lazyvim..."
+wait $!
 if [ $? -ne 0 ]; then
-  echo -e "${RED}Не смог настроить init.lua, что-то пошло не так!${NC}" >&2
+  echo -e "${RED}Не смог настроить lazyvim, что-то пошло не так!${NC}" >&2
   exit 1
 fi
+
 (grep -q "alias vim=nvim" ~/.bashrc || echo "alias vim='nvim'" >>~/.bashrc) &
 spinner $! "Добавление алиаса vim -> nvim..."
+wait $!
 if [ $? -ne 0 ]; then
   echo -e "${RED}Не смог добавить алиас, проверь ~/.bashrc!${NC}" >&2
   exit 1
