@@ -34,7 +34,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 echo ""
-(apt update -qq >/dev/null 2>&1 && apt install -y fuse3 fd-find ripgrep git -qq >/dev/null 2>&1) &
+(apt update -qq >/dev/null 2>&1 && apt install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" curl fuse3 fd-find fzf ripgrep git build-essential >/dev/null 2>&1) &
 spinner $! "Установка зависимостей..."
 wait $!
 if [ $? -ne 0 ]; then
@@ -68,10 +68,9 @@ fi
 
 {
   set -e
-  apt update >/dev/null 2>&1 && apt install build-essential -y >/dev/null 2>&1
   git clone https://github.com/zxc-rv/LazyVim ~/.config/nvim
 } &
-spinner $! "Настройка lazyvim..."
+spinner $! "Настройка Lazyvim..."
 wait $!
 if [ $? -ne 0 ]; then
   echo -e "${RED}Не смог настроить lazyvim, что-то пошло не так!${NC}" >&2
