@@ -44,7 +44,11 @@ spinner $! "Удаление временных файлов..."
 chmod +x /opt/remnawave/xray &
 spinner $! "Назначение прав на запуск Xray..."
 
-cd /opt/remnawave && docker compose up -d --force-recreate remnanode &
+cd /opt/remnawave && docker compose up -d --force-recreate remnanode >/dev/null 2>&1 &
 spinner $! "Перезапуск ноды..."
+if [ $? -ne 0 ]; then
+  echo -e "${RED}Не удалось выполнить перезапуск ноды.${NC}" >&2
+  exit 1
+fi
 
 echo -e "\n${PURPLE}☑️ Обновление Xray завершено.${NC}\n"
