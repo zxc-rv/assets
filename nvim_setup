@@ -68,7 +68,7 @@ fi
 
 {
   set -e
-  git clone https://github.com/zxc-rv/LazyVim ~/.config/nvim
+  git clone https://github.com/zxc-rv/LazyVim ~/.config/nvim >/dev/null 2>&1
 } &
 spinner $! "Настройка Lazyvim..."
 wait $!
