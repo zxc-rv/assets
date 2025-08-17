@@ -7,16 +7,16 @@ BLUE='\033[1;34m'
 PURPLE='\033[38;2;120;93;200m'
 
 spinner() {
-    local pid=$1
-    local msg=$2
-    local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-    local i=0
-    while [ -d /proc/$pid ]; do
-        printf "\r${BLUE}%s${NC} %s" "${spinstr:$i:1}" "$msg"
-        i=$(( (i+1) % ${#spinstr} ))
-        sleep 0.1
-    done
-    printf "\r${GREEN}✔ ${NC} %s\n" "$msg"
+  local pid=$1
+  local msg=$2
+  local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+  local i=0
+  while [ -d /proc/$pid ]; do
+    printf "\r${BLUE}%s${NC} %s" "${spinstr:$i:1}" "$msg"
+    i=$(((i + 1) % ${#spinstr}))
+    sleep 0.1
+  done
+  printf "\r${GREEN}✔ ${NC} %s\n" "$msg"
 }
 
 echo ""
@@ -25,8 +25,8 @@ echo ""
 sleep 0.5
 
 if [ ! -d /opt/remnawave ]; then
-    echo -e "${RED}Ошибка: директория /opt/remnawave не существует${NC}"
-    exit 1
+  echo -e "${RED}Ошибка: директория /opt/remnawave не существует${NC}"
+  exit 1
 fi
 
 curl -s -L -o /tmp/Xray-linux-64.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip &
@@ -43,5 +43,8 @@ spinner $! "Удаление временных файлов..."
 
 chmod +x /opt/remnawave/xray &
 spinner $! "Назначение прав на запуск Xray..."
+
+cd /opt/remnawave && docker compose up -d --force-recreate remnanode &
+spinner $! "Перезапуск ноды..."
 
 echo -e "\n${PURPLE}☑️ Обновление Xray завершено.${NC}\n"
