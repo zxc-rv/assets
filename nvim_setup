@@ -34,7 +34,13 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 echo ""
-(apt update -qq >/dev/null 2>&1 && apt install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" curl fuse3 fd-find fzf ripgrep git npm build-essential >/dev/null 2>&1) &
+{
+  apt update >/dev/null 2>&1
+  apt install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" curl wget fuse3 fd-find ripgrep git npm build-essential >/dev/null 2>&1
+  curl -sS https://raw.githubusercontent.com/junegunn/fzf/master/install | bash >/dev/null 2>&1
+  mkdir -p ~/.local/bin
+  ln -s $(which fdfind) ~/.local/bin/fd
+} &
 spinner $! "Установка зависимостей..."
 wait $!
 if [ $? -ne 0 ]; then
