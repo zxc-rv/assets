@@ -29,61 +29,56 @@ spinner() {
   printf "\r${GREEN}✔ ${NC} %s\n" "$msg"
 }
 if [ "$(id -u)" -ne 0 ]; then
-  echo -e "${RED}Бери sudo!${NC}" >&2
+  echo -e "${RED}Требуется root права!${NC}" >&2
   exit 1
 fi
 
 echo ""
+
 {
   apt update >/dev/null 2>&1
-  apt install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" curl wget fuse3 fd-find ripgrep git npm build-essential >/dev/null 2>&1
-  curl -sS https://raw.githubusercontent.com/junegunn/fzf/master/install | bash >/dev/null 2>&1
-  mkdir -p ~/.local/bin
-  ln -s $(which fdfind) ~/.local/bin/fd
+  apt install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" curl wget fuse3 git npm build-essential >/dev/null 2>&1
+
+  if ! which fzf >/dev/null 2>&1; then
+    curl -sS https://raw.githubusercontent.com/junegunn/fzf/master/install | bash >/dev/null 2>&1
+  fi
+
+  if ! which fd >/dev/null 2>&1; then
+    wget https://github.com/sharkdp/fd/releases/download/v10.2.0/fd_10.2.0_amd64.deb >/dev/null 2>&1
+    dpkg -i fd_10.2.0_amd64.deb >/dev/null 2>&1
+    rm fd_10.2.0_amd64.deb
+    mkdir -p ~/.local/bin
+    ln -s $(which fdfind) ~/.local/bin/fd
+  fi
+
+  if ! which rg >/dev/null 2>&1; then
+    wget https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb >/dev/null 2>&1
+    dpkg -i ripgrep_14.1.1-1_amd64.deb >/dev/null 2>&1
+    rm ripgrep_14.1.1-1_amd64.deb
+  fi
 } &
 spinner $! "Установка зависимостей..."
 wait $!
 if [ $? -ne 0 ]; then
-  echo -e "${RED}Не смог поставить fuse3, чекни логи!${NC}" >&2
-  exit 1
-fi
-
-(wget -q -O nvim-linux-x86_64.appimage https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage) &
-spinner $! "Установка Neovim..."
-wait $!
-if [ $? -ne 0 ]; then
-  echo -e "${RED}Не смог скачать Neovim, проверь инет!${NC}" >&2
-  exit 1
-fi
-
-(chmod u+x nvim-linux-x86_64.appimage) &
-spinner $! "Настройка права Neovim..."
-wait $!
-if [ $? -ne 0 ]; then
-  echo -e "${RED}Не смог дать права, что-то не так!${NC}" >&2
-  exit 1
-fi
-
-mv nvim-linux-x86_64.appimage /usr/local/bin/nvim &
-spinner $! "Перемещение Neovim..."
-wait $!
-if [ $? -ne 0 ]; then
-  echo -e "${RED}Не смог переместить, проверь права!${NC}" >&2
+  echo -e "${RED}Ошибка установки зависимостей!${NC}" >&2
   exit 1
 fi
 
 {
   set -e
+  wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage >/dev/null 2>&1
+  chmod u+x nvim-linux-x86_64.appimage
+  mv nvim-linux-x86_64.appimage /usr/local/bin/nvim
   git clone https://github.com/zxc-rv/LazyVim ~/.config/nvim >/dev/null 2>&1
 } &
-spinner $! "Настройка Lazyvim..."
+spinner $! "Установка LazyVim..."
 wait $!
 if [ $? -ne 0 ]; then
-  echo -e "${RED}Не смог настроить lazyvim, что-то пошло не так!${NC}" >&2
+  echo -e "${RED}Ошибка установки LazyVim!${NC}" >&2
   exit 1
 fi
 
-(grep -q "alias vim=nvim" ~/.bashrc || echo "alias vim='nvim'" >>~/.bashrc) &
+grep -q "alias vim=nvim" ~/.bashrc || echo "alias vim='nvim'" >>~/.bashrc &
 spinner $! "Добавление алиаса vim -> nvim..."
 wait $!
 if [ $? -ne 0 ]; then
