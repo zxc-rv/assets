@@ -40,7 +40,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-(curl -SsL https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | gpg --dearmor --yes -o /etc/apt/keyrings/gierens.gpg) &
+(curl -fSsL https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | gpg --dearmor --yes -o /etc/apt/keyrings/gierens.gpg) &
 spinner $! "Скачиваю и устанавливаю ключ..."
 if [ $? -ne 0 ]; then
   echo -e "${RED}Не смог скачать или установить ключ, проверь инет!${NC}" >&2
