@@ -44,7 +44,7 @@ echo ""
   fi
 
   if ! which fd >/dev/null 2>&1; then
-    wget https://github.com/sharkdp/fd/releases/download/v10.2.0/fd_10.2.0_amd64.deb >/dev/null 2>&1
+    curl -OL https://github.com/sharkdp/fd/releases/download/v10.2.0/fd_10.2.0_amd64.deb >/dev/null 2>&1
     dpkg -i fd_10.2.0_amd64.deb >/dev/null 2>&1
     rm fd_10.2.0_amd64.deb
     mkdir -p ~/.local/bin
@@ -52,7 +52,7 @@ echo ""
   fi
 
   if ! which rg >/dev/null 2>&1; then
-    wget https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb >/dev/null 2>&1
+    curl -OL https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb >/dev/null 2>&1
     dpkg -i ripgrep_14.1.1-1_amd64.deb >/dev/null 2>&1
     rm ripgrep_14.1.1-1_amd64.deb
   fi
@@ -66,7 +66,7 @@ fi
 
 {
   set -e
-  wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage >/dev/null 2>&1
+  curl -OL https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage >/dev/null 2>&1
   chmod u+x nvim-linux-x86_64.appimage
   mv nvim-linux-x86_64.appimage /usr/local/bin/nvim
   git clone https://github.com/zxc-rv/LazyVim ~/.config/nvim >/dev/null 2>&1
