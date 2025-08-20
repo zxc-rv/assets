@@ -37,7 +37,7 @@ echo ""
 
 {
   apt update >/dev/null 2>&1
-  apt install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" curl wget fuse3 git npm build-essential >/dev/null 2>&1
+  apt install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" curl fuse3 git npm build-essential >/dev/null 2>&1
 
   if ! which fzf >/dev/null 2>&1; then
     curl -sS https://raw.githubusercontent.com/junegunn/fzf/master/install | bash >/dev/null 2>&1
