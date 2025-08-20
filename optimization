@@ -2,13 +2,6 @@
 
 if ! sysctl net.ipv4.tcp_available_congestion_control | grep -q 'bbr'; then
     echo "tcp_bbr" > /etc/modules-load.d/modules.conf 2>/dev/null
-    clear
-    echo
-    echo "  Включен модуль bbr"
-    echo "  Перезагрузите сервер и повторите команду"
-    echo
-    
-    exit 0
 fi
 
 sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
