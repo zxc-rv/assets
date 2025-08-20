@@ -1,34 +1,34 @@
 Digga:
 
 ```
-curl -SsL https://github.com/zxc-rv/assets/raw/refs/heads/main/digga.py | python
+curl -fSsL https://github.com/zxc-rv/assets/raw/refs/heads/main/digga.py | python
 ```
 Sysctl Optimizations:
 
 ```
-bash <(curl -SsL https://github.com/zxc-rv/assets/raw/refs/heads/main/optimization)
+bash <(curl -fSsL https://github.com/zxc-rv/assets/raw/refs/heads/main/optimization)
 ```
 
 NVIM Setup:
 
 ```
-bash <(curl -SsL https://github.com/zxc-rv/assets/raw/refs/heads/main/nvim_setup)
+bash <(curl -fSsL https://github.com/zxc-rv/assets/raw/refs/heads/main/nvim_setup)
 ```
 
 Eza Setup:
 
 ```
-bash <(curl -SsL https://github.com/zxc-rv/assets/raw/refs/heads/main/eza_setup)
+bash <(curl -fSsL https://github.com/zxc-rv/assets/raw/refs/heads/main/eza_setup)
 ```
 
 Xanmod Setup:
 
 ```
-bash <(curl -SsL https://github.com/zxc-rv/assets/raw/refs/heads/main/xanmod_setup)
+bash <(curl -fSsL https://github.com/zxc-rv/assets/raw/refs/heads/main/xanmod_setup)
 ```
 
 Update Xray on Remnanode:
 
 ```
-bash <(curl -SsL https://github.com/zxc-rv/assets/raw/refs/heads/main/update_xray_on_remnanode)
+bash <(curl -fSsL https://github.com/zxc-rv/assets/raw/refs/heads/main/update_xray_on_remnanode)
 ```
