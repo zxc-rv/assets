@@ -29,7 +29,7 @@ if [ ! -d /opt/remnawave ]; then
   exit 1
 fi
 
-curl -fSsLO /tmp/Xray-linux-64.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip &
+curl -Lso /tmp/Xray-linux-64.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip &
 spinner $! "Скачивание релиза Xray..."
 
 unzip -q /tmp/Xray-linux-64.zip xray -d /tmp &
