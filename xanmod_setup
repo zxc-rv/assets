@@ -44,7 +44,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-(curl -fSsL https://gitlab.com/afrd.gpg | gpg --dearmor --yes -o /usr/share/keyrings/xanmod-archive-keyring.gpg) &
+(curl -Ls https://gitlab.com/afrd.gpg | gpg --dearmor --yes -o /usr/share/keyrings/xanmod-archive-keyring.gpg) &
 spinner $! "Установка ключа Xanmod..."
 if [ $? -ne 0 ]; then
   echo -e "${RED}Ошибка скачивания ключа${NC}" >&2
@@ -58,7 +58,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-psabi_output=$(curl -fSsL https://dl.xanmod.org/check_x86-64_psabi.sh | awk -f - 2>/dev/null)
+psabi_output=$(curl -Ls https://dl.xanmod.org/check_x86-64_psabi.sh | awk -f - 2>/dev/null)
 psabi_status=$?
 psabi=$(echo "$psabi_output" | grep -o 'x86-64-v[1-4]' || true)
 if [ $psabi_status -lt 2 ] || [ -z "$psabi" ]; then
