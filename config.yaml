@@ -175,7 +175,7 @@ rule-providers:
     path: ./rule-providers/cloudflare-ips.mrs
     interval: 86400
 
-  Discord:
+  discord:
     type: inline
     behavior: classical
     format: text
