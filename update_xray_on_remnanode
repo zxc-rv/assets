@@ -19,8 +19,34 @@ spinner() {
   printf "\r${GREEN}✔ ${NC} %s\n" "$msg"
 }
 
+VERSION=""
+URL=""
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+  -v*)
+    VERSION="${1#-v}"
+    shift
+    ;;
+  *)
+    echo -e "${RED}Неизвестный аргумент: $1${NC}"
+    echo "Использование: $0 [-v<версия>]"
+    exit 1
+    ;;
+  esac
+done
+
+if [ -z "$VERSION" ]; then
+  URL="https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip"
+else
+  URL="https://github.com/XTLS/Xray-core/releases/download/v${VERSION}/Xray-linux-64.zip"
+fi
+
 echo ""
 echo -e "${PURPLE}Запуск обновления Xray...${NC}"
+if [ -n "$VERSION" ]; then
+  echo -e "${PURPLE}Версия: v${VERSION}${NC}"
+fi
 echo ""
 sleep 0.5
 
@@ -29,7 +55,7 @@ if [ ! -d /opt/remnawave ]; then
   exit 1
 fi
 
-curl -Lso /tmp/Xray-linux-64.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip &
+curl -Lso /tmp/Xray-linux-64.zip "$URL" &
 spinner $! "Скачивание релиза Xray..."
 
 unzip -q /tmp/Xray-linux-64.zip xray -d /tmp &
