@@ -91,7 +91,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-(sleep 0.5 &&
+if [ -f /etc/sysctl.conf ]; then
+    (sleep 0.5 &&
   sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf &&
   sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf &&
   sed -i '/net.core.rmem_max/d' /etc/sysctl.conf &&
@@ -143,6 +144,7 @@ fi
   echo "fs.inotify.max_user_instances = 8192" >>/etc/sysctl.conf &&
   echo "net.ipv4.ip_local_port_range = 1024 45000" >>/etc/sysctl.conf &&
   sysctl -p >/dev/null 2>&1) &
+fi
 spinner $! "Оптимизация настроек sysctl..."
 if [ $? -ne 0 ]; then
   echo -e "${RED}Ошибка настройки и применения sysctl${NC}" >&2
