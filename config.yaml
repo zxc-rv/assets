@@ -100,7 +100,7 @@ proxy-groups:
     icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/quic.png
     proxies: [REJECT, PASS]
 
-#Пример подключения с использованием подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
+# Пример подключения с использованием подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
 proxy-providers:
   proxy-sub:
     type: http
@@ -118,7 +118,7 @@ proxy-providers:
       udp: true
       tfo: true
 
-#Пример vless подключения без использования подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
+# Пример vless подключения без использования подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
 proxies:
   - name: vless-reality
     type: vless
@@ -127,12 +127,13 @@ proxies:
     network: tcp
     udp: true
     tls: true
+    packet-encoding: xudp
     servername: *your-sni*
     client-fingerprint: chrome
     uuid: *your-uuid*
     flow: xtls-rprx-vision
     reality-opts:
-      public-key: *your-pbk*
+      public-key: *your-public-key*
       short-id: *your-shortid*
 
 rule-providers:
