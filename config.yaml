@@ -21,6 +21,19 @@ sniffer:
     TLS:
     QUIC:
 
+anchors:
+  mrs: &mrs {type: http, format: mrs}
+  mrs-hourly: &mrs-hourly {<<: *mrs, interval: 3600}
+  mrs-daily: &mrs-daily {<<: *mrs, interval: 86400}
+  mrs-domain-hourly: &mrs-domain-hourly {<<: *mrs-hourly, behavior: domain}
+  mrs-domain-daily: &mrs-domain-daily {<<: *mrs-daily, behavior: domain}
+  mrs-ipcidr-hourly: &mrs-ipcidr-hourly {<<: *mrs-hourly, behavior: ipcidr}
+  mrs-ipcidr-daily: &mrs-ipcidr-daily {<<: *mrs-daily, behavior: ipcidr}
+  classical: &classical {type: http, behavior: classical, format: text}
+  classical-hourly: &classical-hourly {<<: *classical, interval: 3600}
+  classical-daily: &classical-daily {<<: *classical, interval: 86400}
+  inline: &inline {type: inline, behavior: classical, format: text}
+
 proxy-groups:
   - name: Заблок. сервисы
     type: select
@@ -137,45 +150,28 @@ proxies:
       short-id: *your-shortid*
 
 rule-providers:
-  refilter-domains:
-    type: http
-    behavior: domain
-    format: mrs
+  refilter-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
-    path: ./rule-providers/refilter-domains.mrs
-    interval: 86400
 
-  cloudflare-domains:
-    type: http
-    behavior: domain
-    format: mrs
+  cloudflare-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cloudflare.mrs
-    path: ./rule-providers/cloudflare-domains.mrs
-    interval: 86400
 
-  cloudflare-ips:
-    type: http
-    behavior: ipcidr
-    format: mrs
+  cloudflare-ipcidr:
+    <<: *mrs-ipcidr-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs
-    path: ./rule-providers/cloudflare-ips.mrs
-    interval: 86400
 
-  category-ai:
-    type: http
-    behavior: domain
-    format: mrs
+  category-ai-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs
-    path: ./rule-providers/category-ai.mrs
 
   discord:
-    type: inline
-    behavior: classical
-    format: text
+    <<: *inline
     payload:
       - AND,((DOMAIN-KEYWORD,discord),(NOT,((DOMAIN-SUFFIX,ru))))
-      - AND,((RULE-SET,cloudflare-ips,no-resolve),(NETWORK,TCP),(DST-PORT,2000-2300/8443))
-      - AND,((RULE-SET,cloudflare-ips,no-resolve),(NETWORK,UDP),(DST-PORT,19200-19400/50000-51000))
+      - AND,((RULE-SET,cloudflare-ipcidr,no-resolve),(NETWORK,TCP),(DST-PORT,2000-2300/8443))
+      - AND,((RULE-SET,cloudflare-ipcidr,no-resolve),(NETWORK,UDP),(DST-PORT,19200-19400/50000-51000))
       - AND,((IP-CIDR,5.200.14.128/25,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
       - AND,((IP-CIDR,34.0.0.0/15,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
       - AND,((IP-CIDR,34.2.0.0/15,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
@@ -183,99 +179,59 @@ rule-providers:
       - AND,((IP-CIDR,66.22.192.0/18,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
       - AND,((IP-CIDR,138.128.136.0/21,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
 
-  telegram-domains:
-    type: http
-    behavior: domain
-    format: mrs
+  telegram-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.mrs
-    path: ./rule-providers/telegram-domains.mrs
-    interval: 86400
 
-  telegram-ips:
-    type: http
-    behavior: ipcidr
-    format: mrs
+  telegram-ipcidr:
+    <<: *mrs-ipcidr-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.mrs
-    path: ./rule-providers/telegram-ips.mrs
-    interval: 86400
 
-  meta-domains:
-    type: http
-    behavior: domain
-    format: mrs
+  meta-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/facebook.mrs
-    path: ./rule-providers/meta-domains.mrs
-    interval: 86400
 
-  meta-ips:
-    type: http
-    behavior: ipcidr
-    format: mrs
+  meta-ipcidr:
+    <<: *mrs-ipcidr-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs
-    path: ./rule-providers/meta-ips.mrs
-    interval: 86400
 
-  reddit:
-    type: http
-    behavior: domain
-    format: mrs
+  reddit-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs
-    path: ./rule-providers/reddit.mrs
-    interval: 86400
 
-  spotify:
-    type: http
-    behavior: domain
-    format: mrs
+  spotify-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.mrs
-    path: ./rule-providers/spotify.mrs
-    interval: 86400
 
-  steam:
-    type: http
-    behavior: domain
-    format: mrs
+  steam-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/steam.mrs
-    path: ./rule-providers/steam.mrs
-    interval: 86400
 
-  twitch:
-    type: http
-    behavior: domain
-    format: mrs
+  twitch-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitch.mrs
-    path: ./rule-providers/twitch.mrs
-    interval: 86400
 
-  twitter:
-    type: http
-    behavior: domain
-    format: mrs
+  twitter-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitter.mrs
-    path: ./rule-providers/twitter.mrs
-    interval: 86400
 
-  youtube:
-    type: http
-    behavior: domain
-    format: mrs
+  youtube-domain:
+    <<: *mrs-domain-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs
-    path: ./rule-providers/youtube.mrs
-    interval: 86400
 
 rules:
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
-  - RULE-SET,category-ai,AI
-  - RULE-SET,steam,Steam
-  - RULE-SET,spotify,Spotify
-  - RULE-SET,reddit,Reddit
-  - RULE-SET,youtube,YouTube
-  - RULE-SET,twitch,Twitch
-  - RULE-SET,twitter,Twitter
+  - RULE-SET,category-ai-domain,AI
+  - RULE-SET,steam-domain,Steam
+  - RULE-SET,spotify-domain,Spotify
+  - RULE-SET,reddit-domain,Reddit
+  - RULE-SET,youtube-domain,YouTube
+  - RULE-SET,twitch-domain,Twitch
+  - RULE-SET,twitter-domain,Twitter
   - RULE-SET,discord,Discord
-  - OR,((RULE-SET,meta-domains),(RULE-SET,meta-ips,no-resolve)),Meta
-  - OR,((RULE-SET,telegram-domains),(RULE-SET,telegram-ips,no-resolve)),Telegram
-  - OR,((RULE-SET,cloudflare-domains),(RULE-SET,cloudflare-ips)),Cloudflare
-  - RULE-SET,refilter-domains,Заблок. сервисы
+  - OR,((RULE-SET,meta-domain),(RULE-SET,meta-ipcidr,no-resolve)),Meta
+  - OR,((RULE-SET,telegram-domain),(RULE-SET,telegram-ipcidr,no-resolve)),Telegram
+  - OR,((RULE-SET,cloudflare-domain),(RULE-SET,cloudflare-ipcidr)),Cloudflare
+  - RULE-SET,refilter-domain,Заблок. сервисы
   - MATCH,DIRECT
