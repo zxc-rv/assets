@@ -23,17 +23,17 @@ sniffer:
     QUIC:
 
 anchors:
-  a1: &mrs {type: http, format: mrs}
-  a2: &mrs-hourly {<<: *mrs, interval: 3600}
-  a3: &mrs-daily {<<: *mrs, interval: 86400}
-  a4: &domain-mrs-hourly {<<: *mrs-hourly, behavior: domain}
-  a5: &domain-mrs-daily {<<: *mrs-daily, behavior: domain}
-  a6: &ipcidr-mrs-hourly {<<: *mrs-hourly, behavior: ipcidr}
-  a7: &ipcidr-mrs-daily {<<: *mrs-daily, behavior: ipcidr}
-  a8: &classical {type: http, behavior: classical, format: text}
-  a9: &classical-hourly {<<: *classical, interval: 3600}
-  a10: &classical-daily {<<: *classical, interval: 86400}
-  a11: &inline {type: inline, behavior: classical, format: text}
+  a1: &mrs { type: http, format: mrs }
+  a2: &mrs-hourly { <<: *mrs, interval: 3600 }
+  a3: &mrs-daily { <<: *mrs, interval: 86400 }
+  a4: &domain-mrs-hourly { <<: *mrs-hourly, behavior: domain }
+  a5: &domain-mrs-daily { <<: *mrs-daily, behavior: domain }
+  a6: &ipcidr-mrs-hourly { <<: *mrs-hourly, behavior: ipcidr }
+  a7: &ipcidr-mrs-daily { <<: *mrs-daily, behavior: ipcidr }
+  a8: &classical { type: http, behavior: classical, format: text }
+  a9: &classical-hourly { <<: *classical, interval: 3600 }
+  a10: &classical-daily { <<: *classical, interval: 86400 }
+  a11: &inline { type: inline, behavior: classical, format: text }
 
 proxy-groups:
   - name: Заблок. сервисы
