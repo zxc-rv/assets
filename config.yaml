@@ -12,8 +12,7 @@ mode: rule
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
-profile:
-  store-selected: true
+profile: { store-selected: true }
 
 sniffer:
   enable: true
@@ -32,99 +31,76 @@ proxy-groups:
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
     include-all: true
-    proxies:
-      - Заблок. сервисы
-      - DIRECT
+    proxies: [Заблок. сервисы, DIRECT]
 
   - name: Discord
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Discord.png
     include-all: true
-    proxies:
-      - Заблок. сервисы
-      - DIRECT
+    proxies: [Заблок. сервисы, DIRECT]
 
   - name: Twitch
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitch.png
     include-all: true
-    proxies:
-      - DIRECT
-      - Заблок. сервисы
+    proxies: [DIRECT, Заблок. сервисы]
 
   - name: Reddit
     type: select
     icon: https://www.redditstatic.com/shreddit/assets/favicon/192x192.png
     include-all: true
-    proxies:
-      - DIRECT
-      - Заблок. сервисы
+    proxies: [DIRECT, Заблок. сервисы]
 
   - name: Meta
     type: select
     icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/meta.png
     include-all: true
-    proxies:
-      - Заблок. сервисы
-      - DIRECT
+    proxies: [Заблок. сервисы, DIRECT]
 
   - name: Spotify
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png
     include-all: true
     exclude-filter: 🇷🇺
-    proxies:
-      - Заблок. сервисы
-      - DIRECT
+    proxies: [Заблок. сервисы, DIRECT]
 
   - name: Telegram
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
     include-all: true
-    proxies:
-      - DIRECT
-      - Заблок. сервисы
+    proxies: [DIRECT, Заблок. сервисы]
 
   - name: Steam
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png
     include-all: true
-    proxies:
-      - DIRECT
-      - Заблок. сервисы
+    proxies: [DIRECT, Заблок. сервисы]
 
   - name: Cloudflare
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png
     include-all: true
-    proxies:
-      - PASS
-      - Заблок. сервисы
+    proxies: [PASS, Заблок. сервисы]
 
   - name: AI
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bot.png
     include-all: true
     exclude-filter: 🇷🇺
-    proxies:
-      - Заблок. сервисы
+    proxies: [Заблок. сервисы]
 
   - name: Twitter
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png
     include-all: true
-    proxies:
-      - Заблок. сервисы
-      - DIRECT
+    proxies: [Заблок. сервисы, DIRECT]
 
   - name: QUIC
     type: select
     icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/quic.png
-    proxies:
-      - REJECT
-      - PASS
+    proxies: [REJECT, PASS]
 
-# Пример подключения с использованием подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
+#Пример подключения с использованием подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
 proxy-providers:
   proxy-sub:
     type: http
@@ -133,7 +109,7 @@ proxy-providers:
     interval: 3600
     health-check:
       enable: true
-      url: http://cp.cloudflare.com/
+      url: https://www.gstatic.com/generate_204
       interval: 300
       timeout: 2000
       lazy: false
@@ -142,7 +118,7 @@ proxy-providers:
       udp: true
       tfo: true
 
-# Пример vless подключения без использования подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
+#Пример vless подключения без использования подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
 proxies:
   - name: vless-reality
     type: vless
@@ -166,14 +142,30 @@ rule-providers:
     format: mrs
     url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
     path: ./rule-providers/refilter-domains.mrs
+    interval: 86400
+
+  cloudflare-domains:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cloudflare.mrs
+    path: ./rule-providers/cloudflare-domains.mrs
+    interval: 86400
 
   cloudflare-ips:
     type: http
     behavior: ipcidr
     format: mrs
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/cloudflare.mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs
     path: ./rule-providers/cloudflare-ips.mrs
     interval: 86400
+
+  category-ai:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs
+    path: ./rule-providers/category-ai.mrs
 
   discord:
     type: inline
@@ -181,8 +173,8 @@ rule-providers:
     format: text
     payload:
       - AND,((DOMAIN-KEYWORD,discord),(NOT,((DOMAIN-SUFFIX,ru))))
-      - AND,((RULE-SET,cloudflare-ips,no-resolve),(NETWORK,TCP),(OR,((DST-PORT,2000-2300),(DST-PORT,8443))))
-      - AND,((RULE-SET,cloudflare-ips,no-resolve),(NETWORK,UDP),(OR,((DST-PORT,19200-19400),(DST-PORT,50000-51000))))
+      - AND,((RULE-SET,cloudflare-ips,no-resolve),(NETWORK,TCP),(DST-PORT,2000-2300/8443))
+      - AND,((RULE-SET,cloudflare-ips,no-resolve),(NETWORK,UDP),(DST-PORT,19200-19400/50000-51000))
       - AND,((IP-CIDR,5.200.14.128/25,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
       - AND,((IP-CIDR,34.0.0.0/15,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
       - AND,((IP-CIDR,34.2.0.0/15,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
@@ -190,35 +182,99 @@ rule-providers:
       - AND,((IP-CIDR,66.22.192.0/18,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
       - AND,((IP-CIDR,138.128.136.0/21,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
 
+  telegram-domains:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.mrs
+    path: ./rule-providers/telegram-domains.mrs
+    interval: 86400
+
   telegram-ips:
     type: http
     behavior: ipcidr
     format: mrs
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/telegram.mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.mrs
     path: ./rule-providers/telegram-ips.mrs
+    interval: 86400
+
+  meta-domains:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/facebook.mrs
+    path: ./rule-providers/meta-domains.mrs
     interval: 86400
 
   meta-ips:
     type: http
     behavior: ipcidr
     format: mrs
-    url: https://github.com/zxc-rv/assets/raw/refs/heads/main/rules/meta-ips.mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs
     path: ./rule-providers/meta-ips.mrs
+    interval: 86400
+
+  reddit:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs
+    path: ./rule-providers/reddit.mrs
+    interval: 86400
+
+  spotify:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.mrs
+    path: ./rule-providers/spotify.mrs
+    interval: 86400
+
+  steam:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/steam.mrs
+    path: ./rule-providers/steam.mrs
+    interval: 86400
+
+  twitch:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitch.mrs
+    path: ./rule-providers/twitch.mrs
+    interval: 86400
+
+  twitter:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitter.mrs
+    path: ./rule-providers/twitter.mrs
+    interval: 86400
+
+  youtube:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs
+    path: ./rule-providers/youtube.mrs
     interval: 86400
 
 rules:
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
-  - GEOSITE,category-ai-!cn,AI
-  - GEOSITE,steam,Steam
-  - GEOSITE,spotify,Spotify
-  - GEOSITE,reddit,Reddit
-  - OR,((GEOSITE,youtube),(DOMAIN-SUFFIX,googleusercontent.com)),YouTube
-  - GEOSITE,twitch,Twitch
-  - GEOSITE,twitter,Twitter
+  - RULE-SET,category-ai,AI
+  - RULE-SET,steam,Steam
+  - RULE-SET,spotify,Spotify
+  - RULE-SET,reddit,Reddit
+  - RULE-SET,youtube,YouTube
+  - RULE-SET,twitch,Twitch
+  - RULE-SET,twitter,Twitter
   - RULE-SET,discord,Discord
-  - OR,((GEOSITE,meta),(RULE-SET,meta-ips,no-resolve)),Meta
-  - OR,((GEOSITE,telegram),(RULE-SET,telegram-ips,no-resolve)),Telegram
-  - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
+  - OR,((RULE-SET,meta-domains),(RULE-SET,meta-ips,no-resolve)),Meta
+  - OR,((RULE-SET,telegram-domains),(RULE-SET,telegram-ips,no-resolve)),Telegram
+  - OR,((RULE-SET,cloudflare-domains),(RULE-SET,cloudflare-ips)),Cloudflare
   - RULE-SET,refilter-domains,Заблок. сервисы
   - MATCH,DIRECT
