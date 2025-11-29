@@ -6,7 +6,8 @@
 
 log-level: silent
 allow-lan: true
-tproxy-port: 5000
+redir-port: 5000
+tproxy-port: 5001
 ipv6: true
 mode: rule
 external-controller: 0.0.0.0:9090
@@ -22,17 +23,17 @@ sniffer:
     QUIC:
 
 anchors:
-  mrs: &mrs {type: http, format: mrs}
-  mrs-hourly: &mrs-hourly {<<: *mrs, interval: 3600}
-  mrs-daily: &mrs-daily {<<: *mrs, interval: 86400}
-  mrs-domain-hourly: &mrs-domain-hourly {<<: *mrs-hourly, behavior: domain}
-  mrs-domain-daily: &mrs-domain-daily {<<: *mrs-daily, behavior: domain}
-  mrs-ipcidr-hourly: &mrs-ipcidr-hourly {<<: *mrs-hourly, behavior: ipcidr}
-  mrs-ipcidr-daily: &mrs-ipcidr-daily {<<: *mrs-daily, behavior: ipcidr}
-  classical: &classical {type: http, behavior: classical, format: text}
-  classical-hourly: &classical-hourly {<<: *classical, interval: 3600}
-  classical-daily: &classical-daily {<<: *classical, interval: 86400}
-  inline: &inline {type: inline, behavior: classical, format: text}
+  a1: &mrs {type: http, format: mrs}
+  a2: &mrs-hourly {<<: *mrs, interval: 3600}
+  a3: &mrs-daily {<<: *mrs, interval: 86400}
+  a4: &domain-mrs-hourly {<<: *mrs-hourly, behavior: domain}
+  a5: &domain-mrs-daily {<<: *mrs-daily, behavior: domain}
+  a6: &ipcidr-mrs-hourly {<<: *mrs-hourly, behavior: ipcidr}
+  a7: &ipcidr-mrs-daily {<<: *mrs-daily, behavior: ipcidr}
+  a8: &classical {type: http, behavior: classical, format: text}
+  a9: &classical-hourly {<<: *classical, interval: 3600}
+  a10: &classical-daily {<<: *classical, interval: 86400}
+  a11: &inline {type: inline, behavior: classical, format: text}
 
 proxy-groups:
   - name: Заблок. сервисы
@@ -151,19 +152,19 @@ proxies:
 
 rule-providers:
   refilter-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
 
   cloudflare-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cloudflare.mrs
 
   cloudflare-ipcidr:
-    <<: *mrs-ipcidr-daily
+    <<: *ipcidr-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs
 
   category-ai-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs
 
   discord:
@@ -180,43 +181,43 @@ rule-providers:
       - AND,((IP-CIDR,138.128.136.0/21,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
 
   telegram-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.mrs
 
   telegram-ipcidr:
-    <<: *mrs-ipcidr-daily
+    <<: *ipcidr-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.mrs
 
   meta-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/facebook.mrs
 
   meta-ipcidr:
-    <<: *mrs-ipcidr-daily
+    <<: *ipcidr-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs
 
   reddit-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs
 
   spotify-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.mrs
 
   steam-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/steam.mrs
 
   twitch-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitch.mrs
 
   twitter-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitter.mrs
 
   youtube-domain:
-    <<: *mrs-domain-daily
+    <<: *domain-mrs-daily
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs
 
 rules:
