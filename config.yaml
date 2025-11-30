@@ -23,17 +23,10 @@ sniffer:
     QUIC:
 
 anchors:
-  a1: &mrs { type: http, format: mrs }
-  a2: &mrs-hourly { <<: *mrs, interval: 3600 }
-  a3: &mrs-daily { <<: *mrs, interval: 86400 }
-  a4: &domain-mrs-hourly { <<: *mrs-hourly, behavior: domain }
-  a5: &domain-mrs-daily { <<: *mrs-daily, behavior: domain }
-  a6: &ipcidr-mrs-hourly { <<: *mrs-hourly, behavior: ipcidr }
-  a7: &ipcidr-mrs-daily { <<: *mrs-daily, behavior: ipcidr }
-  a8: &classical { type: http, behavior: classical, format: text }
-  a9: &classical-hourly { <<: *classical, interval: 3600 }
-  a10: &classical-daily { <<: *classical, interval: 86400 }
-  a11: &inline { type: inline, behavior: classical, format: text }
+  a1: &domain { type: http, format: mrs, behavior: domain, interval: 86400 }
+  a2: &ipcidr { type: http, format: mrs, behavior: ipcidr, interval: 86400 }
+  a3: &classical { type: http, format: text, behavior: classical, interval: 86400 }
+  a4: &inline { type: inline, behavior: classical }
 
 proxy-groups:
   - name: Заблок. сервисы
@@ -151,88 +144,36 @@ proxies:
       short-id: *your-shortid*
 
 rule-providers:
-  refilter-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
+  discord@classical: { <<: *classical, url: https://github.com/zxc-rv/assets/raw/main/rules/discord.list }
+  refilter@domain: { <<: *domain, url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs }
+  cloudflare@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cloudflare.mrs }
+  cloudflare@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs }
+  category-ai@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs }
+  telegram@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.mrs }
+  telegram@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.mrs }
+  meta@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/facebook.mrs }
+  meta@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs }
+  reddit@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs }
+  spotify@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.mrs }
+  steam@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/steam.mrs }
+  twitch@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitch.mrs }
+  twitter@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitter.mrs }
+  youtube@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs }
 
-  cloudflare-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cloudflare.mrs
-
-  cloudflare-ipcidr:
-    <<: *ipcidr-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs
-
-  category-ai-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs
-
-  discord:
-    <<: *inline
-    payload:
-      - AND,((DOMAIN-KEYWORD,discord),(NOT,((DOMAIN-SUFFIX,ru))))
-      - AND,((RULE-SET,cloudflare-ipcidr,no-resolve),(NETWORK,TCP),(DST-PORT,2000-2300/8443))
-      - AND,((RULE-SET,cloudflare-ipcidr,no-resolve),(NETWORK,UDP),(DST-PORT,19200-19400/50000-51000))
-      - AND,((IP-CIDR,5.200.14.128/25,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
-      - AND,((IP-CIDR,34.0.0.0/15,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
-      - AND,((IP-CIDR,34.2.0.0/15,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
-      - AND,((IP-CIDR,35.192.0.0/11,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
-      - AND,((IP-CIDR,66.22.192.0/18,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
-      - AND,((IP-CIDR,138.128.136.0/21,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
-
-  telegram-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.mrs
-
-  telegram-ipcidr:
-    <<: *ipcidr-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.mrs
-
-  meta-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/facebook.mrs
-
-  meta-ipcidr:
-    <<: *ipcidr-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs
-
-  reddit-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs
-
-  spotify-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.mrs
-
-  steam-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/steam.mrs
-
-  twitch-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitch.mrs
-
-  twitter-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitter.mrs
-
-  youtube-domain:
-    <<: *domain-mrs-daily
-    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs
 
 rules:
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
-  - RULE-SET,category-ai-domain,AI
-  - RULE-SET,steam-domain,Steam
-  - RULE-SET,spotify-domain,Spotify
-  - RULE-SET,reddit-domain,Reddit
-  - RULE-SET,youtube-domain,YouTube
-  - RULE-SET,twitch-domain,Twitch
-  - RULE-SET,twitter-domain,Twitter
-  - RULE-SET,discord,Discord
-  - OR,((RULE-SET,meta-domain),(RULE-SET,meta-ipcidr,no-resolve)),Meta
-  - OR,((RULE-SET,telegram-domain),(RULE-SET,telegram-ipcidr,no-resolve)),Telegram
-  - OR,((RULE-SET,cloudflare-domain),(RULE-SET,cloudflare-ipcidr)),Cloudflare
-  - RULE-SET,refilter-domain,Заблок. сервисы
+  - RULE-SET,category-ai@domain,AI
+  - RULE-SET,steam@domain,Steam
+  - RULE-SET,spotify@domain,Spotify
+  - RULE-SET,reddit@domain,Reddit
+  - RULE-SET,youtube@domain,YouTube
+  - RULE-SET,twitch@domain,Twitch
+  - RULE-SET,twitter@domain,Twitter
+  - RULE-SET,discord@classical,Discord
+  - OR,((RULE-SET,meta@domain),(RULE-SET,meta@ipcidr,no-resolve)),Meta
+  - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr,no-resolve)),Telegram
+  - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),Cloudflare
+  - RULE-SET,refilter@domain,Заблок. сервисы
   - MATCH,DIRECT
