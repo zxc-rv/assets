@@ -171,7 +171,7 @@ proxy-groups:
 
 rule-providers:
   amazon@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/amazon.mrs }
-  amazon@classical: { <<: *classical, url: https://github.com/Anton111111/rule-lists/releases/latest/download/amazon_ips.list }
+  amazon@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudfront.mrs }
   category-ai@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs }
   cloudflare@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cloudflare.mrs }
   cloudflare@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs }
@@ -204,7 +204,7 @@ rules:
   - OR,((RULE-SET,meta@domain),(RULE-SET,meta@ipcidr,no-resolve)),Meta
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr,no-resolve)),Telegram
   - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),Cloudflare
-  - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@classical)),Amazon
+  - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),Amazon
   - RULE-SET,refilter@domain,Заблок. сервисы
   - RULE-SET,google@domain,Google
   - RULE-SET,github@domain,GitHub
