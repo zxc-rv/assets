@@ -1,8 +1,12 @@
+#######################################################################################################
 # Описание:
 # Веб-интерфейс доступен по адресу http://192.168.1.1:9090/ui (вместо 192.168.1.1 может быть любой IP, где запущен данный конфиг). После добавления сервера и запуска mihomo необходимо зайти в веб-интерфейс и выбрать нужное подключение для прокси-групп
 # Группа "Заблок. сервисы" содержит список доменов большинства заблокированных ресурсов (как снаружи, так и внутри)
 # Остальные группы YouTube/Discord и тд имеют приоритет над группой "Заблок. сервисы". Eсли переопределение не нужно, можно выбрать "Заблок. сервисы" в качестве подключения и управлять всеми группами разом в группе "Заблок. сервисы"
-# При использовании с XKeen рекомендуется выполнить команду "xkeen -ap 80,443,2000:2300,8443,19200:19400,50000:50030" в SSH терминале роутера
+#######################################################################################################
+# Для работы Discord требуется проксировать порты XKeen: 80,443,2000:2300,8443,19200:19400,50000:50030
+# Для работы Whatsapp/Telegram требуется проксировать порты Xkeen: 80,443,596:599,1400,3478,5222
+#######################################################################################################
 
 log-level: silent
 allow-lan: true
@@ -27,6 +31,46 @@ anchors:
   a2: &ipcidr { type: http, format: mrs, behavior: ipcidr, interval: 86400 }
   a3: &classical { type: http, format: text, behavior: classical, interval: 86400 }
   a4: &inline { type: inline, behavior: classical }
+
+#############################################################################################
+# Пример VLESS подключения БЕЗ использования подписки (РАСКОММЕНТИРОВАТЬ ДЛЯ ИСПОЛЬЗОВАНИЯ) #
+#############################################################################################
+# proxies:
+#   - name: vless-reality
+#     type: vless
+#     server: *your-server*
+#     port: 443
+#     network: tcp
+#     udp: true
+#     tls: true
+#     packet-encoding: xudp
+#     servername: *your-sni*
+#     client-fingerprint: chrome
+#     uuid: *your-uuid*
+#     flow: xtls-rprx-vision
+#     reality-opts:
+#       public-key: *your-public-key*
+#       short-id: *your-shortid*
+
+######################################################################################
+# Пример подключения С использованием подписки (РАСКОММЕНТИРОВАТЬ ДЛЯ ИСПОЛЬЗОВАНИЯ) #
+######################################################################################
+# proxy-providers:
+#   proxy-sub:
+#     type: http
+#     url: https://ВАША_ССЫЛКА_НА_ПОДПИСКУ
+#     path: ./proxy-providers/proxy-sub.yml
+#     interval: 3600
+#     health-check:
+#       enable: true
+#       url: https://www.gstatic.com/generate_204
+#       interval: 300
+#       timeout: 2000
+#       lazy: false
+#       expected-status: 204
+#     override:
+#       udp: true
+#       tfo: true
 
 proxy-groups:
   - name: Заблок. сервисы
@@ -107,59 +151,22 @@ proxy-groups:
     icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/quic.png
     proxies: [REJECT, PASS]
 
-# Пример подключения с использованием подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
-proxy-providers:
-  proxy-sub:
-    type: http
-    url: *subscription.link*
-    path: ./proxy-providers/proxy-sub.yml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 2000
-      lazy: false
-      expected-status: 204
-    override:
-      udp: true
-      tfo: true
-
-# Пример vless подключения без использования подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
-proxies:
-  - name: vless-reality
-    type: vless
-    server: *your-server*
-    port: 443
-    network: tcp
-    udp: true
-    tls: true
-    packet-encoding: xudp
-    servername: *your-sni*
-    client-fingerprint: chrome
-    uuid: *your-uuid*
-    flow: xtls-rprx-vision
-    reality-opts:
-      public-key: *your-public-key*
-      short-id: *your-shortid*
-
 rule-providers:
-  discord@classical: { <<: *classical, url: https://github.com/zxc-rv/assets/raw/main/rules/discord.list }
-  refilter@domain: { <<: *domain, url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs }
+  category-ai@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs }
   cloudflare@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cloudflare.mrs }
   cloudflare@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs }
-  category-ai@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs }
-  telegram@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.mrs }
-  telegram@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.mrs }
+  discord@classical: { <<: *classical, url: https://github.com/zxc-rv/assets/raw/main/rules/discord.list }
   meta@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/facebook.mrs }
   meta@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs }
   reddit@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs }
+  refilter@domain: { <<: *domain, url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs }
   spotify@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.mrs }
   steam@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/steam.mrs }
+  telegram@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.mrs }
+  telegram@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.mrs }
   twitch@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitch.mrs }
   twitter@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitter.mrs }
   youtube@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs }
-
 
 rules:
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
