@@ -139,6 +139,12 @@ proxy-groups:
     include-all: true
     proxies: [PASS, Заблок. сервисы]
 
+  - name: GitHub
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png
+    include-all: true
+    proxies: [PASS, Заблок. сервисы]
+
   - name: AI
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bot.png
@@ -163,6 +169,7 @@ rule-providers:
   cloudflare@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs }
   discord@classical: { <<: *classical, url: https://github.com/zxc-rv/assets/raw/main/rules/discord.list }
   google@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google.mrs }
+  github@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/github.mrs }
   meta@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/facebook.mrs }
   meta@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs }
   reddit@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs }
@@ -189,6 +196,7 @@ rules:
   - OR,((RULE-SET,meta@domain),(RULE-SET,meta@ipcidr,no-resolve)),Meta
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr,no-resolve)),Telegram
   - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),Cloudflare
-  - RULE-SET,google@domain,Google
   - RULE-SET,refilter@domain,Заблок. сервисы
+  - RULE-SET,google@domain,Google
+  - RULE-SET,github@domain,GitHub
   - MATCH,DIRECT
