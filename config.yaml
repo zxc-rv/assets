@@ -42,6 +42,7 @@ anchors:
 #     port: 443
 #     network: tcp
 #     udp: true
+#     tfo: true
 #     tls: true
 #     packet-encoding: xudp
 #     servername: *your-sni*
@@ -104,7 +105,7 @@ proxy-groups:
 
   - name: Meta
     type: select
-    icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/meta.png
+    icon: https://github.com/zxc-rv/assets/raw/main/group-icons/meta.png
     include-all: true
     proxies: [Заблок. сервисы, DIRECT]
 
@@ -166,7 +167,7 @@ proxy-groups:
 
   - name: QUIC
     type: select
-    icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/quic.png
+    icon: https://github.com/zxc-rv/assets/raw/main/group-icons/quic.png
     proxies: [REJECT, PASS]
 
 rule-providers:
