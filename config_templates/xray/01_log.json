@@ -2,7 +2,7 @@
   "log": {
     "error": "/opt/var/log/xray/error.log",
     "access": "none", // /opt/var/log/xray/access.log none
-    "loglevel": "info", // none,debug,info,warning,error
+    "loglevel": "warning", // none,debug,info,warning,error
     "dnsLog": true
   }
 }
