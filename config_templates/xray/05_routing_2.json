@@ -1,6 +1,5 @@
 {
   "routing": {
-    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
         "port": "443",
