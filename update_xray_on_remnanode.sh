@@ -1,5 +1,4 @@
 #!/bin/bash
-
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
@@ -42,17 +41,35 @@ else
   URL="https://github.com/XTLS/Xray-core/releases/download/v${VERSION}/Xray-linux-64.zip"
 fi
 
-echo ""
-echo -e "${PURPLE}Запуск обновления Xray...${NC}"
+echo -e "\n${PURPLE}Запуск обновления Xray...${NC}\n"
 if [ -n "$VERSION" ]; then
   echo -e "${PURPLE}Версия: v${VERSION}${NC}"
 fi
-echo ""
 sleep 0.5
 
 if [ ! -d /opt/remnawave ]; then
   echo -e "${RED}Ошибка: директория /opt/remnawave не существует${NC}"
   exit 1
+fi
+
+if ! command -v yq &> /dev/null; then
+  apt update >/dev/null 2>&1 && apt install -y yq >/dev/null 2>&1 &
+  spinner $! "Установка yaml парсера..."
+  if ! command -v yq &> /dev/null; then
+    echo -e "${RED}Ошибка: не удалось установить yq${NC}"
+    exit 1
+  fi
+fi
+
+COMPOSE_FILE="/opt/remnawave/docker-compose.yml"
+if [ ! -f "$COMPOSE_FILE" ]; then
+  echo -e "${RED}Ошибка: файл $COMPOSE_FILE не найден${NC}"
+  exit 1
+fi
+
+if ! yq -e '.services.remnanode.volumes[] | select(. == "./xray:/usr/local/bin/xray")' "$COMPOSE_FILE" >/dev/null 2>&1; then
+  yq -y '.services.remnanode.volumes += ["./xray:/usr/local/bin/xray"]' "$COMPOSE_FILE" > /tmp/docker-compose.yml.tmp && mv /tmp/docker-compose.yml.tmp "$COMPOSE_FILE" &
+  spinner $! "Добавление volume в docker-compose.yml..."
 fi
 
 curl -Lso /tmp/Xray-linux-64.zip "$URL" &
@@ -72,6 +89,7 @@ spinner $! "Назначение прав на запуск Xray..."
 
 cd /opt/remnawave && docker compose up -d --force-recreate remnanode >/dev/null 2>&1 &
 spinner $! "Перезапуск ноды..."
+
 if [ $? -ne 0 ]; then
   echo -e "${RED}Не удалось выполнить перезапуск ноды.${NC}" >&2
   exit 1
