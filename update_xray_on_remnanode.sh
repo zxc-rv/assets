@@ -69,7 +69,7 @@ fi
 
 if ! yq -e '.services.remnanode.volumes[] | select(. == "./xray:/usr/local/bin/xray")' "$COMPOSE_FILE" >/dev/null 2>&1; then
   yq -y '.services.remnanode.volumes += ["./xray:/usr/local/bin/xray"]' "$COMPOSE_FILE" > /tmp/docker-compose.yml.tmp && mv /tmp/docker-compose.yml.tmp "$COMPOSE_FILE" &
-  spinner $! "Добавление volume в docker-compose.yml..."
+  spinner $! "Монтирование Xray в контейнер Remnanode..."
 fi
 
 curl -Lso /tmp/Xray-linux-64.zip "$URL" &
