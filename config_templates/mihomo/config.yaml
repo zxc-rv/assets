@@ -152,7 +152,7 @@ rule-providers:
   youtube@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs }
 
 rules:
-  - RULE-SET,adlist,REJECT # Блокировка рекламы
+  - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
   - RULE-SET,category-ai@domain,AI
