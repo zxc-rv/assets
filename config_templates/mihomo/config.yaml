@@ -130,6 +130,7 @@ proxy-groups:
     proxies: [REJECT, PASS]
 
 rule-providers:
+  adlist@domain: { <<: *domain, url: https://github.com/zxc-rv/ad-filter/releases/latest/download/adlist.mrs } # Блокировка рекламы
   amazon@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/amazon.mrs }
   amazon@ipcidr: { <<: *ipcidr, url: https://github.com/PentiumB/CDN-RuleSet/releases/latest/download/amazon.mrs }
   category-ai@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs }
@@ -151,6 +152,7 @@ rule-providers:
   youtube@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs }
 
 rules:
+  - RULE-SET,adlist,REJECT # Блокировка рекламы
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
   - RULE-SET,category-ai@domain,AI
