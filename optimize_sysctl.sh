@@ -29,6 +29,7 @@ sed -i '/net.ipv4.tcp_mtu_probing/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_slow_start_after_idle/d' /etc/sysctl.conf
 sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf
 sed -i '/net.ipv4.ip_local_port_range/d' /etc/sysctl.conf
+sed -i '/net.ipv4.tcp_notsent_lowat/d' /etc/sysctl.conf
 
 echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
@@ -49,12 +50,13 @@ echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_timestamps = 1" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_mem = 25600 51200 102400" >> /etc/sysctl.conf
 echo "net.ipv4.udp_mem = 25600 51200 102400" >> /etc/sysctl.conf
-echo "net.ipv4.tcp_rmem = 16384 262144 8388608" >> /etc/sysctl.conf
-echo "net.ipv4.tcp_wmem = 32768 524288 16777216" >> /etc/sysctl.conf
+echo "net.ipv4.tcp_rmem = 4096 131072 67108864" >> /etc/sysctl.conf
+echo "net.ipv4.tcp_wmem = 4096 131072 67108864" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_mtu_probing = 1" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_slow_start_after_idle=0" >> /etc/sysctl.conf
 echo "fs.inotify.max_user_instances = 8192" >> /etc/sysctl.conf
 echo "net.ipv4.ip_local_port_range = 1024 45000" >> /etc/sysctl.conf
+echo "net.ipv4.tcp_notsent_lowat=131072" >> /etc/sysctl.conf
 
 sysctl -p
 
