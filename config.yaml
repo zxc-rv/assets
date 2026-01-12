@@ -209,7 +209,7 @@ rules:
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr,no-resolve)),Telegram
   - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),Cloudflare
   - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),Amazon
-  - RULE-SET,refilter@domain,Заблок. сервисы
+  - OR,((RULE-SET,refilter@domain),(DOMAIN-SUFFIX,2ip.io)),Заблок. сервисы
   - RULE-SET,google@domain,Google
   - RULE-SET,github@domain,GitHub
   - MATCH,DIRECT
