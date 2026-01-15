@@ -121,7 +121,7 @@ proxy-groups:
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
     include-all: true
-    proxies: [DIRECT, Заблок. сервисы]
+    proxies: [Заблок. сервисы, DIRECT]
 
   - name: Steam
     type: select
