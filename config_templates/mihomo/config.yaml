@@ -12,8 +12,7 @@ log-level: silent
 allow-lan: true
 redir-port: 5000
 tproxy-port: 5001
-ipv6: true
-mode: rule
+find-process-mode: off
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
