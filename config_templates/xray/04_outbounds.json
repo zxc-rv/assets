@@ -1,14 +1,6 @@
 {
   "outbounds": [
-    { "protocol": "freedom", "tag": "direct" },
-    {
-      "protocol": "blackhole",
-      "tag": "block",
-      "settings": {
-        "response": {
-          "type": "http"
-        }
-      }
-    }
+    { "tag": "direct", "protocol": "freedom" },
+    { "tag": "block", "protocol": "blackhole" }
   ]
 }
