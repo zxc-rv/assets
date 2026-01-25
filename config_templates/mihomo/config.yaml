@@ -23,7 +23,6 @@ sniffer:
   sniff:
     HTTP:
     TLS:
-    QUIC:
 
 anchors:
   a1: &domain { type: http, format: mrs, behavior: domain, interval: 86400 }
@@ -123,11 +122,6 @@ proxy-groups:
     include-all: true
     proxies: [Заблок. сервисы, DIRECT]
 
-  - name: QUIC
-    type: select
-    icon: https://github.com/zxc-rv/assets/raw/main/group-icons/quic.png
-    proxies: [REJECT, PASS]
-
 rule-providers:
   adlist@domain: { <<: *domain, url: https://github.com/zxc-rv/ad-filter/releases/latest/download/adlist.mrs }
   amazon@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/amazon.mrs }
@@ -152,7 +146,7 @@ rule-providers:
 
 rules:
   - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
-  - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
+  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT # Блокировка QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv (может вызвать рекламу)
   - RULE-SET,category-ai@domain,AI
   - RULE-SET,steam@domain,Steam
