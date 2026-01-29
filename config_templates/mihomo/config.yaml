@@ -89,13 +89,13 @@ proxy-groups:
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png
     include-all: true
-    proxies: [PASS, Заблок. сервисы]
+    proxies: [Заблок. сервисы, PASS]
     
   - name: Amazon
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Amazon.png
     include-all: true
-    proxies: [PASS, Заблок. сервисы]
+    proxies: [Заблок. сервисы, PASS]
 
   - name: Google
     type: select
