@@ -8,15 +8,19 @@
       },
       {
         "domain": [
-          "ext:geosite_zkeen.dat:domains",
-          "ext:geosite_zkeen.dat:other",
-          "ext:geosite_zkeen.dat:youtube"
+          "ext:zkeen.dat:domains",
+          "ext:zkeen.dat:other",
+          "ext:zkeen.dat:youtube"
         ],
         "outboundTag": "vless-reality"
       },
       {
         "ip": [
-          "ext:geoip_zkeenip.dat:discord"
+          "ext:zkeenip.dat:amazon",
+          "ext:zkeenip.dat:cloudflare",
+          "ext:zkeenip.dat:meta",
+          "ext:zkeenip.dat:discord",
+          "ext:zkeenip.dat:telegram"
         ],
         "outboundTag": "vless-reality"
       },
