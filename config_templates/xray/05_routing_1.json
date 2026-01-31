@@ -12,13 +12,13 @@
           "ext:geosite_zkeen.dat:other",
           "ext:geosite_zkeen.dat:youtube"
         ],
-        "outboundTag": "vless_1"
+        "outboundTag": "vless-reality"
       },
       {
         "ip": [
           "ext:geoip_zkeenip.dat:discord"
         ],
-        "outboundTag": "vless_1"
+        "outboundTag": "vless-reality"
       },
       {
         "network": "tcp,udp",
