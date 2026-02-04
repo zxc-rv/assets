@@ -14,6 +14,7 @@ allow-lan: true
 redir-port: 5000
 tproxy-port: 5001
 find-process-mode: off
+unified-delay: true
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
