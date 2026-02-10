@@ -11,7 +11,10 @@
         "outboundTag": "direct"
       },
       {
-        "domain": ["ext:geosite_v2fly.dat:category-ru"],
+        "domain": [
+          "ext:geosite_v2fly.dat:category-ru",
+          "ext:geosite_v2fly.dat:steam"
+        ],
         "outboundTag": "direct"
       },
       {
