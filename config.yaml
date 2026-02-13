@@ -186,6 +186,11 @@ rule-providers:
   twitch@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitch.mrs }
   twitter@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitter.mrs }
   youtube@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs }
+  user@classical: # СВОИ ПРАВИЛА
+    type: inline
+    behavior: classical
+    payload: # Типы правил и примеры: https://wiki.metacubex.one/ru/config/rules/
+      - DOMAIN-SUFFIX,2ip.io
 
 rules:
   - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
@@ -203,7 +208,7 @@ rules:
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr,no-resolve)),Telegram
   - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),Cloudflare
   - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),Amazon
-  - OR,((RULE-SET,refilter@domain),(DOMAIN-SUFFIX,2ip.io)),Заблок. сервисы
+  - OR,((RULE-SET,refilter@domain),(RULE-SET,user@classical)),Заблок. сервисы
   - RULE-SET,google@domain,Google
   - RULE-SET,github@domain,GitHub
   - MATCH,DIRECT
