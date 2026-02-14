@@ -183,7 +183,7 @@ rule-providers:
   fastly@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/fastly.mrs }
   google@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google.mrs }
   github@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/github.mrs }
-  meta@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/facebook.mrs }
+  meta@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/meta.mrs }
   meta@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs }
   reddit@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs }
   refilter@domain: { <<: *domain, url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs }
