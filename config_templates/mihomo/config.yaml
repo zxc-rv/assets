@@ -86,24 +86,12 @@ proxy-groups:
     include-all: true
     proxies: [DIRECT, Заблок. сервисы]
 
-  - name: Cloudflare
+  - name: CDN
     type: select
-    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png
+    icon: https://www.svgrepo.com/show/396567/globe-with-meridians.svg
     include-all: true
     proxies: [Заблок. сервисы, PASS]
-    
-  - name: Amazon
-    type: select
-    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Amazon.png
-    include-all: true
-    proxies: [Заблок. сервисы, PASS]
-
-  - name: Fastly
-    type: select
-    icon: https://www.svgrepo.com/show/353730/fastly.svg
-    include-all: true
-    proxies: [Заблок. сервисы, PASS]
-
+  
   - name: Google
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
