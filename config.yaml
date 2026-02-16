@@ -128,24 +128,12 @@ proxy-groups:
     include-all: true
     proxies: [DIRECT, Заблок. сервисы]
 
-  - name: Cloudflare
+  - name: CDN
     type: select
-    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png
+    icon: https://www.svgrepo.com/show/396567/globe-with-meridians.svg
     include-all: true
     proxies: [Заблок. сервисы, PASS]
-    
-  - name: Amazon
-    type: select
-    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Amazon.png
-    include-all: true
-    proxies: [Заблок. сервисы, PASS]
-
-  - name: Fastly
-    type: select
-    icon: https://www.svgrepo.com/show/353730/fastly.svg
-    include-all: true
-    proxies: [Заблок. сервисы, PASS]
-
+  
   - name: Google
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
@@ -173,27 +161,40 @@ proxy-groups:
 
 rule-providers:
   adlist@domain: { <<: *domain, url: https://github.com/zxc-rv/ad-filter/releases/latest/download/adlist.mrs }
-  amazon@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/amazon.mrs }
+  amazon@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amazon.mrs }
   amazon@ipcidr: { <<: *ipcidr, url: https://github.com/PentiumB/CDN-RuleSet/releases/latest/download/amazon.mrs }
-  category-ai@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.mrs }
-  cloudflare@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cloudflare.mrs }
-  cloudflare@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cloudflare.mrs }
+  akamai@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/akamai.mrs }
+  akamai@ipcidr: { <<: *ipcidr, url: https://github.com/PentiumB/CDN-RuleSet/releases/latest/download/akamai.mrs }
+  category-ai@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs }
+  cloudflare@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare.mrs }
+  cloudflare@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cloudflare.mrs }
+  digitalocean@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/digitalocean.mrs }
+  digitalocean@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/asn/AS14061.mrs }
+  scaleway@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/asn/AS12876.mrs }
   discord@classical: { <<: *classical, url: https://github.com/zxc-rv/assets/raw/main/rules/discord.list }
-  fastly@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/fastly.mrs }
-  fastly@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/fastly.mrs }
-  google@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google.mrs }
-  github@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/github.mrs }
-  meta@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/meta.mrs }
-  meta@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/facebook.mrs }
-  reddit@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/reddit.mrs }
+  fastly@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/fastly.mrs }
+  fastly@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/fastly.mrs }
+  google@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs }
+  google@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs }
+  github@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs }
+  hetzner@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hetzner.mrs }
+  hetzner-1@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/asn/AS24940.mrs }
+  hetzner-2@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/asn/AS212317.mrs }
+  hetzner-3@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/asn/AS213230.mrs }
+  hetzner-4@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/asn/AS215859.mrs }
+  meta@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/meta.mrs }
+  meta@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/facebook.mrs }
+  oracle@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/oracle.mrs }
+  oracle@ipcidr: { <<: *ipcidr, url: https://github.com/PentiumB/CDN-RuleSet/releases/latest/download/oracle.mrs }
+  reddit@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/reddit.mrs }
   refilter@domain: { <<: *domain, url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs }
-  spotify@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.mrs }
-  steam@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/steam.mrs }
-  telegram@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.mrs }
-  telegram@ipcidr: { <<: *ipcidr, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.mrs }
-  twitch@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitch.mrs }
-  twitter@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/twitter.mrs }
-  youtube@domain: { <<: *domain, url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/youtube.mrs }
+  spotify@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs }
+  steam@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs }
+  telegram@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs }
+  telegram@ipcidr: { <<: *ipcidr, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs }
+  twitch@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitch.mrs }
+  twitter@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs }
+  youtube@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs }
   user@classical: # СВОИ ПРАВИЛА
     type: inline
     behavior: classical
@@ -215,9 +216,13 @@ rules:
   - OR,((RULE-SET,meta@domain),(RULE-SET,meta@ipcidr,no-resolve)),Meta
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr,no-resolve)),Telegram
   - OR,((RULE-SET,refilter@domain),(RULE-SET,user@classical)),Заблок. сервисы
-  - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),Cloudflare
-  - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),Amazon
-  - OR,((RULE-SET,fastly@domain),(RULE-SET,fastly@ipcidr)),Fastly
-  - RULE-SET,google@domain,Google
   - RULE-SET,github@domain,GitHub
+  - OR,((RULE-SET,google@domain),(RULE-SET,google@ipcidr)),Google
+  - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),CDN
+  - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),CDN
+  - OR,((RULE-SET,fastly@domain),(RULE-SET,fastly@ipcidr)),CDN
+  - OR,((RULE-SET,oracle@domain),(RULE-SET,oracle@ipcidr)),CDN
+  - OR,((RULE-SET,akamai@domain),(RULE-SET,akamai@ipcidr)),CDN
+  - OR,((RULE-SET,digitalocean@domain),(RULE-SET,digitalocean@ipcidr)),CDN
+  - OR,((RULE-SET,hetzner@domain),(RULE-SET,hetzner-1@ipcidr),(RULE-SET,hetzner-2@ipcidr),(RULE-SET,hetzner-3@ipcidr),(RULE-SET,hetzner-4@ipcidr)),CDN
   - MATCH,DIRECT
