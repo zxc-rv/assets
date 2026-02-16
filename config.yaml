@@ -218,11 +218,12 @@ rules:
   - OR,((RULE-SET,refilter@domain),(RULE-SET,user@classical)),Заблок. сервисы
   - RULE-SET,github@domain,GitHub
   - OR,((RULE-SET,google@domain),(RULE-SET,google@ipcidr)),Google
-  - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),CDN
   - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),CDN
+  - OR,((RULE-SET,akamai@domain),(RULE-SET,akamai@ipcidr)),CDN
+  - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),CDN
+  - OR,((RULE-SET,digitalocean@domain),(RULE-SET,digitalocean@ipcidr)),CDN
   - OR,((RULE-SET,fastly@domain),(RULE-SET,fastly@ipcidr)),CDN
   - OR,((RULE-SET,oracle@domain),(RULE-SET,oracle@ipcidr)),CDN
-  - OR,((RULE-SET,akamai@domain),(RULE-SET,akamai@ipcidr)),CDN
-  - OR,((RULE-SET,digitalocean@domain),(RULE-SET,digitalocean@ipcidr)),CDN
   - OR,((RULE-SET,hetzner@domain),(RULE-SET,hetzner-1@ipcidr),(RULE-SET,hetzner-2@ipcidr),(RULE-SET,hetzner-3@ipcidr),(RULE-SET,hetzner-4@ipcidr)),CDN
+  - RULE-SET,scaleway@ipcidr,CDN
   - MATCH,DIRECT
