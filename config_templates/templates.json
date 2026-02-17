@@ -1,0 +1,38 @@
+{
+  "xray": [
+    {
+      "name": "Log",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/01_log.json"
+    },
+    {
+      "name": "Inbounds (Режим Mixed)",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/03_inbounds_mixed.json"
+    },
+    {
+      "name": "Inbounds (Режим TProxy)",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/03_inbounds_tproxy.json"
+    },
+    {
+      "name": "Outbounds",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/04_outbounds.json"
+    },
+    {
+      "name": "Routing (только заблокированное, zkeen)",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/05_routing_1.json"
+    },
+    {
+      "name": "Routing (все в прокси, кроме RU)",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/05_routing_2.json"
+    },
+    {
+      "name": "Policy",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/06_policy.json"
+    }
+  ],
+  "mihomo": [
+    {
+      "name": "Сonfig (только заблокированное, refilter)",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/mihomo/config.yaml"
+    }
+  ]
+}
