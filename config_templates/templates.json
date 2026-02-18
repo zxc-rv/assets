@@ -31,8 +31,12 @@
   ],
   "mihomo": [
     {
-      "name": "Сonfig (только заблокированное, refilter)",
+      "name": "Сonfig (только заблокированное, refilter+zkeenip)",
       "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/mihomo/config.yaml"
+    },
+    {
+      "name": "Сonfig (все, кроме RU)",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/mihomo/config_2.yaml"
     }
   ]
 }
