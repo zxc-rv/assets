@@ -91,10 +91,10 @@ rule-providers:
 rules:
   - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
   - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT # Блокировка QUIC
+  - RULE-SET,user@classical,DIRECT
   - RULE-SET,steam@domain,Steam
   - RULE-SET,youtube@domain,YouTube
   - RULE-SET,twitch@domain,Twitch
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr)),Telegram
-  - RULE-SET,user@classical,DIRECT
   - OR,((RULE-SET,category-ru@domain),(RULE-SET,category-ru@ipcidr)),DIRECT
   - MATCH,PROXY
