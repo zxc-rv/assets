@@ -1,5 +1,10 @@
-     // Команда для скачивания zkeen.dat: curl -Lo /opt/etc/xray/dat/zkeen.dat https://github.com/jameszeroX/zkeen-domains/releases/latest/download/zkeen.dat
-     // Команда для скачивания zkeenip.dat: curl -Lo /opt/etc/xray/dat/zkeenip.dat https://github.com/jameszeroX/zkeen-ip/releases/latest/download/zkeenip.dat
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Команда для скачивания zkeen.dat: 
+// curl -Lo /opt/etc/xray/dat/zkeen.dat https://github.com/jameszeroX/zkeen-domains/releases/latest/download/zkeen.dat
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Команда для скачивания zkeenip.dat: 
+// curl -Lo /opt/etc/xray/dat/zkeenip.dat https://github.com/jameszeroX/zkeen-ip/releases/latest/download/zkeenip.dat
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 {
   "routing": {
     "rules": [
