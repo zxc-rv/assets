@@ -35,7 +35,7 @@
       "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/mihomo/config.yaml"
     },
     {
-      "name": "Сonfig (все, кроме RU)",
+      "name": "Сonfig (все в прокси, кроме RU)",
       "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/mihomo/config_2.yaml"
     }
   ]
