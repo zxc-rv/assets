@@ -35,43 +35,43 @@ anchors:
 #############################################################################################
 # Пример VLESS подключения БЕЗ использования подписки (РАСКОММЕНТИРОВАТЬ ДЛЯ ИСПОЛЬЗОВАНИЯ) #
 #############################################################################################
-# proxies:
-#   - name: vless-reality
-#     type: vless
-#     server: *your-server*
-#     port: 443
-#     network: tcp
-#     udp: true
-#     tfo: true
-#     tls: true
-#     packet-encoding: xudp
-#     servername: *your-sni*
-#     client-fingerprint: chrome
-#     uuid: *your-uuid*
-#     flow: xtls-rprx-vision
-#     reality-opts:
-#       public-key: *your-public-key*
-#       short-id: *your-shortid*
+#proxies:
+#  - name: vless-reality
+#    type: vless
+#    server: *your-server*
+#    port: 443
+#    network: tcp
+#    udp: true
+#    tfo: true
+#    tls: true
+#    packet-encoding: xudp
+#    servername: *your-sni*
+#    client-fingerprint: chrome
+#    uuid: *your-uuid*
+#    flow: xtls-rprx-vision
+#    reality-opts:
+#      public-key: *your-public-key*
+#      short-id: *your-shortid*
 
 ######################################################################################
 # Пример подключения С использованием подписки (РАСКОММЕНТИРОВАТЬ ДЛЯ ИСПОЛЬЗОВАНИЯ) #
 ######################################################################################
-# proxy-providers:
-#   proxy-sub:
-#     type: http
-#     url: https://ВАША_ССЫЛКА_НА_ПОДПИСКУ
-#     path: ./proxy-providers/proxy-sub.yml
-#     interval: 3600
-#     health-check:
-#       enable: true
-#       url: https://www.gstatic.com/generate_204
-#       interval: 300
-#       timeout: 2000
-#       lazy: false
-#       expected-status: 204
-#     override:
-#       udp: true
-#       tfo: true
+#proxy-providers:
+#  proxy-sub:
+#    type: http
+#    url: https://ВАША_ССЫЛКА_НА_ПОДПИСКУ
+#    path: ./proxy-providers/proxy-sub.yml
+#    interval: 3600
+#    health-check:
+#      enable: true
+#      url: https://www.gstatic.com/generate_204
+#      interval: 300
+#      timeout: 2000
+#      lazy: false
+#      expected-status: 204
+#    override:
+#      udp: true
+#      tfo: true
 
 proxy-groups:
   - name: Заблок. сервисы
