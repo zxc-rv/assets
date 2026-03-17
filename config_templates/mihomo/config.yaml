@@ -153,6 +153,7 @@ rule-providers:
   telegram@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/telegram@ipcidr.mrs }
   twitch@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitch.mrs }
   twitter@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs }
+  vodafone@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/vodafone@ipcidr.mrs }
   vultr@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/vultr@ipcidr.mrs }
   youtube@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs }
   user@classical: # СВОИ ПРАВИЛА
@@ -189,6 +190,7 @@ rules:
   - RULE-SET,scaleway@ipcidr,CDN
   - RULE-SET,ovh@ipcidr,CDN
   - RULE-SET,vultr@ipcidr,CDN
+  - RULE-SET,vodafone@ipcidr,CDN
   - RULE-SET,gcore@ipcidr,CDN
   - RULE-SET,cdn77@ipcidr,CDN
   - MATCH,DIRECT
