@@ -98,4 +98,4 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo -e "\n${PURPLE}☑️ Обновление Xray завершено.${NC}\n"
+echo -e "\n${PURPLE}☑️  Обновление Xray завершено.${NC}\n"
