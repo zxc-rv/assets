@@ -218,13 +218,13 @@ rules:
   - RULE-SET,twitch@domain,Twitch
   - RULE-SET,twitter@domain,Twitter
   - RULE-SET,discord@classical,Discord
+  - RULE-SET,speedtest@domain,Speedtest # Для корректного замера нужно добавить порт 8080 через xkeen -ap или в /opt/etc/xkeen/port_proxying.lst
   - OR,((RULE-SET,meta@domain),(RULE-SET,meta@ipcidr,no-resolve)),Meta
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr,no-resolve)),Telegram
   - OR,((RULE-SET,refilter@domain),(RULE-SET,user@classical)),Заблок. сервисы
   - RULE-SET,github@domain,GitHub
   - OR,((RULE-SET,google@domain),(RULE-SET,google@ipcidr)),Google
   - RULE-SET,category-ru@domain,DIRECT
-  - RULE-SET,speedtest@domain,Speedtest # Для корректного замера нужно добавить порт 8080 через xkeen -ap или в /opt/etc/xkeen/port_proxying.lst
   - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),CDN
   - OR,((RULE-SET,akamai@domain),(RULE-SET,akamai@ipcidr)),CDN
   - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),CDN
