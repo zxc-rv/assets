@@ -1,6 +1,7 @@
 #######################################################################################################
 # Описание:
-# После добавления подключения и запуска mihomo необходимо зайти в веб-интерфейс и выбрать нужное подключение для селекторов.
+# Веб-интерфейс доступен по адресу http://192.168.1.1:9090/ui (192.168.1.1 = IP роутера). 
+# После добавления сервера и запуска mihomo необходимо зайти в веб-интерфейс и выбрать нужное подключение для селекторов.
 # Группа "Заблок. сервисы" содержит список доменов большинства заблокированных ресурсов.
 # Остальные группы YouTube/Discord и тд имеют приоритет над группой "Заблок. сервисы". 
 #######################################################################################################
@@ -18,12 +19,7 @@ external-controller: 0.0.0.0:9090
 external-ui: zashboard
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 profile: { store-selected: true }
-
-sniffer:
-  enable: true
-  sniff:
-    HTTP:
-    TLS:
+sniffer: { enable: true, sniff: { HTTP: { ports: [80, 8080] }, TLS: { ports: [443, 8443] } }, skip-dst-address: [rule-set:telegram@ipcidr] }
 
 anchors:
   a1: &domain { type: http, format: mrs, behavior: domain, interval: 86400 }
@@ -72,6 +68,12 @@ proxy-groups:
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png
     include-all: true
     exclude-filter: 🇷🇺
+    proxies: [Заблок. сервисы, DIRECT]
+
+  - name: Speedtest
+    type: select
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Speedtest.png
+    include-all: true
     proxies: [Заблок. сервисы, DIRECT]
 
   - name: Telegram
@@ -149,6 +151,7 @@ rule-providers:
   scaleway@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/scaleway@ipcidr.mrs }
   spotify@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs }
   steam@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs }
+  speedtest@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/speedtest.mrs }
   telegram@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs }
   telegram@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/telegram@ipcidr.mrs }
   twitch@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitch.mrs }
@@ -180,6 +183,7 @@ rules:
   - RULE-SET,github@domain,GitHub
   - OR,((RULE-SET,google@domain),(RULE-SET,google@ipcidr)),Google
   - RULE-SET,category-ru@domain,DIRECT
+  - RULE-SET,speedtest@domain,Speedtest # Для корректного замера нужно добавить порт 8080 через xkeen -ap или в /opt/etc/xkeen/port_proxying.lst
   - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),CDN
   - OR,((RULE-SET,akamai@domain),(RULE-SET,akamai@ipcidr)),CDN
   - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),CDN
