@@ -18,12 +18,8 @@ external-controller: 0.0.0.0:9090
 external-ui: zashboard
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 profile: { store-selected: true }
+sniffer: { enable: true, sniff: { HTTP: { ports: [80, 8080] }, TLS: { ports: [443, 8443] } }, skip-dst-address: [rule-set:telegram@ipcidr] }
 
-sniffer:
-  enable: true
-  sniff:
-    HTTP:
-    TLS:
 
 anchors:
   a1: &domain { type: http, format: mrs, behavior: domain, interval: 86400 }
