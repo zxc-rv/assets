@@ -166,7 +166,7 @@ rule-providers:
     type: inline
     behavior: classical
     payload: # Типы правил и примеры: https://wiki.metacubex.one/ru/config/rules/
-      - DOMAIN-SUFFIX,2ip.io
+      - DOMAIN-SUFFIX,example.com
 
 rules:
   - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
