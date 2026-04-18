@@ -73,6 +73,7 @@ rule-providers:
   adlist@domain: { <<: *domain, url: https://github.com/zxc-rv/ad-filter/releases/latest/download/adlist.mrs }
   category-ru@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ru.mrs }
   category-ru@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/ru@ipcidr.mrs }
+  category-ip-geo-detect@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ip-geo-detect.mrs }
   steam@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs }
   telegram@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs }
   telegram@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/telegram@ipcidr.mrs }
@@ -82,10 +83,11 @@ rule-providers:
     type: inline
     behavior: classical
     payload: # Типы правил и примеры: https://wiki.metacubex.one/ru/config/rules/
-      - DOMAIN-SUFFIX,2ip.ru
+      - DOMAIN-SUFFIX,example.com
 
 rules:
   - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
+  - RULE-SET,category-ip-geo-detect@domain,DIRECT # Сайты IP-чекеры в директ
   - OR,((RULE-SET,category-ru@domain),(RULE-SET,category-ru@ipcidr)),DIRECT
   - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT # Блокировка QUIC
   - RULE-SET,user@classical,User List
