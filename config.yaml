@@ -203,6 +203,7 @@ rule-providers:
   vodafone@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/vodafone@ipcidr.mrs }
   vultr@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/vultr@ipcidr.mrs }
   youtube@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs }
+  quic@inline: { <<: *inline, payload: ['AND,((DST-PORT,443),(NETWORK,UDP))'] }
   user@classical: # СВОИ ПРАВИЛА
     type: inline
     behavior: classical
@@ -211,7 +212,7 @@ rule-providers:
 
 rules:
   - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
-  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT # Блокировка QUIC
+  - RULE-SET,quic@inline,REJECT-DROP # Блокировка QUIC # Блокировка QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv (может вызвать рекламу)
   - RULE-SET,category-ai@domain,AI
   - RULE-SET,steam@domain,Steam
