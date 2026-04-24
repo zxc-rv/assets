@@ -1,6 +1,6 @@
 PROCESS-NAME-REGEX,^([Dd]iscord(\.exe)?|com\.discord)$
 AND,((DOMAIN-KEYWORD,discord),(NOT,((DOMAIN-SUFFIX,ru))))
-AND,((RULE-SET,cloudflare@ipcidr,no-resolve),(NETWORK,TCP),(DST-PORT,2000-2400,8443))
+AND,((RULE-SET,cloudflare@ipcidr,no-resolve),(NETWORK,TCP),(DST-PORT,2053/2083/2087/2096/8443))
 AND,((RULE-SET,cloudflare@ipcidr,no-resolve),(NETWORK,UDP),(DST-PORT,19200-19400/50000-50100))
 AND,((RULE-SET,google@ipcidr,no-resolve),(NETWORK,UDP),(DST-PORT,19200-19400/50000-50100))
 AND,((IP-CIDR,5.200.14.128/25,no-resolve),(NETWORK,UDP),(DST-PORT,19200-19400/50000-50100))
