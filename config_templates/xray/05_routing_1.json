@@ -34,6 +34,7 @@
           "ext:zkeenip.dat:gcore",
           "ext:zkeenip.dat:hetzner",
           "ext:zkeenip.dat:meta",
+          "ext:zkeenip.dat:telegram",
           "ext:zkeenip.dat:oracle",
           "ext:zkeenip.dat:ovh",
           "ext:zkeenip.dat:scaleway",
