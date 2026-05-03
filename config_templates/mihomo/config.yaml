@@ -170,7 +170,7 @@ rule-providers:
 
 rules:
   - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
-  - RULE-SET,quic@inline,REJECT-DROP # Блокировка QUIC
+  - RULE-SET,quic@inline,REJECT # Блокировка QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv (может вызвать рекламу)
   - RULE-SET,category-ai@domain,AI
   - RULE-SET,steam@domain,Steam
