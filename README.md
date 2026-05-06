@@ -30,5 +30,5 @@ bash <(curl -Ls https://raw.githubusercontent.com/zxc-rv/assets/main/install_xan
 Update Xray on Remnanode:
 
 ```bash
-bash <(curl -Ls https://raw.githubusercontent.com/zxc-rv/assets/main/update_xray_on_remnanode.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/zxc-rv/assets/main/update_xray_on_remnanode.sh) -v00.00.00
 ```
