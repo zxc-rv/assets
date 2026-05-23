@@ -202,7 +202,6 @@ rules:
   - OR,((RULE-SET,roblox@domain),(RULE-SET,AS22697@ipcidr)),Заблок. сервисы
   - RULE-SET,github@domain,GitHub
   - OR,((RULE-SET,google@domain),(RULE-SET,google@ipcidr)),Google
-  - RULE-SET,category-ru@domain,DIRECT
   - OR,((RULE-SET,amazon@domain),(RULE-SET,amazon@ipcidr)),CDN
   - OR,((RULE-SET,akamai@domain),(RULE-SET,akamai@ipcidr)),CDN
   - OR,((RULE-SET,cloudflare@domain),(RULE-SET,cloudflare@ipcidr)),CDN
