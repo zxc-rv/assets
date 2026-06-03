@@ -37,42 +37,61 @@ proxy-groups:
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png
     include-all: true
+    proxies: [Fallback, Fastest]
+
+  - name: Fallback
+    type: fallback
+    url: https://www.gstatic.com/generate_204
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
+    interval: 300
+    max-failed-times: 3
+    hidden: true
+    include-all: true
+
+  - name: Fastest
+    type: url-test
+    url: https://www.gstatic.com/generate_204
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available.png
+    interval: 300
+    max-failed-times: 3
+    hidden: true
+    include-all: true
 
   - name: YouTube
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
     include-all: true
-    proxies: [PROXY, DIRECT]
+    proxies: [PROXY, Fallback, Fastest, DIRECT]
   
   - name: Discord
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Discord.png
     include-all: true
-    proxies: [PROXY, DIRECT]
+    proxies: [PROXY, Fallback, Fastest, DIRECT]
     
   - name: Steam
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png
     include-all: true
-    proxies: [DIRECT, PROXY]
+    proxies: [DIRECT, PROXY, Fallback, Fastest,]
 
   - name: Twitch
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitch.png
     include-all: true
-    proxies: [PROXY, DIRECT]
+    proxies: [PROXY, Fallback, Fastest, DIRECT]
 
   - name: Telegram
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
     include-all: true
-    proxies: [PROXY, DIRECT]
+    proxies: [PROXY, Fallback, Fastest, DIRECT]
     
   - name: User List
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available.png
     include-all: true
-    proxies: [DIRECT, PROXY]
+    proxies: [DIRECT, PROXY, Fallback, Fastest,]
 
 rule-providers:
   adlist@domain: { <<: *domain, url: https://github.com/zxc-rv/ad-filter/releases/latest/download/adlist.mrs }
