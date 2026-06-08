@@ -82,7 +82,7 @@ proxy-groups:
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png
     include-all: true
-    proxies: [DIRECT, PROXY, Fallback, Fastest,]
+    proxies: [DIRECT, PROXY, Fallback, Fastest]
 
   - name: Twitch
     type: select
@@ -100,7 +100,7 @@ proxy-groups:
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available.png
     include-all: true
-    proxies: [DIRECT, PROXY, Fallback, Fastest,]
+    proxies: [DIRECT, PROXY, Fallback, Fastest]
 
 rule-providers:
   adlist@domain: { <<: *domain, url: https://github.com/zxc-rv/ad-filter/releases/latest/download/adlist.mrs }
@@ -119,7 +119,7 @@ rule-providers:
       - DOMAIN-SUFFIX,example.com
 
 rules:
-  - RULE-SET,adlist@domain,REJECT # Блокировка рекламы
+  - RULE-SET,adlist@domain,REJECT # Блокировка рекламы (отключите при проблемах с сервисами)
   - RULE-SET,quic@inline,REJECT # Блокировка QUIC
   - RULE-SET,category-ip-geo-detect@domain,DIRECT # Сайты IP-чекеры в директ
   - OR,((RULE-SET,category-ru@domain),(RULE-SET,category-ru@ipcidr)),DIRECT
@@ -129,3 +129,4 @@ rules:
   - RULE-SET,twitch@domain,Twitch
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr)),Telegram
   - MATCH,PROXY
+
