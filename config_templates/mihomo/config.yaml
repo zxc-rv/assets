@@ -2,13 +2,13 @@
 # Описание:
 # После добавления сервера и запуска mihomo перейдите на вкладку селекторы и выберите нужные подключение для сервисов.
 # Группа "Заблок. сервисы" содержит список доменов большинства заблокированных ресурсов.
-# Остальные группы YouTube/Discord и тд имеют приоритет над группой "Заблок. сервисы". 
+# Остальные группы YouTube/Discord и тд имеют приоритет над группой "Заблок. сервисы".
 #######################################################################################################
 # Если xkeen работает не на всех портах (xkeen -cp):
 # Для корректной работы следующих сервисов пропишите порты (по одному на строку) в port_proxying:
-# Discord: 
+# Discord:
 # 80,443,2053:2096,8443,19200:19400,50000:50100
-# Whatsapp/Telegram: 
+# Whatsapp/Telegram:
 # 80,443,596:599,1400,3478,5222
 #######################################################################################################
 
@@ -31,12 +31,9 @@ profile: { store-selected: true }
 sniffer:
   enable: true
   sniff:
-    HTTP: 
-      ports: [80, 8080]
-    TLS:
-      ports: [443, 8443]
-    QUIC:
-      ports: [443, 8443]
+    HTTP: { ports: [80, 8080] }
+    TLS: { ports: [443, 8443] }
+    QUIC: { ports: [443, 8443] }
   skip-dst-address: [rule-set:telegram@ipcidr]
 
 anchors:
@@ -130,7 +127,7 @@ proxy-groups:
     icon: https://www.svgrepo.com/show/396567/globe-with-meridians.svg
     include-all: true
     proxies: [Заблок. сервисы, Fallback, Fastest, PASS]
-  
+
   - name: Google
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
@@ -204,7 +201,7 @@ rule-providers:
   vodafone@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/vodafone@ipcidr.mrs }
   vultr@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/vultr@ipcidr.mrs }
   youtube@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs }
-  quic@inline: { <<: *inline, payload: ['AND,((DST-PORT,443),(NETWORK,UDP))'] }
+  quic@inline: { <<: *inline, payload: ["AND,((DST-PORT,443),(NETWORK,UDP))"] }
   user@classical: # СВОИ ПРАВИЛА
     <<: *inline
     payload: # Типы правил и примеры: https://wiki.metacubex.one/ru/config/rules/
@@ -244,4 +241,3 @@ rules:
   - RULE-SET,gcore@ipcidr,CDN
   - RULE-SET,cdn77@ipcidr,CDN
   - MATCH,DIRECT
-

@@ -2,7 +2,7 @@
 # Описание:
 # После добавления подключения и запуска mihomo необходимо зайти в веб-интерфейс и выбрать нужное подключение для селекторов.
 # Группа "PROXY" содержит список доменов большинства заблокированных ресурсов.
-# Остальные группы YouTube/Discord и тд имеют приоритет над группой "PROXY". 
+# Остальные группы YouTube/Discord и тд имеют приоритет над группой "PROXY".
 #######################################################################################################
 # Для работы Discord требуется проксировать порты XKeen: 80,443,2000:2300,8443,19200:19400,50000:50030
 # Для работы Whatsapp/Telegram требуется проксировать порты Xkeen: 80,443,596:599,1400,3478,5222
@@ -27,12 +27,9 @@ profile: { store-selected: true }
 sniffer:
   enable: true
   sniff:
-    HTTP: 
-      ports: [80, 8080]
-    TLS:
-      ports: [443, 8443]
-    QUIC:
-      ports: [443, 8443]
+    HTTP: { ports: [80, 8080] }
+    TLS: { ports: [443, 8443] }
+    QUIC: { ports: [443, 8443] }
   skip-dst-address: [rule-set:telegram@ipcidr]
 
 anchors:
@@ -71,13 +68,13 @@ proxy-groups:
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
     include-all: true
     proxies: [PROXY, Fallback, Fastest, DIRECT]
-  
+
   - name: Discord
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Discord.png
     include-all: true
     proxies: [PROXY, Fallback, Fastest, DIRECT]
-    
+
   - name: Steam
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png
@@ -95,7 +92,7 @@ proxy-groups:
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
     include-all: true
     proxies: [PROXY, Fallback, Fastest, DIRECT]
-    
+
   - name: User List
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available.png
@@ -115,7 +112,7 @@ rule-providers:
   telegram@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/telegram@ipcidr.mrs }
   twitch@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitch.mrs }
   youtube@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs }
-  quic@inline: { <<: *inline, payload: ['AND,((DST-PORT,443),(NETWORK,UDP))'] }
+  quic@inline: { <<: *inline, payload: ["AND,((DST-PORT,443),(NETWORK,UDP))"] }
   user@classical: # СВОИ ПРАВИЛА
     <<: *inline
     payload: # Типы правил и примеры: https://wiki.metacubex.one/ru/config/rules/
@@ -133,4 +130,3 @@ rules:
   - RULE-SET,twitch@domain,Twitch
   - OR,((RULE-SET,telegram@domain),(RULE-SET,telegram@ipcidr)),Telegram
   - MATCH,PROXY
-
