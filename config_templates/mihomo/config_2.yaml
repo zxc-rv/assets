@@ -107,7 +107,9 @@ rule-providers:
   category-ru@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ru.mrs }
   category-ru@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/ru@ipcidr.mrs }
   category-ip-geo-detect@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ip-geo-detect.mrs }
+  cloudflare@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/cloudflare@ipcidr.mrs }
   discord@classical: { <<: *classical, url: https://github.com/zxc-rv/assets/raw/main/rules/discord.list }
+  google@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/google@ipcidr.mrs }
   steam@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs }
   telegram@domain: { <<: *domain, url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs }
   telegram@ipcidr: { <<: *ipcidr, url: https://github.com/zxc-rv/zkeenip-rulesets/releases/latest/download/telegram@ipcidr.mrs }
