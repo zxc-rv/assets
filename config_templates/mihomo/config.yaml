@@ -26,7 +26,6 @@ unified-delay: true
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
-profile: { store-selected: true }
 
 sniffer:
   enable: true
