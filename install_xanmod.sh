@@ -7,6 +7,8 @@ NC='\033[0m'
 BLUE='\033[1;34m'
 PURPLE='\033[38;2;120;93;200m'
 
+SYSCTL="/etc/sysctl.d/sysctl.conf"
+
 clear
 
 echo -e "${XANMOD}██╗  ██╗ █████╗ ███╗   ██╗███╗   ███╗ ██████╗ ██████╗     ███████╗███████╗████████╗██╗   ██╗██████╗ ${NC}"
@@ -50,7 +52,7 @@ spinner $! "Установка gpg..." || { echo -e "\n${RED}Ошибка уст
 curl -Ls https://gitlab.com/afrd.gpg | gpg --dearmor --yes -o /usr/share/keyrings/xanmod-archive-keyring.gpg &
 spinner $! "Установка ключа Xanmod..." || { echo -e "\n${RED}Ошибка скачивания ключа${NC}\n" >&2; exit 1; }
 
-echo "deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main" | tee /etc/apt/sources.list.d/xanmod-release.list >/dev/null &
+echo "deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/xanmod-release.list >/dev/null &
 spinner $! "Добавление репозитория Xanmod..." || { echo -e "\n${RED}Ошибка добавления репозитория${NC}\n" >&2; exit 1; }
 
 psabi_output=$(curl -Ls https://dl.xanmod.org/check_x86-64_psabi.sh | awk -f - 2>/dev/null)
@@ -79,60 +81,36 @@ esac
 apt update -qq >/dev/null 2>&1 && apt install -y "$kernel_pkg" -qq >/dev/null 2>&1 &
 spinner $! "Установка ядра $kernel_pkg..." || { echo -e "\n${RED}Ошибка установки ядра $kernel_pkg${NC}\n" >&2; exit 1; }
 
-if [ -f /etc/sysctl.conf ]; then
-  (sleep 0.5 &&
-  sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf &&
-  sed -i '/net.core.rmem_max/d' /etc/sysctl.conf &&
-  sed -i '/net.core.wmem_max/d' /etc/sysctl.conf &&
-  sed -i '/net.core.wmem_default/d' /etc/sysctl.conf &&
-  sed -i '/net.core.netdev_max_backlog/d' /etc/sysctl.conf &&
-  sed -i '/net.core.somaxconn/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_syncookies/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_tw_reuse/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_fin_timeout/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_keepalive_time/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_keepalive_probes/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_keepalive_intvl/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_max_syn_backlog/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_max_tw_buckets/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_fastopen/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_timestamps/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_mem/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.udp_mem/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_rmem/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_wmem/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_mtu_probing/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.tcp_slow_start_after_idle/d' /etc/sysctl.conf &&
-  sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf &&
-  sed -i '/net.ipv4.ip_local_port_range/d' /etc/sysctl.conf &&
-  echo "net.core.default_qdisc=fq" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_congestion_control=bbr" >>/etc/sysctl.conf &&
-  echo "net.core.rmem_max = 67108864" >>/etc/sysctl.conf &&
-  echo "net.core.wmem_max = 67108864" >>/etc/sysctl.conf &&
-  echo "net.core.wmem_default = 2097152" >>/etc/sysctl.conf &&
-  echo "net.core.netdev_max_backlog = 10240" >>/etc/sysctl.conf &&
-  echo "net.core.somaxconn = 8192" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_syncookies = 1" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_tw_reuse = 1" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_fin_timeout = 30" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_keepalive_time = 1200" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_keepalive_probes = 5" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_keepalive_intvl = 30" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_max_syn_backlog = 10240" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_max_tw_buckets = 5000" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_fastopen = 3" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_timestamps = 1" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_mem = 25600 51200 102400" >>/etc/sysctl.conf &&
-  echo "net.ipv4.udp_mem = 25600 51200 102400" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_rmem = 16384 262144 8388608" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_wmem = 32768 524288 16777216" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_mtu_probing = 1" >>/etc/sysctl.conf &&
-  echo "net.ipv4.tcp_slow_start_after_idle=0" >>/etc/sysctl.conf &&
-  echo "fs.inotify.max_user_instances = 8192" >>/etc/sysctl.conf &&
-  echo "net.ipv4.ip_local_port_range = 1024 45000" >>/etc/sysctl.conf &&
-  sysctl -p >/dev/null 2>&1) &
-  spinner $! "Оптимизация настроек sysctl..." || { echo -e "\n${RED}Ошибка настройки и применения sysctl${NC}\n" >&2; exit 1; }
+if [ ! -f "$SYSCTL" ]; then
+(sleep 0.5 &&
+  mkdir -p /etc/sysctl.d &&
+  echo "net.core.default_qdisc=fq" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_congestion_control=bbr" >>"$SYSCTL" &&
+  echo "net.core.rmem_max = 67108864" >>"$SYSCTL" &&
+  echo "net.core.wmem_max = 67108864" >>"$SYSCTL" &&
+  echo "net.core.wmem_default = 2097152" >>"$SYSCTL" &&
+  echo "net.core.netdev_max_backlog = 10240" >>"$SYSCTL" &&
+  echo "net.core.somaxconn = 8192" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_syncookies = 1" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_tw_reuse = 1" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_fin_timeout = 30" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_keepalive_time = 1200" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_keepalive_probes = 5" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_keepalive_intvl = 30" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_max_syn_backlog = 10240" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_max_tw_buckets = 5000" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_fastopen = 3" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_timestamps = 1" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_mem = 25600 51200 102400" >>"$SYSCTL" &&
+  echo "net.ipv4.udp_mem = 25600 51200 102400" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_rmem = 16384 262144 8388608" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_wmem = 32768 524288 16777216" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_mtu_probing = 1" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_slow_start_after_idle=0" >>"$SYSCTL" &&
+  echo "fs.inotify.max_user_instances = 8192" >>"$SYSCTL" &&
+  echo "net.ipv4.ip_local_port_range = 1024 45000" >>"$SYSCTL" &&
+  sysctl -p "$SYSCTL" >/dev/null 2>&1) &
+spinner $! "Оптимизация настроек sysctl..." || { echo -e "\n${RED}Ошибка настройки и применения sysctl${NC}\n" >&2; exit 1; }
 fi
 
 echo -e "\n${PURPLE}☑️ Xanmod успешно установлен.${NC}\n"
