@@ -50,8 +50,12 @@ if [ -n "$VERSION" ]; then
 fi
 sleep 0.5
 
-if [ ! -d /opt/remnawave ]; then
-  echo -e "${RED}Ошибка: директория /opt/remnawave не существует${NC}"
+if [ -d /opt/remnanode ]; then
+  INSTALL_DIR="/opt/remnanode"
+elif [ -d /opt/remnawave ]; then
+  INSTALL_DIR="/opt/remnawave"
+else
+  echo -e "${RED}Ошибка: не найдена ни /opt/remnanode, ни /opt/remnawave${NC}"
   exit 1
 fi
 
@@ -64,7 +68,7 @@ if ! command -v yq &> /dev/null; then
   fi
 fi
 
-COMPOSE_FILE="/opt/remnawave/docker-compose.yml"
+COMPOSE_FILE="${INSTALL_DIR}/docker-compose.yml"
 if [ ! -f "$COMPOSE_FILE" ]; then
   echo -e "${RED}Ошибка: файл $COMPOSE_FILE не найден${NC}"
   exit 1
@@ -81,19 +85,20 @@ spinner $! "Скачивание релиза Xray..."
 unzip -q /tmp/Xray-linux-64.zip xray -d /tmp &
 spinner $! "Извлечение Xray..."
 
-mv /tmp/xray /opt/remnawave/xray &
-spinner $! "Перемещение Xray в /opt/remnawave..."
+mv /tmp/xray "${INSTALL_DIR}/xray" &
+spinner $! "Перемещение Xray в ${INSTALL_DIR}..."
 
 rm -rf /tmp/Xray-linux-64.zip &
 spinner $! "Удаление временных файлов..."
 
-chmod +x /opt/remnawave/xray &
+chmod +x "${INSTALL_DIR}/xray" &
 spinner $! "Назначение прав на запуск Xray..."
 
-cd /opt/remnawave && docker compose up -d --force-recreate remnanode >/dev/null 2>&1 &
-spinner $! "Перезапуск ноды..."
+cd "$INSTALL_DIR" && docker compose up -d --force-recreate remnanode >/dev/null 2>&1 &
+RESTART_PID=$!
+spinner $RESTART_PID "Перезапуск ноды..."
 
-if [ $? -ne 0 ]; then
+if ! wait $RESTART_PID; then
   echo -e "${RED}Не удалось выполнить перезапуск ноды.${NC}" >&2
   exit 1
 fi
