@@ -34,6 +34,7 @@ sniffer:
     TLS: { ports: [443, 8443] }
     QUIC: { ports: [443, 8443] }
   skip-dst-address: [rule-set:telegram@ipcidr]
+  skip-domain: [+.vivox.com] # Фикс войс-чата в некоторых играх
 
 anchors:
   a1: &domain { type: http, format: mrs, behavior: domain, interval: 86400 }
