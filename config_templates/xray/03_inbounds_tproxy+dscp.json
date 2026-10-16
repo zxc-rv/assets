@@ -1,0 +1,30 @@
+{
+  "inbounds": [
+    {
+      "tag": "tproxy",
+      "protocol": "tunnel",
+      "port": 5000,
+      "settings": {
+        "allowedNetwork": "tcp,udp",
+        "followRedirect": true
+      },
+      "streamSettings": { "sockopt": { "tproxy": "tproxy" } },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": true,
+        "destOverride": ["http", "tls", "quic"],
+        "domainsExcluded": ["domain:vivox.com"]
+      }
+    },
+    {
+      "tag": "force-proxy-tproxy",
+      "protocol": "tunnel",
+      "port": 5001,
+      "settings": {
+        "allowedNetwork": "tcp,udp",
+        "followRedirect": true
+      },
+      "streamSettings": { "sockopt": { "tproxy": "tproxy" } }
+    }
+  ]
+}
