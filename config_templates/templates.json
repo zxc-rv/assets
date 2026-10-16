@@ -13,6 +13,14 @@
       "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/03_inbounds_tproxy.json"
     },
     {
+      "name": "Inbounds (Режим Mixed+DSCP)",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/03_inbounds_mixed+dscp.json"
+    },
+    {
+      "name": "Inbounds (Режим TProxy+DSCP)",
+      "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/03_inbounds_tproxy+dscp.json"
+    },
+    {
       "name": "Outbounds",
       "url": "https://raw.githubusercontent.com/zxc-rv/assets/main/config_templates/xray/04_outbounds.json"
     },
