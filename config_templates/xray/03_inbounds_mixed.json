@@ -5,7 +5,7 @@
       "protocol": "tunnel",
       "port": 5000,
       "settings": {
-        "network": "tcp",
+        "allowedNetwork": "tcp",
         "followRedirect": true
       },
       "sniffing": {
@@ -20,7 +20,7 @@
       "protocol": "tunnel",
       "port": 5000,
       "settings": {
-        "network": "udp",
+        "allowedNetwork": "udp",
         "followRedirect": true
       },
       "streamSettings": { "sockopt": { "tproxy": "tproxy" } },
