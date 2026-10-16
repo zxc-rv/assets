@@ -2,8 +2,8 @@
   "inbounds": [
     {
       "tag": "redirect",
+      "protocol": "tunnel",
       "port": 5000,
-      "protocol": "dokodemo-door",
       "settings": {
         "network": "tcp",
         "followRedirect": true
@@ -11,13 +11,14 @@
       "sniffing": {
         "enabled": true,
         "routeOnly": true,
-        "destOverride": ["http", "tls"]
+        "destOverride": ["http", "tls"],
+        "domainsExcluded": ["domain:vivox.com"]
       }
     },
     {
       "tag": "tproxy",
+      "protocol": "tunnel",
       "port": 5000,
-      "protocol": "dokodemo-door",
       "settings": {
         "network": "udp",
         "followRedirect": true
@@ -26,7 +27,8 @@
       "sniffing": {
         "enabled": true,
         "routeOnly": true,
-        "destOverride": ["quic"]
+        "destOverride": ["quic"],
+        "domainsExcluded": ["domain:vivox.com"]
       }
     }
   ]
