@@ -2,17 +2,18 @@
   "inbounds": [
     {
       "tag": "tproxy",
+      "protocol": "tunnel",
       "port": 5000,
-      "protocol": "dokodemo-door",
       "settings": {
-        "network": "tcp,udp",
+        "allowedNetwork": "tcp,udp",
         "followRedirect": true
       },
       "streamSettings": { "sockopt": { "tproxy": "tproxy" } },
       "sniffing": {
         "enabled": true,
         "routeOnly": true,
-        "destOverride": ["http", "tls", "quic"]
+        "destOverride": ["http", "tls", "quic"],
+        "domainsExcluded": ["domain:vivox.com"]
       }
     }
   ]
