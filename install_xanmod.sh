@@ -94,7 +94,7 @@ if [ ! -f "$SYSCTL" ]; then
   echo "net.ipv4.tcp_syncookies = 1" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_tw_reuse = 1" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_fin_timeout = 30" >>"$SYSCTL" &&
-  echo "net.ipv4.tcp_keepalive_time = 3z00" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_keepalive_time = 300" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_keepalive_probes = 5" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_keepalive_intvl = 30" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_max_syn_backlog = 10240" >>"$SYSCTL" &&
