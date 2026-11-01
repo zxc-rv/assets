@@ -94,7 +94,7 @@ if [ ! -f "$SYSCTL" ]; then
   echo "net.ipv4.tcp_syncookies = 1" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_tw_reuse = 1" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_fin_timeout = 30" >>"$SYSCTL" &&
-  echo "net.ipv4.tcp_keepalive_time = 1200" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_keepalive_time = 3z00" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_keepalive_probes = 5" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_keepalive_intvl = 30" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_max_syn_backlog = 10240" >>"$SYSCTL" &&
@@ -107,6 +107,7 @@ if [ ! -f "$SYSCTL" ]; then
   echo "net.ipv4.tcp_wmem = 32768 524288 16777216" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_mtu_probing = 1" >>"$SYSCTL" &&
   echo "net.ipv4.tcp_slow_start_after_idle=0" >>"$SYSCTL" &&
+  echo "net.ipv4.tcp_notsent_lowat=131072" >>"$SYSCTL" &&
   echo "fs.inotify.max_user_instances = 8192" >>"$SYSCTL" &&
   echo "net.ipv4.ip_local_port_range = 1024 45000" >>"$SYSCTL" &&
   sysctl -p "$SYSCTL" >/dev/null 2>&1) &
