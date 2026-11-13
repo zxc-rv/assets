@@ -7,19 +7,23 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 {
   "routing": {
+    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
         "port": "443",
         "network": "udp",
-        "outboundTag": "block"
+        "outboundTag": "block",
+        "ruleTag": "Блокировка QUIC"
       },
       {
         "domain": [
           "ext:zkeen.dat:domains",
           "ext:zkeen.dat:other",
-          "ext:zkeen.dat:youtube"
+          "ext:zkeen.dat:youtube",
+          "ext:zkeen.dat:politic"
         ],
-        "outboundTag": "vless-reality"
+        "outboundTag": "vless-reality",
+        "ruleTag": "Домены -> VPS"
       },
       {
         "ip": [
@@ -41,11 +45,13 @@
           "ext:zkeenip.dat:vodafone",
           "ext:zkeenip.dat:vultr"
         ],
-        "outboundTag": "vless-reality"
+        "outboundTag": "vless-reality",
+        "ruleTag": "IP -> VPS"
       },
       {
-        "network": "tcp,udp",
-        "outboundTag": "direct"
+        "ip": ["0.0.0.0/0", "::/0"],
+        "outboundTag": "direct",
+        "ruleTag": "Остальной трафик"
       }
     ]
   }
