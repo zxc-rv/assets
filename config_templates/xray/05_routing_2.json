@@ -1,29 +1,35 @@
 {
   "routing": {
+    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
         "port": "443",
         "network": "udp",
-        "outboundTag": "block"
+        "outboundTag": "block",
+        "ruleTag": "Блокировка QUIC"
       },
       {
         "protocol": ["bittorrent"],
-        "outboundTag": "direct"
+        "outboundTag": "direct",
+        "ruleTag": "Торренты -> Напрямую"
       },
       {
         "domain": [
           "ext:geosite_v2fly.dat:category-ru",
           "ext:geosite_v2fly.dat:steam"
         ],
-        "outboundTag": "direct"
+        "outboundTag": "direct",
+        "ruleTag": "Домены -> Напрямую"
       },
       {
         "ip": ["ext:zkeenip.dat:ru"],
-        "outboundTag": "direct"
+        "outboundTag": "direct",
+        "ruleTag": "IP -> Напрямую"
       },
       {
-        "network": "tcp,udp",
-        "outboundTag": "vless-reality"
+        "ip": ["0.0.0.0/0", "::/0"],
+        "outboundTag": "vless-reality",
+        "ruleTag": "Остальное -> Прокси"
       }
     ]
   }
