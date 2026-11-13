@@ -23,7 +23,7 @@
           "ext:zkeen.dat:politic"
         ],
         "outboundTag": "vless-reality",
-        "ruleTag": "Домены -> VPS"
+        "ruleTag": "Домены -> Прокси"
       },
       {
         "ip": [
@@ -46,12 +46,12 @@
           "ext:zkeenip.dat:vultr"
         ],
         "outboundTag": "vless-reality",
-        "ruleTag": "IP -> VPS"
+        "ruleTag": "IP -> Прокси"
       },
       {
         "ip": ["0.0.0.0/0", "::/0"],
         "outboundTag": "direct",
-        "ruleTag": "Остальной трафик"
+        "ruleTag": "Остальное -> Напрямую"
       }
     ]
   }
